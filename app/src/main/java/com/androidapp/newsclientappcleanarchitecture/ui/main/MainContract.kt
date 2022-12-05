@@ -14,6 +14,6 @@ interface MainContract {
     interface Presenter{
         fun onViewReady(view: View)
         fun onViewDestroyed()
-        fun onCategoryClick(position: Int)
+        fun onCategoryClick(selectedCategory:String)
     }
 }

@@ -13,7 +13,7 @@ import com.androidapp.newsclientappcleanarchitecture.R
 import com.androidapp.newsclientappcleanarchitecture.core.domain.ArticleDetails
 import com.squareup.picasso.Picasso
 
-class NewsAdapter(private val articles: MutableList<ArticleDetails>, private val context: Context):
+class NewsAdapter(val articles: MutableList<ArticleDetails>, private val context: Context):
     RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -56,10 +56,6 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>, private val
 
     override fun getItemCount(): Int {
         return articles.size
-    }
-
-    fun clear() {
-       articles.clear()
     }
 
     @SuppressLint("NotifyDataSetChanged")

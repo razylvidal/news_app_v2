@@ -31,11 +31,11 @@ RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val categoryList = category[position].toString()
-        holder.categoryTV.text = categoryList
+        val category = category[position]
+        holder.categoryTV.text = category
         holder.itemView.setOnClickListener {
             val positionHolder = holder.adapterPosition
-            presenter?.onCategoryClick(positionHolder)
+            presenter?.onCategoryClick(category)
             selectedPosition = positionHolder
             notifyDataSetChanged()
         }

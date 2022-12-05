@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.core.domain.ArticleDetails
-import com.androidapp.newsclientappcleanarchitecture.core.domain.Category
 import com.androidapp.newsclientappcleanarchitecture.databinding.ActivityMainBinding
 import com.androidapp.newsclientappcleanarchitecture.di.AppContainer
 
@@ -68,7 +67,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     override fun onClear() {
-        newsAdapter.clear()
+        newsAdapter.articles.clear()
     }
 
     override fun showNewsArticles(articleList: List<ArticleDetails>) {
