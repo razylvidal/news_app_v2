@@ -1,6 +1,6 @@
 package com.androidapp.newsclientappcleanarchitecture.core.data
 
-enum class CategoryRaw (category: String){
+enum class CategoryRaw (val value: String){
     All("All"),
     Business("Business"),
     Entertainment("Entertainment"),
@@ -9,6 +9,4 @@ enum class CategoryRaw (category: String){
     Science("Science"),
     Sports("Sports"),
     Technology("Technology");
-
-
 }

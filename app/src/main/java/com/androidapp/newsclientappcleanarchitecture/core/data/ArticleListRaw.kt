@@ -6,4 +6,5 @@ import com.google.gson.annotations.SerializedName
 data class ArticleListRaw(
     @SerializedName("articles")
     val listArticles: MutableList<ArticleDetails>
+
 )

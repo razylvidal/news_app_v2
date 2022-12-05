@@ -1,13 +1,5 @@
 package com.androidapp.newsclientappcleanarchitecture.core.domain
 
+import com.androidapp.newsclientappcleanarchitecture.core.data.CategoryRaw
 
-enum class Category(var value: String) {
-    All("All"),
-    Business("Business"),
-    Entertainment("Entertainment"),
-    General("General"),
-    Health("Health"),
-    Science("Science"),
-    Sports("Sports"),
-    Technology("Technology")
-}
+data class Category( val listOfCategory: MutableList<CategoryRaw>)

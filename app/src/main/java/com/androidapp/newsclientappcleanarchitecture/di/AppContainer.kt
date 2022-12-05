@@ -12,6 +12,7 @@ class AppContainer {
     private val articleGateway: ArticleGateway = ArticleRepository(articleRemoteService)
 
     val mainPresenterFactory = MainPresenterFactory(articleGateway)
+
     companion object {
         private val retrofit = Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)

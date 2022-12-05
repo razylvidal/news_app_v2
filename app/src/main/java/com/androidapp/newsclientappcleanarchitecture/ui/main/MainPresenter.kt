@@ -5,11 +5,11 @@ import com.androidapp.newsclientappcleanarchitecture.core.domain.Category
 
 class MainPresenter(private val repo: ArticleGateway):MainContract.Presenter {
     private var view: MainContract.View? = null
-
+    private val category: Category? = null
     override fun onViewReady(view: MainContract.View) {
         this.view = view
         setUpCategoryView()
-        setUpArticleView("all")
+        setUpArticleView("All")
     }
 
     override fun onViewDestroyed() {
@@ -17,12 +17,12 @@ class MainPresenter(private val repo: ArticleGateway):MainContract.Presenter {
     }
 
     override fun onCategoryClick(position: Int) {
-        val category = Category.values()[position].toString()
+        val category = category?.listOfCategory?.get(position).toString()
         setUpArticleView(category)
     }
 
     private fun setUpCategoryView(){
-        val categories = Category.values().toMutableList()
+        val categories = repo.fetchCategories()
         view?.showCategories(categories)
     }
 
@@ -38,8 +38,5 @@ class MainPresenter(private val repo: ArticleGateway):MainContract.Presenter {
             view?.showProgressBar(state = false)
             view?.showToast(exception.message ?: "Something went wrong")
         }
-
     }
-
-
 }

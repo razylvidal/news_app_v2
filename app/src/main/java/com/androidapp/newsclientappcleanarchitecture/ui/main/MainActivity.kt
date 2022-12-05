@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private lateinit var newsRV: RecyclerView
     private lateinit var categoryRV: RecyclerView
     private lateinit var loadingPB: ProgressBar
-    private  val categoryList = mutableListOf<Category>()
+    private  val categoryList = mutableListOf<String>()
     private val newsList =  mutableListOf<ArticleDetails>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         newsAdapter.updateArticleData(articleList)
 
     }
-    override fun showCategories(categoryList: List<Category>) {
+    override fun showCategories(categoryList: MutableList<String>) {
         categoryAdapter.updateCategoryData(categoryList)
     }
 

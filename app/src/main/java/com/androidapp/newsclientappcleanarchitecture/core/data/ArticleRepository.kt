@@ -2,7 +2,6 @@ package com.androidapp.newsclientappcleanarchitecture.core.data
 
 import com.androidapp.newsclientappcleanarchitecture.core.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.core.domain.ArticleGateway
-import com.androidapp.newsclientappcleanarchitecture.core.domain.Category
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,7 +14,6 @@ class ArticleRepository(  private val remoteService: ArticleRemoteService): Arti
         } else {
             remoteService.getNewsByCategory(Constants.COUNTRY, category, Constants.API_KEY)
         }
-
         call.enqueue(object : Callback<ArticleListRaw> {
             override fun onResponse(call: Call<ArticleListRaw>, response: Response<ArticleListRaw>) {
                 if (response.isSuccessful) {
@@ -23,20 +21,17 @@ class ArticleRepository(  private val remoteService: ArticleRemoteService): Arti
 
                 }
             }
-
             override fun onFailure(call: Call<ArticleListRaw>, t: Throwable) {
-                TODO("Not yet implemented")
             }
         })
         return result
-
     }
 
     override fun fetchCategories(): MutableList<String> {
-        return Category.values().map { it.name } as MutableList<String>
+        return CategoryRaw.values().map { it.name } as MutableList<String>
     }
 
-    override fun fetchMockData(): List<ArticleDetails> {
+   override fun fetchMockData(): List<ArticleDetails> {
         return listOf(
             ArticleDetails("title", "author",
                 "date", "description",
