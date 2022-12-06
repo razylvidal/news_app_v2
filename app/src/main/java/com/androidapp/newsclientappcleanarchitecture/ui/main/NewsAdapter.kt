@@ -61,7 +61,7 @@ class NewsAdapter(val articles: MutableList<ArticleDetails>, private val context
     @SuppressLint("NotifyDataSetChanged")
     fun updateArticleData(articleList: List<ArticleDetails>) {
         articles.addAll(articleList)
-        notifyDataSetChanged()
+
     }
 
 }

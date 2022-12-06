@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.R
 import com.androidapp.newsclientappcleanarchitecture.core.domain.Category
 
-class CategoryAdapter(var category: MutableList<String>):
+class CategoryAdapter(var category: MutableList<Category>,
+                      private val onClick: (String) -> Unit):
 RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
-    var selectedPosition: Int = 0
-    private val presenter : MainContract.Presenter? = null
+    private var selectedPosition: Int = 0
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val categoryRV: RelativeLayout = itemView.findViewById(R.id.idCVCategory)
@@ -31,11 +31,12 @@ RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val category = category[position]
-        holder.categoryTV.text = category
+        val categoryName = category[position].name
+        holder.categoryTV.text = categoryName
         holder.itemView.setOnClickListener {
             val positionHolder = holder.adapterPosition
-            presenter?.onCategoryClick(category)
+            //presenter.onCategoryClick(category)
+            onClick.invoke(categoryName)
             selectedPosition = positionHolder
             notifyDataSetChanged()
         }
@@ -56,8 +57,8 @@ RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
         }
 
     }
-    fun updateCategoryData(categoryList: MutableList<String>){
-       category.addAll(categoryList)
+    fun updateCategoryData(categoryList: List<Category>){
+       category.addAll(categoryList.toMutableList())
     }
 
 }

@@ -1,14 +1,15 @@
 package com.androidapp.newsclientappcleanarchitecture.ui.main
 
 import com.androidapp.newsclientappcleanarchitecture.core.domain.ArticleDetails
+import com.androidapp.newsclientappcleanarchitecture.core.domain.Category
 
 interface MainContract {
     interface View{
-        fun showProgressBar( state: Boolean)
+        fun showProgressBar( isVisible: Boolean)
         fun showToast(message: String)
         fun onClear()
         fun showNewsArticles(articleList: List<ArticleDetails>)
-        fun showCategories(categoryList: MutableList<String>)
+        fun showCategories(categoryList: List<Category>)
 
     }
     interface Presenter{

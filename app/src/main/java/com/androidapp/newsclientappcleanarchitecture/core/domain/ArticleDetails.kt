@@ -1,5 +1,7 @@
 package com.androidapp.newsclientappcleanarchitecture.core.domain
 
+import com.androidapp.newsclientappcleanarchitecture.core.data.SourcesRaw
+
 data class ArticleDetails(
     val title: String?,
     val author: String?,
@@ -8,5 +10,4 @@ data class ArticleDetails(
     val urlToImage: String?,
     val url: String?,
     val content: String?
-
 )
