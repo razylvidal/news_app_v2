@@ -4,30 +4,31 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="10dp"
-    app:cardBackgroundColor="@color/cardview_shadow_start_color"
-    android:layout_margin="4dp"
-
-
+    android:layout_margin="7dp"
+    app:cardElevation="6dp"
     >
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#EDEDED"
+        android:background="@color/GREY"
         >
 
         <ImageView
             android:id="@+id/idIVNews"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            />
 
         <TextView
             android:id="@+id/idTVNewsHeading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/idIVNews"
-            android:layout_margin="3dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="3dp"
             android:maxLines="2"
             android:padding="3dp"
             android:text="News Heading"
@@ -54,5 +55,6 @@
             android:text="Published At"
             android:textColor="@color/cardview_dark_background"
             android:textSize="11sp" />
+
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

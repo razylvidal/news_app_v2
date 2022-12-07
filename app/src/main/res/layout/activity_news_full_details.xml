@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".ui.main.NewsDetailActivity">
+
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginEnd="15dp">
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -26,8 +26,33 @@
                 android:layout_marginRight="15dp"
                 app:srcCompat="@drawable/app_logo" />
 
+            <!--<TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TodayScoop"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                />-->
+
+            <!--<Switch
+                android:id="@+id/switch_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="5dp"
+                android:textOff="OFF"
+                android:textOn="ON"
+                android:thumb="@drawable/custom_switch"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />-->
+
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
+    <View android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@drawable/dropshadow"
+        android:layout_below="@+id/toolbar"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -143,8 +168,7 @@
         android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="80dp"
-        android:layout_marginEnd="20dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:backgroundTint="#F44336"
         android:text="Read Full News"
@@ -156,4 +180,6 @@
         app:cornerRadius="20dp"
         />
 
+
 </RelativeLayout>
+

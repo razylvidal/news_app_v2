@@ -13,20 +13,20 @@ import com.androidapp.newsclientappcleanarchitecture.R
 import com.androidapp.newsclientappcleanarchitecture.core.domain.ArticleDetails
 import com.squareup.picasso.Picasso
 
-class NewsAdapter(val articles: MutableList<ArticleDetails>, private val context: Context):
-    RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
+class NewsAdapter(private val articles: MutableList<ArticleDetails>, private val context: Context):
+    RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTV: TextView = itemView.findViewById (R.id.idTVNewsHeading)
         val subTitleTV: TextView = itemView.findViewById(R.id.idTVSubtitle)
         val publishedAtTV:TextView = itemView.findViewById(R.id.idTVPublishedAt)
         val newsIV:ImageView = itemView.findViewById(R.id.idIVNews)
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
+        return NewsViewHolder(LayoutInflater.from(parent.context).
         inflate(R.layout.activity_news,parent,false))
     }
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val articles: ArticleDetails = articles[position]
         holder.subTitleTV.text = articles.description
         holder.titleTV.text = articles.title
@@ -41,6 +41,7 @@ class NewsAdapter(val articles: MutableList<ArticleDetails>, private val context
                 .placeholder(R.drawable.placeholder_image)
                 .into(holder.newsIV)
         }
+
         holder.itemView.setOnClickListener {
             val intent = Intent(context, NewsDetailActivity::class.java)
             intent.putExtra("title", articles.title)
@@ -61,7 +62,10 @@ class NewsAdapter(val articles: MutableList<ArticleDetails>, private val context
     @SuppressLint("NotifyDataSetChanged")
     fun updateArticleData(articleList: List<ArticleDetails>) {
         articles.addAll(articleList)
+    }
 
+    fun clear() {
+        articles.clear()
     }
 
 }

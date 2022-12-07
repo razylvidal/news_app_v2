@@ -10,7 +10,6 @@ interface MainContract {
         fun onClear()
         fun showNewsArticles(articleList: List<ArticleDetails>)
         fun showCategories(categoryList: List<Category>)
-
     }
     interface Presenter{
         fun onViewReady(view: View)

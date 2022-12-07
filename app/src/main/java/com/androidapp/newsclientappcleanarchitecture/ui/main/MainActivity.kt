@@ -27,8 +27,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         findReferenceView()
         setUpRecyclerView()
+
         val appContainer = AppContainer()
         presenter = appContainer.mainPresenterFactory.create()
         presenter.onViewReady(this)
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             loadingPB = idPBLoading
         }
     }
+
     private fun setUpRecyclerView() {
         newsAdapter = NewsAdapter(newsList , this@MainActivity)
         categoryAdapter = CategoryAdapter(categoryList) { selectedCategory ->
@@ -55,19 +58,18 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         presenter.onViewDestroyed()
         super.onDestroy()
     }
+
     override fun showProgressBar(isVisible: Boolean) {
-       if(isVisible){
-           loadingPB.show()
-       }
-        else
-           loadingPB.hide()
+      if(isVisible) loadingPB.show() else loadingPB.hide()
     }
+
     override fun showToast(message: String) {
         Toast.makeText(this@MainActivity,
             message, Toast.LENGTH_SHORT).show()
     }
+
     override fun onClear() {
-        newsAdapter.articles.clear()
+        newsAdapter.clear()
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -78,6 +80,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun showCategories(categoryList: List<Category>) {
         categoryAdapter.updateCategoryData(categoryList)
     }
+
 
 }
 

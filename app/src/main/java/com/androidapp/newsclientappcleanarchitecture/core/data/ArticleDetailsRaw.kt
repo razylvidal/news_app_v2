@@ -3,8 +3,6 @@ package com.androidapp.newsclientappcleanarchitecture.core.data
 import com.google.gson.annotations.SerializedName
 
 data class ArticleDetailsRaw (
-    @SerializedName("sources")
-    val sources : SourcesRaw,
     @SerializedName("title")
     var title: String?,
     @SerializedName("author")

@@ -13,29 +13,28 @@ import com.androidapp.newsclientappcleanarchitecture.core.domain.Category
 
 class CategoryAdapter(var category: MutableList<Category>,
                       private val onClick: (String) -> Unit):
-RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
+RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     private var selectedPosition: Int = 0
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val categoryRV: RelativeLayout = itemView.findViewById(R.id.idCVCategory)
         val categoryTV: TextView = itemView.findViewById(R.id.idTVCategory)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
+        return CategoryViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.activity_categories, parent, false)
         )
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val categoryName = category[position].name
         holder.categoryTV.text = categoryName
         holder.itemView.setOnClickListener {
             val positionHolder = holder.adapterPosition
-            //presenter.onCategoryClick(category)
             onClick.invoke(categoryName)
             selectedPosition = positionHolder
             notifyDataSetChanged()
@@ -46,7 +45,7 @@ RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
     override fun getItemCount(): Int {
         return category.size
     }
-    private fun setCategoryTabColor(vHolder: ViewHolder, selectedCategoryTab: Int, position: Int){
+    private fun setCategoryTabColor(vHolder: CategoryViewHolder, selectedCategoryTab: Int, position: Int){
         if (selectedCategoryTab == position){
             vHolder.categoryRV.setBackgroundColor(Color.RED)
             vHolder.categoryTV.setTextColor(Color.WHITE)

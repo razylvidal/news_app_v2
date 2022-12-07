@@ -1,13 +1,18 @@
 package com.androidapp.newsclientappcleanarchitecture.ui.main
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.androidapp.newsclientappcleanarchitecture.R
 import com.squareup.picasso.Picasso
 
@@ -40,6 +45,7 @@ class NewsDetailActivity: AppCompatActivity() {
         newsIV = findViewById(R.id.idIVNews)
         readNewsBtn = findViewById(R.id.idBtnReadNews)
 
+
         title = intent.getStringExtra("title").toString()
         author = intent.getStringExtra("author").toString()
         publishedAt = intent.getStringExtra("publishedAt").toString()
@@ -50,9 +56,11 @@ class NewsDetailActivity: AppCompatActivity() {
 
         titleTV.text = title
         authorTV.text = author
-        publishedAtTV.text = StringBuilder().append("Date of Published: ").append(publishedAt.substring(0,10))
+        publishedAtTV.text =
+            StringBuilder().append("Date of Published: ").append(publishedAt.substring(0, 10))
         subDescriptionTV.text = description
         contentTV.text = content
+
         Picasso.get().load(imageUrl)
             .placeholder(R.drawable.placeholder_image)
             .error(R.drawable.no_image_available)
@@ -63,5 +71,6 @@ class NewsDetailActivity: AppCompatActivity() {
             intent.data = Uri.parse(url)
             startActivity(intent)
         }
+
     }
 }

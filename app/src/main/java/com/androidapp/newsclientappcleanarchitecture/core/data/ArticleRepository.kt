@@ -4,6 +4,7 @@ import com.androidapp.newsclientappcleanarchitecture.core.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.core.domain.ArticleGateway
 import com.androidapp.newsclientappcleanarchitecture.core.domain.Category
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 class ArticleRepository(
@@ -12,6 +13,7 @@ class ArticleRepository(
 
     override suspend fun fetchNewsArticles(category: String): MutableList<ArticleDetails> {
         val results: MutableList<ArticleDetails> = withContext(Dispatchers.IO) {
+            delay(2000)
             if (category == "All") {
                 remoteService.getAllNews(
                     Constants.API_KEY,
@@ -27,10 +29,10 @@ class ArticleRepository(
         }
         return results
     }
+
     override fun fetchCategories(): List<Category> {
         return CategoryRaw.values().map {
             Category(it.name)
         }
     }
-
-   }
+    }

@@ -24,10 +24,12 @@ class MainPresenter(private val repo: ArticleGateway):MainContract.Presenter {
     override fun onCategoryClick(selectedCategory: String) {
         setUpArticleView(selectedCategory)
     }
+
     private fun setUpCategoryView(){
         val categories = repo.fetchCategories()
         view?.showCategories(categories)
     }
+
     private fun setUpArticleView(category: String){
         view?.showProgressBar(isVisible  = true)
         view?.onClear()
@@ -39,10 +41,8 @@ class MainPresenter(private val repo: ArticleGateway):MainContract.Presenter {
             }
             catch (exception: Exception){
                 view?.showProgressBar(isVisible = false)
-                view?.showToast(exception.message ?: "Something went wrong")
+                view?.showToast(exception.message?: "Something went wrong")
             }
-
         }
-
     }
 }
