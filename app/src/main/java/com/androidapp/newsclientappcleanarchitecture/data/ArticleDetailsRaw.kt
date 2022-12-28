@@ -1,14 +1,16 @@
-package com.androidapp.newsclientappcleanarchitecture.core.data
+package com.androidapp.newsclientappcleanarchitecture.data
 
 import com.google.gson.annotations.SerializedName
 
-data class ArticleDetailsRaw (
+
+data class ArticleDetailsRaw(
+
     @SerializedName("title")
-    var title: String?,
+    var title: String,
     @SerializedName("author")
-    var author: String?,
+    var author: String? ,
     @SerializedName("publishedAt")
-    var publishedAt: String?,
+    var publishedAt: String? ,
     @SerializedName("description")
     var description: String?,
     @SerializedName("urlToImage")

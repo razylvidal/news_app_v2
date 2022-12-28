@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">News Client App Clean Architecture</string>
+    <string name="change_theme">Change Theme</string>
+    <string name="saved_news">Saved News</string>
+    <string name="more_option">More Option</string>
+    <string name="save_news">Save News</string>
+    <string name="open_in_web">Open in Web</string>
+    <string name="share">Share</string>
 </resources>

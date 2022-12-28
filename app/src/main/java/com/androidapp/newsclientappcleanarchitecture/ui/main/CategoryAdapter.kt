@@ -9,9 +9,9 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.R
-import com.androidapp.newsclientappcleanarchitecture.core.domain.Category
+import com.androidapp.newsclientappcleanarchitecture.domain.Category
 
-class CategoryAdapter(var category: MutableList<Category>,
+class CategoryAdapter(var category: MutableList<String>,
                       private val onClick: (String) -> Unit):
 RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
@@ -31,7 +31,7 @@ RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        val categoryName = category[position].name
+        val categoryName = category[position]
         holder.categoryTV.text = categoryName
         holder.itemView.setOnClickListener {
             val positionHolder = holder.adapterPosition
@@ -56,7 +56,7 @@ RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
         }
 
     }
-    fun updateCategoryData(categoryList: List<Category>){
+    fun updateCategoryData(categoryList: List<String>){
        category.addAll(categoryList.toMutableList())
     }
 

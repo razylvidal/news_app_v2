@@ -1,32 +1,28 @@
 package com.androidapp.newsclientappcleanarchitecture.ui.main
 
-import com.androidapp.newsclientappcleanarchitecture.core.domain.ArticleGateway
+import com.androidapp.newsclientappcleanarchitecture.common.Constants.Companion.DEFAULT_CATEGORY
+import com.androidapp.newsclientappcleanarchitecture.domain.usecase.FetchingDataUseCase
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
-class MainPresenter(private val repo: ArticleGateway):MainContract.Presenter {
+class MainPresenter(private val fetchData: FetchingDataUseCase): MainContract.Presenter {
     private var view: MainContract.View? = null
     private val scope = MainScope()
-
-    companion object{
-        const val DEFAULT_CATEGORY = "All"
-    }
 
     override fun onViewReady(view: MainContract.View) {
         this.view = view
         setUpCategoryView()
         setUpArticleView(DEFAULT_CATEGORY)
-
     }
     override fun onViewDestroyed() {
         view = null
     }
-    override fun onCategoryClick(selectedCategory: String) {
+    override fun onCategoryClicked(selectedCategory: String) {
         setUpArticleView(selectedCategory)
     }
 
     private fun setUpCategoryView(){
-        val categories = repo.fetchCategories()
+        val categories = fetchData.getListOfCategories()
         view?.showCategories(categories)
     }
 
@@ -35,7 +31,7 @@ class MainPresenter(private val repo: ArticleGateway):MainContract.Presenter {
         view?.onClear()
         scope.launch{
             try {
-                val data = repo.fetchNewsArticles(category)
+                val data = fetchData.getListOfArticles(category)
                 view?.showNewsArticles(data)
                 view?.showProgressBar(isVisible = false)
             }
@@ -45,4 +41,5 @@ class MainPresenter(private val repo: ArticleGateway):MainContract.Presenter {
             }
         }
     }
+
 }

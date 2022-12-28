@@ -1,6 +1,6 @@
-package com.androidapp.newsclientappcleanarchitecture.core.data
+package com.androidapp.newsclientappcleanarchitecture.data
 
-import com.androidapp.newsclientappcleanarchitecture.core.domain.ArticleDetails
+import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 
 fun ArticleDetailsRaw.toDomain() = ArticleDetails(
     title = title,
@@ -11,4 +11,5 @@ fun ArticleDetailsRaw.toDomain() = ArticleDetails(
     url = url,
     content = content
 )
+
 

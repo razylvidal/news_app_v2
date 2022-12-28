@@ -1,7 +1,6 @@
 package com.androidapp.newsclientappcleanarchitecture.ui.main
 
-import com.androidapp.newsclientappcleanarchitecture.core.domain.ArticleDetails
-import com.androidapp.newsclientappcleanarchitecture.core.domain.Category
+import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 
 interface MainContract {
     interface View{
@@ -9,11 +8,12 @@ interface MainContract {
         fun showToast(message: String)
         fun onClear()
         fun showNewsArticles(articleList: List<ArticleDetails>)
-        fun showCategories(categoryList: List<Category>)
+        fun showCategories(categoryList: List<String>)
+        fun showSavedNews(savedArticles: List<ArticleDetails>)
     }
     interface Presenter{
         fun onViewReady(view: View)
         fun onViewDestroyed()
-        fun onCategoryClick(selectedCategory:String)
+        fun onCategoryClicked(selectedCategory:String)
     }
 }

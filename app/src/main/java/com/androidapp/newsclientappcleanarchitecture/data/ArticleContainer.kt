@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.core.data
+package com.androidapp.newsclientappcleanarchitecture.data
 
 import com.google.gson.annotations.SerializedName
 

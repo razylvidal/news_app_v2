@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.main.SavedNewsActivity"
+    android:background="@color/white">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:elevation="0dp">
+
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:titleCentered="true"
+            app:titleTextColor="@color/red">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Saved News"
+                android:gravity="center"
+                android:textColor="@color/red"
+                android:textSize="27sp"
+                android:textStyle="bold"
+                />
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <View android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@drawable/dropshadow"
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/divider" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/savedNewsRV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/divider"
+        tools:listitem="@layout/saved_news_list_item"
+        />
+
+</LinearLayout>

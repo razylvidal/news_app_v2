@@ -4,182 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.NewsDetailActivity">
-
+    tools:context=".ui.main.ReadFullNewsActivity"
+    android:background="@color/white">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-        <RelativeLayout
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_marginEnd="15dp">
+            android:layout_height="wrap_content"
+            android:text="Read News"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/red"
+            />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="141dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginRight="15dp"
-                app:srcCompat="@drawable/app_logo" />
-
-            <!--<TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TodayScoop"
-                android:textColor="@color/red"
-                android:textStyle="bold"
-                android:textSize="25sp"
-                />-->
-
-            <!--<Switch
-                android:id="@+id/switch_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
-                android:layout_marginEnd="5dp"
-                android:textOff="OFF"
-                android:textOn="ON"
-                android:thumb="@drawable/custom_switch"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />-->
-
-        </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
     <View android:layout_width="match_parent"
         android:layout_height="6dp"
         android:background="@drawable/dropshadow"
-        android:layout_below="@+id/toolbar"/>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/idBtnReadNews"
         android:layout_below="@+id/toolbar"
-        >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:id="@+id/divider"/>
 
-            <ImageView
-                android:id="@+id/idIVNews"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginStart="3dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="3dp"
-                android:layout_marginRight="3dp"
-                android:layout_marginBottom="3dp"
-                android:padding="3dp"
-                android:scaleType="centerCrop"
-                android:elevation="10dp"
-                android:backgroundTint="@color/black"/>
+    <WebView
+        android:id="@+id/news_webview"
+        android:layout_width="match_parent"
+        android:layout_height="737dp"
+        android:layout_below="@+id/divider"
+        android:layout_marginTop="-1dp">
 
-            <TextView
-                android:id="@+id/idTVTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/idIVNews"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="4dp"
-                android:padding="4dp"
-                android:text="Title"
-                android:textColor="@color/black"
-                android:textSize="28sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/idTVAuthor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/idTVTitle"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginBottom="4dp"
-                android:padding="4dp"
-                android:text="Author"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="normal" />
-
-            <TextView
-                android:id="@+id/idTVPublishedAt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/idTVAuthor"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginBottom="4dp"
-                android:padding="4dp"
-                android:text="Published At"
-                android:textColor="@color/cardview_dark_background"
-                android:textSize="10sp"
-                android:textStyle="normal" />
-
-
-            <TextView
-                android:id="@+id/idTVSubDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/idTVPublishedAt"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginBottom="4dp"
-                android:padding="4dp"
-                android:text="Sub Description"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/idTVContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/idTVSubDescription"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginBottom="4dp"
-
-                android:padding="4dp"
-                android:text="Content"
-                android:textColor="@color/black" />
-        </RelativeLayout>
-    </ScrollView>
-
-    <Button
-        android:id="@+id/idBtnReadNews"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="#F44336"
-        android:text="Read Full News"
-        android:textAllCaps="true"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:backgroundTint="#F74F4F"
-        android:gravity="center"
-        app:cornerRadius="20dp"
-        />
-
+    </WebView>
 
 </RelativeLayout>
 

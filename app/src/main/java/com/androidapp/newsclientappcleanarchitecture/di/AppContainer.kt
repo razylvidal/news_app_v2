@@ -1,17 +1,18 @@
 package com.androidapp.newsclientappcleanarchitecture.di
 
-import com.androidapp.newsclientappcleanarchitecture.core.data.ArticleRemoteService
-import com.androidapp.newsclientappcleanarchitecture.core.data.ArticleRepository
-import com.androidapp.newsclientappcleanarchitecture.core.data.Constants
-import com.androidapp.newsclientappcleanarchitecture.core.domain.ArticleGateway
+import com.androidapp.newsclientappcleanarchitecture.data.ArticleRemoteService
+import com.androidapp.newsclientappcleanarchitecture.data.ArticleRepositoryImpl
+import com.androidapp.newsclientappcleanarchitecture.common.Constants
+import com.androidapp.newsclientappcleanarchitecture.domain.ArticleRepository
+import com.androidapp.newsclientappcleanarchitecture.domain.usecase.FetchingDataUseCase
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class AppContainer {
     private val articleRemoteService = retrofit.create(ArticleRemoteService::class.java)
-    private val articleGateway: ArticleGateway = ArticleRepository(articleRemoteService)
-
-    val mainPresenterFactory = MainPresenterFactory(articleGateway)
+    private val articleGateway: ArticleRepository = ArticleRepositoryImpl(articleRemoteService)
+    private val fetchingDataUseCase = FetchingDataUseCase(articleGateway)
+    val mainPresenterFactory = MainPresenterFactory(fetchingDataUseCase)
 
     companion object {
         private val retrofit = Retrofit.Builder()

@@ -10,17 +10,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.R
-import com.androidapp.newsclientappcleanarchitecture.core.domain.ArticleDetails
+import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.squareup.picasso.Picasso
 
 class NewsAdapter(private val articles: MutableList<ArticleDetails>, private val context: Context):
     RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleTV: TextView = itemView.findViewById (R.id.idTVNewsHeading)
-        val subTitleTV: TextView = itemView.findViewById(R.id.idTVSubtitle)
-        val publishedAtTV:TextView = itemView.findViewById(R.id.idTVPublishedAt)
-        val newsIV:ImageView = itemView.findViewById(R.id.idIVNews)
+        val titleTV: TextView = itemView.findViewById (R.id.tv_title)
+        val descriptionTV: TextView = itemView.findViewById(R.id.tv_description)
+        val publishedAtTV:TextView = itemView.findViewById(R.id.tv_publishedAt)
+        val newsIV:ImageView = itemView.findViewById(R.id.iv_articleImage)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         return NewsViewHolder(LayoutInflater.from(parent.context).
@@ -28,7 +28,7 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>, private val
     }
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val articles: ArticleDetails = articles[position]
-        holder.subTitleTV.text = articles.description
+        holder.descriptionTV.text = articles.description
         holder.titleTV.text = articles.title
         holder.publishedAtTV.text = StringBuilder().append("Date of Published: ")
             .append(articles.publishedAt)
@@ -43,7 +43,7 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>, private val
         }
 
         holder.itemView.setOnClickListener {
-            val intent = Intent(context, NewsDetailActivity::class.java)
+            val intent = Intent(context, ReadFullNewsActivity::class.java)
             intent.putExtra("title", articles.title)
             intent.putExtra("author", articles.author)
             intent.putExtra("publishedAt", articles.publishedAt)
@@ -54,18 +54,14 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>, private val
             context.startActivity(intent)
         }
     }
-
     override fun getItemCount(): Int {
         return articles.size
     }
-
     @SuppressLint("NotifyDataSetChanged")
     fun updateArticleData(articleList: List<ArticleDetails>) {
         articles.addAll(articleList)
     }
-
     fun clear() {
         articles.clear()
     }
-
 }
