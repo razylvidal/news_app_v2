@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.R
 import com.androidapp.newsclientappcleanarchitecture.databinding.ActivityHomeBinding
-import com.androidapp.newsclientappcleanarchitecture.databinding.ActivityMainBinding
 import com.androidapp.newsclientappcleanarchitecture.di.AppContainer
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
+import com.androidapp.newsclientappcleanarchitecture.ui.utils.startReadFullNewsAct
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.SimpleDateFormat
 import java.util.*
@@ -62,7 +62,10 @@ class HomeActivity: AppCompatActivity(), MainContract.View {
     }
 
     private fun setUpRecyclerView() {
-        newsAdapter = NewsAdapter(newsList , this@HomeActivity)
+        newsAdapter = NewsAdapter(newsList)
+        newsAdapter.onArticleCLicked { articleData ->
+           startReadFullNewsAct(this@HomeActivity,articleData)
+        }
         categoryAdapter = CategoryAdapter(categoryList) { selectedCategory ->
             presenter.onCategoryClicked(selectedCategory)
         }
@@ -79,7 +82,7 @@ class HomeActivity: AppCompatActivity(), MainContract.View {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.saved_news -> {
+            R.id.save_news -> {
                 intent = Intent(applicationContext, SavedNewsActivity::class.java)
                 startActivity(intent)
                 true
@@ -118,10 +121,6 @@ class HomeActivity: AppCompatActivity(), MainContract.View {
         categoryAdapter.updateCategoryData(categoryList)
     }
 
-    override fun showSavedNews(savedArticles: List<ArticleDetails>) {
-
-    }
-
     @SuppressLint("SimpleDateFormat")
     private fun showCurrentDate() {
         val calendar = Calendar.getInstance()
@@ -129,4 +128,9 @@ class HomeActivity: AppCompatActivity(), MainContract.View {
         val date = dateFormat.format(calendar.time)
         currentDate.showText(date)
     }
+
+    /*private fun startReadFullNewsAct( articleDetails: ArticleDetails){
+        ReadFullNewsActivity.getIntent(this@HomeActivity, articleDetails)
+            .run(this::startActivity)
+    }*/
 }

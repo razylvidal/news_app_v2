@@ -2,28 +2,36 @@ package com.androidapp.newsclientappcleanarchitecture.ui.main
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.webkit.*
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
 import com.androidapp.newsclientappcleanarchitecture.LogHelper
 import com.androidapp.newsclientappcleanarchitecture.R
+import com.androidapp.newsclientappcleanarchitecture.data.database.ArticleDBViewModel
+import com.androidapp.newsclientappcleanarchitecture.data.database.ArticleEntity
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
-import com.androidapp.newsclientappcleanarchitecture.domain.usecase.FetchingDataUseCase
 
-class ReadFullNewsActivity:AppCompatActivity() {
+class ReadFullNewsActivity : AppCompatActivity() {
 
-    private lateinit var url: String
     private lateinit var webView: WebView
-    private  var newsData: List<ArticleDetails> = listOf()
-    private var useCase: FetchingDataUseCase? = null
+    private lateinit var articleData: ArticleDetails
+    private lateinit var viewModel: ArticleDBViewModel
 
+    companion object{
+        const val KEY_ARTICLE_DETAILS = "key_article_details"
+        fun getIntent(context: Context, articleDetails: ArticleDetails): Intent {
+            return Intent(context, ReadFullNewsActivity::class.java).apply {
+                putExtra(KEY_ARTICLE_DETAILS, articleDetails)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,19 +40,12 @@ class ReadFullNewsActivity:AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         webView = findViewById(R.id.news_webview)
-        url = intent.getStringExtra("url").toString()
-       newsData.map {
-           intent.getStringExtra("title").toString()
-           intent.getStringExtra("author").toString()
-           intent.getStringExtra("publishedAt").toString()
-           intent.getStringExtra("description").toString()
-           intent.getStringExtra("content").toString()
-           intent.getStringExtra("image").toString()
-           url
-       }.toList()
 
+        viewModel = ViewModelProvider(this)[ArticleDBViewModel::class.java]
 
-        startWebView(url)
+        articleData = getArticleDetails()
+
+        startWebView(articleData.url.toString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -55,20 +56,20 @@ class ReadFullNewsActivity:AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.saved_news ->{
-
+            R.id.action_saveNews -> {
+                this.let { viewModel.addNewsToDB(this, articleData) }
                 LogHelper.log("item clicked")
                 return true
             }
             R.id.share_news -> {
                 val intent = Intent(Intent.ACTION_SEND)
-                intent.putExtra(Intent.EXTRA_TEXT, "Hey, checkout this news : $url")
+                intent.putExtra(Intent.EXTRA_TEXT, "Hey, checkout this news : ${articleData.url}")
                 intent.type = "text/plain"
                 startActivity(Intent.createChooser(intent, "Share with :"))
                 return true
             }
             R.id.browse_news -> {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(articleData.url))
                 startActivity(intent)
             }
             else -> return super.onOptionsItemSelected(item)
@@ -77,7 +78,7 @@ class ReadFullNewsActivity:AppCompatActivity() {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private fun startWebView(url: String){
+    private fun startWebView(url: String) {
 
         webView.apply {
             settings.apply {
@@ -99,7 +100,7 @@ class ReadFullNewsActivity:AppCompatActivity() {
                 override fun shouldOverrideUrlLoading(
                     view: WebView,
                     request: WebResourceRequest,
-                ): Boolean{
+                ): Boolean {
                     view.loadUrl(request.url.toString())
                     return true
                 }
@@ -114,4 +115,10 @@ class ReadFullNewsActivity:AppCompatActivity() {
         }
         webView.loadUrl(url);
     }
+
+    private fun getArticleDetails() : ArticleDetails {
+        return intent.getParcelableExtra(KEY_ARTICLE_DETAILS)
+            ?:throw java.lang.IllegalStateException("Please use ReadFullNewsActivity.getIntent to start activity")
+    }
+
 }

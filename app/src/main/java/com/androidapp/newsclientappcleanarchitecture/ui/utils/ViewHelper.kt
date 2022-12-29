@@ -1,9 +1,12 @@
 package com.androidapp.newsclientappcleanarchitecture.ui.main
 
+import android.content.Context
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat.startActivity
 import com.androidapp.newsclientappcleanarchitecture.R
+import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 
 //function extension
 fun View.show(){
@@ -17,5 +20,7 @@ fun View.hide(){
 fun TextView.showText( format : String){
     text = format
 }
+
+
 
 

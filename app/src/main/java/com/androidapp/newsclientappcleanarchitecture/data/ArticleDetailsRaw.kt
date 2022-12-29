@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 
 data class ArticleDetailsRaw(
-
     @SerializedName("title")
     var title: String,
     @SerializedName("author")

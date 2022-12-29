@@ -20,7 +20,7 @@
         android:icon="@drawable/ic_baseline_bookmarks_24"
         app:showAsAction="ifRoom"
         android:title="@string/saved_news"
-        android:id="@+id/saved_news"/>
+        android:id="@+id/save_news"/>
 
 
 </menu>

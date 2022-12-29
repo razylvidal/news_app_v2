@@ -1,11 +1,10 @@
 package com.androidapp.newsclientappcleanarchitecture.domain
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-@Entity
+@Parcelize
 data class ArticleDetails(
-    @PrimaryKey(autoGenerate = false)
     val title: String,
     val author: String?,
     val publishedAt: String?,
@@ -13,4 +12,4 @@ data class ArticleDetails(
     val urlToImage: String?,
     val url: String?,
     val content: String?
-)
+): Parcelable
