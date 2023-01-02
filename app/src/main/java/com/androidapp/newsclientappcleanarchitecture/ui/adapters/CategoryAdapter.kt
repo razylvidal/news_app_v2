@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.ui.main
+package com.androidapp.newsclientappcleanarchitecture.ui.adapters
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -9,7 +9,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.R
-import com.androidapp.newsclientappcleanarchitecture.domain.Category
 
 class CategoryAdapter(var category: MutableList<String>,
                       private val onClick: (String) -> Unit):

@@ -1,8 +1,11 @@
 package com.androidapp.newsclientappcleanarchitecture.ui.main
 
 import android.content.Context
+import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat.startActivity
 import com.androidapp.newsclientappcleanarchitecture.R
@@ -20,6 +23,8 @@ fun View.hide(){
 fun TextView.showText( format : String){
     text = format
 }
+
+
 
 
 

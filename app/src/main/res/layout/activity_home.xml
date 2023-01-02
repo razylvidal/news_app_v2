@@ -11,7 +11,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb_mainAct"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="75dp"
         app:title="TodayScoop"
         app:titleTextColor="@color/red"
         >
@@ -35,9 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/tv_title"
-                android:layout_marginTop="0dp"
                 android:text="current date"
-                android:textSize="13sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
         </RelativeLayout>
 
@@ -45,7 +44,20 @@
    <View android:layout_width="match_parent"
         android:layout_height="4dp"
         android:background="@drawable/dropshadow"
-        android:layout_below="@+id/tb_mainAct"/>
+        android:layout_below="@+id/tb_mainAct"
+       android:id="@+id/divider"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Latest News"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:layout_below="@id/divider"
+        android:visibility="invisible"
+        android:id="@+id/tv_searchView"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
@@ -69,7 +81,7 @@
         android:layout_marginTop="3dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/activity_news">
+        tools:listitem="@layout/main_news_list_item">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -84,7 +96,7 @@
     </ProgressBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_save_news"
+        android:id="@+id/fab_search_news"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -94,8 +106,9 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
-        android:src="@drawable/ic_day"
+        android:src="@drawable/ic_baseline_search_24"
         app:backgroundTint="@color/white"
-        app:rippleColor="@color/pale_red" />
+        app:rippleColor="@color/pale_red"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </RelativeLayout>

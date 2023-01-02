@@ -2,9 +2,9 @@ package com.androidapp.newsclientappcleanarchitecture.di
 
 import com.androidapp.newsclientappcleanarchitecture.data.ArticleRemoteService
 import com.androidapp.newsclientappcleanarchitecture.data.ArticleRepositoryImpl
-import com.androidapp.newsclientappcleanarchitecture.common.Constants
+import com.androidapp.newsclientappcleanarchitecture.ui.utils.Constants
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleRepository
-import com.androidapp.newsclientappcleanarchitecture.domain.usecase.FetchingDataUseCase
+import com.androidapp.newsclientappcleanarchitecture.domain.usecases.FetchingDataUseCase
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

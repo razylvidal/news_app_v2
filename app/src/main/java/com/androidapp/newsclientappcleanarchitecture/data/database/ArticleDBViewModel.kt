@@ -7,9 +7,10 @@ import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 
 class ArticleDBViewModel : ViewModel(){
 
-    private var articleRepo = ArticleDBRepository()
 
+    private var articleRepo = ArticleDBRepository()
     private var newsData: LiveData<List<ArticleDetails>>? = null
+    private var theme : Boolean = false
 
     fun addNewsToDB(context: Context, news: ArticleDetails) {
         articleRepo.insertNews(context, news)

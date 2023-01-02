@@ -9,6 +9,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,12 +17,14 @@ import com.androidapp.newsclientappcleanarchitecture.R
 import com.androidapp.newsclientappcleanarchitecture.databinding.ActivityHomeBinding
 import com.androidapp.newsclientappcleanarchitecture.di.AppContainer
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
+import com.androidapp.newsclientappcleanarchitecture.ui.adapters.CategoryAdapter
+import com.androidapp.newsclientappcleanarchitecture.ui.adapters.NewsAdapter
 import com.androidapp.newsclientappcleanarchitecture.ui.utils.startReadFullNewsAct
+import com.androidapp.newsclientappcleanarchitecture.ui.utils.startSearchNewsAct
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.SimpleDateFormat
 import java.util.*
-
-class HomeActivity: AppCompatActivity(), MainContract.View {
+class HomeActivity : AppCompatActivity(), MainContract.View {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var presenter: MainContract.Presenter
     private lateinit var newsAdapter: NewsAdapter
@@ -31,12 +34,9 @@ class HomeActivity: AppCompatActivity(), MainContract.View {
     private lateinit var loadingPB: ProgressBar
     private lateinit var currentDate: TextView
     private lateinit var toolbar: Toolbar
-    private lateinit var changeTheme : FloatingActionButton
-    private  val categoryList = mutableListOf<String>()
-    private val newsList =  mutableListOf<ArticleDetails>()
+    private lateinit var searchNewsFab : FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.Theme_NewsClientAppCleanArchitecture)
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -49,24 +49,29 @@ class HomeActivity: AppCompatActivity(), MainContract.View {
         val appContainer = AppContainer()
         presenter = appContainer.mainPresenterFactory.create()
         presenter.onViewReady(this)
+        searchNewsFab.setOnClickListener {
+            startSearchNewsAct(this)
+        }
 
     }
-    private fun findReferenceView(){
+
+    private fun findReferenceView() {
         binding.apply {
             articleRV = rvArticleList
             categoryRV = rvCategories
             loadingPB = pbLoad
             toolbar = tbMainAct
             currentDate = tvCurrentDate
+            searchNewsFab = fabSearchNews
         }
     }
 
     private fun setUpRecyclerView() {
-        newsAdapter = NewsAdapter(newsList)
+        newsAdapter = NewsAdapter(mutableListOf())
         newsAdapter.onArticleCLicked { articleData ->
-           startReadFullNewsAct(this@HomeActivity,articleData)
+            startReadFullNewsAct(this@HomeActivity, articleData)
         }
-        categoryAdapter = CategoryAdapter(categoryList) { selectedCategory ->
+        categoryAdapter = CategoryAdapter(mutableListOf()) { selectedCategory ->
             presenter.onCategoryClicked(selectedCategory)
         }
         categoryRV.adapter = categoryAdapter
@@ -77,30 +82,38 @@ class HomeActivity: AppCompatActivity(), MainContract.View {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.action_main_act, menu)
-        return super.onCreateOptionsMenu(menu)
+        /*lifecycleScope.launchWhenStarted {
+            val isChecked = presenter.getUIMode.first()
+            val uiMode = menu.findItem(R.id.action_change_theme)
+            uiMode.isChecked = isChecked
+            setUIMode(uiMode, isChecked)
+        }*/
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.save_news -> {
+         when (item.itemId) {
+            R.id.action_saved_news -> {
                 intent = Intent(applicationContext, SavedNewsActivity::class.java)
                 startActivity(intent)
-                true
             }
-            R.id.search_news -> {
-                true
-            }
+             R.id.action_change_theme -> {
+                 item.isChecked = !item.isChecked
+                 setUIMode(item, item.isChecked)
+                 true
+             }
             else -> return super.onOptionsItemSelected(item)
         }
+        return true
     }
 
-    override fun onDestroy(){
+    override fun onDestroy() {
         presenter.onViewDestroyed()
         super.onDestroy()
     }
 
     override fun showProgressBar(isVisible: Boolean) {
-        if(isVisible) loadingPB.show() else loadingPB.hide()
+        if (isVisible) loadingPB.show() else loadingPB.hide()
     }
 
     override fun showToast(message: String) {
@@ -112,14 +125,15 @@ class HomeActivity: AppCompatActivity(), MainContract.View {
         newsAdapter.clear()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun showNewsArticles(articleList: List<ArticleDetails>) {
         newsAdapter.updateArticleData(articleList)
-        newsAdapter.notifyDataSetChanged()
     }
+
     override fun showCategories(categoryList: List<String>) {
         categoryAdapter.updateCategoryData(categoryList)
     }
+
+
 
     @SuppressLint("SimpleDateFormat")
     private fun showCurrentDate() {
@@ -128,9 +142,16 @@ class HomeActivity: AppCompatActivity(), MainContract.View {
         val date = dateFormat.format(calendar.time)
         currentDate.showText(date)
     }
+    private fun setUIMode(item: MenuItem, isChecked: Boolean) {
+        if (isChecked) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            //viewModel.saveToDataStore(true)
+            item.setIcon(R.drawable.ic_night)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            //viewModel.saveToDataStore(false)
+            item.setIcon(R.drawable.ic_day)
+        }
+    }
 
-    /*private fun startReadFullNewsAct( articleDetails: ArticleDetails){
-        ReadFullNewsActivity.getIntent(this@HomeActivity, articleDetails)
-            .run(this::startActivity)
-    }*/
 }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.main.SearchNewsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tb_searchNewsAct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="TodayScoop"
+        app:titleTextColor="@color/red">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <View android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/dropshadow"
+        android:layout_below="@+id/tb_searchNewsAct"
+        android:id="@+id/divider"/>
+
+
+
+    <!--<com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/search_news"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusTopStart="20dp"
+        app:startIconDrawable="@drawable/ic_baseline_search_24"
+        app:startIconContentDescription="Search News"
+        app:endIconMode="clear_text"
+        android:layout_below="@id/tb_searchNewsAct"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/input_query"
+            />
+    </com.google.android.material.textfield.TextInputLayout>-->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/latest_news"
+        android:textStyle="bold"
+        android:textSize="27sp"
+        android:textColor="@color/black"
+        android:layout_below="@id/tb_searchNewsAct"
+        android:layout_marginStart="8dp"
+        android:id="@+id/tv_searchView"
+        android:layout_marginTop="15dp"
+        />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rView"
+        android:layout_width="match_parent"
+        android:layout_height="769dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="05dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_below="@+id/tv_searchView"
+        tools:listitem="@layout/main_news_list_item"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/loadingBar"
+        android:visibility="gone"
+        android:indeterminateTint="#F74F4F"
+        >
+    </ProgressBar>
+
+</RelativeLayout>

@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.ui.main
+package com.androidapp.newsclientappcleanarchitecture.ui.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -35,7 +35,7 @@ class SavedNewsAdapter(private var savedArticles: List<ArticleDetails>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.saved_news_list_item, parent, false)
+            .inflate(R.layout.news_list_item, parent, false)
         context = parent.context
         return ViewHolder(view, mLongClickListener)
     }
@@ -57,7 +57,6 @@ class SavedNewsAdapter(private var savedArticles: List<ArticleDetails>) :
         holder.itemView.setOnClickListener {
             onClick?.invoke(selectedArticle)
         }
-
     }
 
     override fun getItemCount(): Int {

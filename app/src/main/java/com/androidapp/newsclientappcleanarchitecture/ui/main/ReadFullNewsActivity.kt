@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.webkit.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
@@ -56,19 +57,20 @@ class ReadFullNewsActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_saveNews -> {
+            R.id.action_save_news -> {
                 this.let { viewModel.addNewsToDB(this, articleData) }
-                LogHelper.log("item clicked")
+                Toast.makeText(this@ReadFullNewsActivity,
+                    "News saved successfully!", Toast.LENGTH_SHORT).show()
                 return true
             }
-            R.id.share_news -> {
+            R.id.action_share_news -> {
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.putExtra(Intent.EXTRA_TEXT, "Hey, checkout this news : ${articleData.url}")
                 intent.type = "text/plain"
                 startActivity(Intent.createChooser(intent, "Share with :"))
                 return true
             }
-            R.id.browse_news -> {
+            R.id.action_browse_news -> {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(articleData.url))
                 startActivity(intent)
             }
@@ -96,7 +98,6 @@ class ReadFullNewsActivity : AppCompatActivity() {
             alertDialog.show()
 
             webView.webViewClient = object : WebViewClient() {
-
                 override fun shouldOverrideUrlLoading(
                     view: WebView,
                     request: WebResourceRequest,
@@ -118,7 +119,8 @@ class ReadFullNewsActivity : AppCompatActivity() {
 
     private fun getArticleDetails() : ArticleDetails {
         return intent.getParcelableExtra(KEY_ARTICLE_DETAILS)
-            ?:throw java.lang.IllegalStateException("Please use ReadFullNewsActivity.getIntent to start activity")
+            ?:throw java.lang
+                .IllegalStateException("Please use ReadFullNewsActivity.getIntent() to start activity")
     }
 
 }

@@ -1,12 +1,9 @@
 package com.androidapp.newsclientappcleanarchitecture.ui.main
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
-import android.util.TypedValue
 import android.widget.Toast
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -16,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.R
 import com.androidapp.newsclientappcleanarchitecture.data.database.ArticleDBViewModel
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
+import com.androidapp.newsclientappcleanarchitecture.ui.adapters.SavedNewsAdapter
 import com.androidapp.newsclientappcleanarchitecture.ui.utils.startReadFullNewsAct
 
 class SavedNewsActivity : AppCompatActivity() {
-
 
     lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: ArticleDBViewModel
@@ -37,8 +34,6 @@ class SavedNewsActivity : AppCompatActivity() {
 
         val toolbar: Toolbar = findViewById(R.id.tb_saved_news)
         setSupportActionBar(toolbar)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewModel = ViewModelProvider(this)[ArticleDBViewModel::class.java]
         val adapter = SavedNewsAdapter(newsData)
@@ -47,7 +42,7 @@ class SavedNewsActivity : AppCompatActivity() {
         }
 
         // fetch saved news from db
-        viewModel.fetchNewsFromDB(context = applicationContext).observe(this) {
+        viewModel.fetchNewsFromDB(applicationContext).observe(this) {
             newsData.clear()
             newsData.addAll(it)
             adapter.notifyDataSetChanged()
@@ -58,7 +53,7 @@ class SavedNewsActivity : AppCompatActivity() {
             override fun onItemLongClick(position: Int) {
                 // Delete saved news dialog
                 recyclerView.findViewHolderForAdapterPosition(position)?.itemView?.setBackgroundColor(
-                    getThemeColor(com.google.android.material.R.attr.colorOnContainer)
+                   Color.GRAY
                 )
 
                 val alertDialog = AlertDialog.Builder(this@SavedNewsActivity).apply {
@@ -73,14 +68,15 @@ class SavedNewsActivity : AppCompatActivity() {
                             viewModel.removeNewsToDB(it, newsData[position])
                         }
                         adapter.notifyItemRemoved(position)
+
                         Toast.makeText(this@SavedNewsActivity, "Deleted!", Toast.LENGTH_SHORT)
                             .show()
                     }
-
                     setNegativeButton("No") { _, _ ->
                         recyclerView.findViewHolderForAdapterPosition(position)?.itemView?.setBackgroundColor(
-                            getThemeColor(com.google.android.material.R.attr.colorPrimary)
-                        )
+                            Color.TRANSPARENT)
+
+
                     }
                 }.create()
 
@@ -91,12 +87,4 @@ class SavedNewsActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
     }
-
-    @ColorInt
-    fun Context.getThemeColor(@AttrRes attribute: Int) = TypedValue().let {
-        theme.resolveAttribute(attribute, it, true)
-        it.data
-    }
-
-
 }

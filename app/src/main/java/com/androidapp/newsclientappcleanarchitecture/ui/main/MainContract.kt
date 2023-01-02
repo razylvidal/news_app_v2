@@ -9,10 +9,13 @@ interface MainContract {
         fun onClear()
         fun showNewsArticles(articleList: List<ArticleDetails>)
         fun showCategories(categoryList: List<String>)
+
     }
     interface Presenter{
         fun onViewReady(view: View)
         fun onViewDestroyed()
         fun onCategoryClicked(selectedCategory:String)
+
+
     }
 }

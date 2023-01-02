@@ -2,7 +2,6 @@ package com.androidapp.newsclientappcleanarchitecture.data.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 
 @Dao
 interface ArticleDao {

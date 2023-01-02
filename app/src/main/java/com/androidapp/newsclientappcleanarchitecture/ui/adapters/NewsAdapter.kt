@@ -1,14 +1,13 @@
-package com.androidapp.newsclientappcleanarchitecture.ui.main
+package com.androidapp.newsclientappcleanarchitecture.ui.adapters
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.androidapp.newsclientappcleanarchitecture.LogHelper
 import com.androidapp.newsclientappcleanarchitecture.R
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.squareup.picasso.Picasso
@@ -26,7 +25,7 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>):
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         return NewsViewHolder(LayoutInflater.from(parent.context).
-        inflate(R.layout.activity_news,parent,false))
+        inflate(R.layout.main_news_list_item,parent,false))
     }
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val selectedArticle: ArticleDetails = articles[position]
@@ -52,7 +51,10 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>):
     }
     @SuppressLint("NotifyDataSetChanged")
     fun updateArticleData(articleList: List<ArticleDetails>) {
+        LogHelper.log("adapter", articleList.size.toString())
         articles.addAll(articleList)
+        notifyDataSetChanged()
+
     }
     fun clear() {
         articles.clear()

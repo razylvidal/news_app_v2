@@ -47,6 +47,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/divider"
-        tools:listitem="@layout/saved_news_list_item" />
+        tools:listitem="@layout/news_list_item" />
 
 </LinearLayout>

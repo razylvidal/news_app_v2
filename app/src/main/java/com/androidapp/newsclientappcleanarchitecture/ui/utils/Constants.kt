@@ -1,14 +1,19 @@
-package com.androidapp.newsclientappcleanarchitecture.common
+package com.androidapp.newsclientappcleanarchitecture.ui.utils
 
 import com.androidapp.newsclientappcleanarchitecture.data.database.ArticleEntity
-import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 
 class Constants {
     companion object{
-        const val API_KEY = "aacbed560bc0495fb66a35c90f0d0852"
+        //f62020f198eb4a98804986b4517a22a2
+        //aacbed560bc0495fb66a35c90f0d0852
+        //8036416e6f6147f0a2103fe2fe9dfefa
+        const val API_KEY = "8036416e6f6147f0a2103fe2fe9dfefa"
         const val BASE_URL = "https://newsapi.org/"
         const val COUNTRY = "ph"
+        const val PAGESIZE = 30
+        const val SEARCH_NEWS_TIME_DELAY = 500L
         const val DEFAULT_CATEGORY = "ALL"
+        const val LANGUAGE = "en"
         val LIST = mutableListOf(ArticleEntity(
             "Elon Musk says he will resign as Twitter CEO if he finds replacement - The Washington Post",
             "Rachel Lerman",

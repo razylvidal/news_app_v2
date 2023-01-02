@@ -5,7 +5,7 @@
     <item
         android:icon="@drawable/ic_baseline_bookmark_24"
         app:showAsAction="ifRoom"
-        android:id="@+id/action_saveNews"
+        android:id="@+id/action_save_news"
         android:title="@string/save_news">
 
     </item>
@@ -18,13 +18,13 @@
 
         <menu>
             <item
-                android:id="@+id/browse_news"
+                android:id="@+id/action_browse_news"
                 android:icon="@drawable/ic_baseline_open_in_browser"
                 android:title="@string/open_in_web"
                 app:showAsAction="never" />
 
             <item
-                android:id="@+id/share_news"
+                android:id="@+id/action_share_news"
                 android:icon="@drawable/ic_baseline_share"
                 android:title="@string/share"
                 app:showAsAction="never" />
