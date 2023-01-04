@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.data.database
+package com.androidapp.newsclientappcleanarchitecture.database
 
 import android.content.Context
 import androidx.room.Database

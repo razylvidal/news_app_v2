@@ -1,6 +1,6 @@
 package com.androidapp.newsclientappcleanarchitecture.data
 
-import com.androidapp.newsclientappcleanarchitecture.data.database.ArticleEntity
+import com.androidapp.newsclientappcleanarchitecture.database.ArticleEntity
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 
 fun ArticleDetailsRaw.toDomain() = ArticleDetails(

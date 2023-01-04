@@ -37,7 +37,8 @@
         android:layout_toEndOf="@+id/news_image"
         android:maxLines="4"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/tv_publicationTime"
@@ -49,6 +50,7 @@
         android:padding="5dp"
         android:textAlignment="center"
         android:textSize="14sp"
-        app:drawableStartCompat="@drawable/ic_baseline_access_time_24"/>
+        android:textStyle="bold"
+        android:textColor="@color/colordaynighticon"/>
 
 </RelativeLayout>

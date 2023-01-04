@@ -1,18 +1,23 @@
 package com.androidapp.newsclientappcleanarchitecture.ui.adapters
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.LogHelper
 import com.androidapp.newsclientappcleanarchitecture.R
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
+import com.androidapp.newsclientappcleanarchitecture.ui.utils.getPublishedDate
+import com.androidapp.newsclientappcleanarchitecture.ui.utils.getTimeDifference
 import com.squareup.picasso.Picasso
 
-class NewsAdapter(private val articles: MutableList<ArticleDetails>):
+class NewsAdapter(private val articles: MutableList<ArticleDetails>, val context: Context):
     RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     private var onClick: ((ArticleDetails) -> Unit)? = null
@@ -27,12 +32,22 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>):
         return NewsViewHolder(LayoutInflater.from(parent.context).
         inflate(R.layout.main_news_list_item,parent,false))
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val selectedArticle: ArticleDetails = articles[position]
         holder.descriptionTV.text = selectedArticle.description
         holder.titleTV.text = selectedArticle.title
-        holder.publishedAtTV.text = StringBuilder().append("Date of Published: ")
-            .append(selectedArticle.publishedAt)
+        if (context.toString().contains("SearchNews")){
+            holder.publishedAtTV.setCompoundDrawablesWithIntrinsicBounds(
+                null,
+                null,
+                null,
+                null)
+            holder.publishedAtTV.text = getPublishedDate(selectedArticle.publishedAt)
+        }
+        else{
+            holder.publishedAtTV.text = getTimeDifference(selectedArticle.publishedAt)
+        }
 
         if(selectedArticle.urlToImage == null){
             Picasso.get().load(R.drawable.no_image_available).into(holder.newsIV)
@@ -42,6 +57,7 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>):
                 .placeholder(R.drawable.placeholder_image)
                 .into(holder.newsIV)
         }
+
         holder.itemView.setOnClickListener {
             onClick?.invoke(selectedArticle)
         }

@@ -15,7 +15,5 @@ interface MainContract {
         fun onViewReady(view: View)
         fun onViewDestroyed()
         fun onCategoryClicked(selectedCategory:String)
-
-
     }
 }

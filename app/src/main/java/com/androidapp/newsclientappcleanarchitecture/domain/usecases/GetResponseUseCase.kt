@@ -1,17 +1,26 @@
-package com.androidapp.newsclientappcleanarchitecture.data.database
+package com.androidapp.newsclientappcleanarchitecture.domain.usecases
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
+import com.androidapp.newsclientappcleanarchitecture.domain.ArticleRepository
 
-class ArticleDBViewModel : ViewModel(){
 
-
-    private var articleRepo = ArticleDBRepository()
+class GetResponseUseCase(
+    private val articleRepo: ArticleRepository,
+) {
     private var newsData: LiveData<List<ArticleDetails>>? = null
-    private var theme : Boolean = false
+    //API Response
+    suspend fun getListOfArticles(selectedCategory: String) =
+        articleRepo.fetchNewsArticles(selectedCategory)
 
+    suspend fun getSearchResult(searchQuery: String,pageSize : Int) =
+        articleRepo.searchNews(searchQuery, pageSize)
+
+    fun getListOfCategories() =
+        articleRepo.fetchCategories()
+
+    //DB
     fun addNewsToDB(context: Context, news: ArticleDetails) {
         articleRepo.insertNews(context, news)
     }
@@ -26,3 +35,5 @@ class ArticleDBViewModel : ViewModel(){
     }
 
 }
+
+

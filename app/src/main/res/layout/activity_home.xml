@@ -5,7 +5,6 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     tools:context=".ui.main.HomeActivity"
-    android:background="@color/white"
     >
 
     <androidx.appcompat.widget.Toolbar
@@ -37,7 +36,8 @@
                 android:layout_below="@id/tv_title"
                 android:text="current date"
                 android:textSize="15sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/colordaynighticon"/>
         </RelativeLayout>
 
     </androidx.appcompat.widget.Toolbar>

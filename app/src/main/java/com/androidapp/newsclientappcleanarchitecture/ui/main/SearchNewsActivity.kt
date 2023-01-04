@@ -1,5 +1,6 @@
 package com.androidapp.newsclientappcleanarchitecture.ui.main
 
+import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
@@ -15,6 +16,7 @@ import com.androidapp.newsclientappcleanarchitecture.databinding.ActivitySearchN
 import com.androidapp.newsclientappcleanarchitecture.di.AppContainer
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.ui.adapters.NewsAdapter
+import com.androidapp.newsclientappcleanarchitecture.ui.utils.Constants.Companion.DEFAULT_PAGESIZE
 import com.androidapp.newsclientappcleanarchitecture.ui.utils.startReadFullNewsAct
 
 class SearchNewsActivity : AppCompatActivity() {
@@ -28,26 +30,25 @@ class SearchNewsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchNewsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         val toolbar = binding.tbSearchNewsAct
         articleRV = binding.rView
         setSupportActionBar(toolbar)
         setUpRecyclerView()
-
         val appContainer = AppContainer()
         presenter = appContainer.mainPresenterFactory.create()
-
+        presenter.handleTopHeadlineResponse()
+        showSearchResult()
+        LogHelper.log("searchNewsActonStart", SEARCHED_RESULT.size.toString())
     }
-
     private fun setUpRecyclerView() {
-        newsAdapter = NewsAdapter(mutableListOf())
+        newsAdapter = NewsAdapter(mutableListOf(), this@SearchNewsActivity)
         newsAdapter.onArticleCLicked { articleData ->
             startReadFullNewsAct(this@SearchNewsActivity, articleData)
         }
         articleRV.adapter = newsAdapter
         articleRV.layoutManager = LinearLayoutManager(this)
-    }
 
+    }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.action_search_news, menu)
@@ -60,18 +61,17 @@ class SearchNewsActivity : AppCompatActivity() {
             override fun onQueryTextSubmit(query: String): Boolean {
                 if (query.length > 2) {
                     binding.loadingBar.show()
-                    presenter.handleSearchedArticleResponse(query)
-                    LogHelper.log("onsubmit", searchResult.size.toString())
+                    presenter.handleQueryArticleResponse(query, DEFAULT_PAGESIZE)
+                    LogHelper.log("onsubmit", SEARCHED_RESULT.size.toString())
                     showSearchResult()
                 }
                 return false
             }
-
             override fun onQueryTextChange(query: String): Boolean {
                 if (query.length > 2) {
                     binding.loadingBar.show()
-                    presenter.handleSearchedArticleResponse(query)
-                    LogHelper.log("ontextchanged", searchResult.size.toString())
+                    presenter.handleQueryArticleResponse(query, DEFAULT_PAGESIZE)
+                    LogHelper.log("ontextchanged", SEARCHED_RESULT.size.toString())
                     showSearchResult()
                 }
                 return false
@@ -80,16 +80,15 @@ class SearchNewsActivity : AppCompatActivity() {
         item.icon.setVisible(false, false)
         return true
     }
-
+    @SuppressLint("NotifyDataSetChanged")
     fun showSearchResult() {
         binding.loadingBar.hide()
         newsAdapter.clear()
-        newsAdapter.updateArticleData(searchResult)
-
+        newsAdapter.updateArticleData(SEARCHED_RESULT)
+        newsAdapter.notifyDataSetChanged()
     }
-
     companion object {
-        var searchResult: List<ArticleDetails> = ArrayList()
+        var SEARCHED_RESULT: List<ArticleDetails> = ArrayList()
         fun getIntent(context: Context): Intent {
             return Intent(context, SearchNewsActivity::class.java)
         }

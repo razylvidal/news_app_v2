@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.data.database
+package com.androidapp.newsclientappcleanarchitecture.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -12,18 +12,15 @@ import android.webkit.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModelProvider
-import com.androidapp.newsclientappcleanarchitecture.LogHelper
 import com.androidapp.newsclientappcleanarchitecture.R
-import com.androidapp.newsclientappcleanarchitecture.data.database.ArticleDBViewModel
-import com.androidapp.newsclientappcleanarchitecture.data.database.ArticleEntity
+import com.androidapp.newsclientappcleanarchitecture.di.AppContainer
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 
 class ReadFullNewsActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
     private lateinit var articleData: ArticleDetails
-    private lateinit var viewModel: ArticleDBViewModel
+    private lateinit var presenter: MainPresenter
 
     companion object{
         const val KEY_ARTICLE_DETAILS = "key_article_details"
@@ -37,12 +34,12 @@ class ReadFullNewsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_full_details)
-
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         webView = findViewById(R.id.news_webview)
 
-        viewModel = ViewModelProvider(this)[ArticleDBViewModel::class.java]
+        val appContainer = AppContainer()
+        presenter = appContainer.mainPresenterFactory.create()
 
         articleData = getArticleDetails()
 
@@ -58,14 +55,15 @@ class ReadFullNewsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_save_news -> {
-                this.let { viewModel.addNewsToDB(this, articleData) }
+                this.let { presenter.handleArticleToInsert(this, articleData) }
                 Toast.makeText(this@ReadFullNewsActivity,
                     "News saved successfully!", Toast.LENGTH_SHORT).show()
                 return true
             }
             R.id.action_share_news -> {
                 val intent = Intent(Intent.ACTION_SEND)
-                intent.putExtra(Intent.EXTRA_TEXT, "Hey, checkout this news : ${articleData.url}")
+                intent.putExtra(Intent.EXTRA_TEXT,
+                    "Hey, checkout this news : ${articleData.url}")
                 intent.type = "text/plain"
                 startActivity(Intent.createChooser(intent, "Share with :"))
                 return true
@@ -105,7 +103,6 @@ class ReadFullNewsActivity : AppCompatActivity() {
                     view.loadUrl(request.url.toString())
                     return true
                 }
-
                 override fun onPageFinished(view: WebView, url: String) {
                     if (alertDialog.isShowing) {
                         alertDialog.dismiss()
@@ -120,7 +117,7 @@ class ReadFullNewsActivity : AppCompatActivity() {
     private fun getArticleDetails() : ArticleDetails {
         return intent.getParcelableExtra(KEY_ARTICLE_DETAILS)
             ?:throw java.lang
-                .IllegalStateException("Please use ReadFullNewsActivity.getIntent() to start activity")
+                .IllegalStateException("Please use ReadFullNewsAct.getIntent() to start activity")
     }
 
 }

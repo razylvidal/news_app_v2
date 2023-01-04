@@ -1,6 +1,5 @@
 package com.androidapp.newsclientappcleanarchitecture.ui.main
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -19,11 +18,11 @@ import com.androidapp.newsclientappcleanarchitecture.di.AppContainer
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.ui.adapters.CategoryAdapter
 import com.androidapp.newsclientappcleanarchitecture.ui.adapters.NewsAdapter
+import com.androidapp.newsclientappcleanarchitecture.ui.utils.getCurrentDate
 import com.androidapp.newsclientappcleanarchitecture.ui.utils.startReadFullNewsAct
 import com.androidapp.newsclientappcleanarchitecture.ui.utils.startSearchNewsAct
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.text.SimpleDateFormat
-import java.util.*
+
 class HomeActivity : AppCompatActivity(), MainContract.View {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var presenter: MainContract.Presenter
@@ -44,7 +43,7 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
         findReferenceView()
         setSupportActionBar(toolbar)
         setUpRecyclerView()
-        showCurrentDate()
+        currentDate.showText(getCurrentDate())
 
         val appContainer = AppContainer()
         presenter = appContainer.mainPresenterFactory.create()
@@ -52,7 +51,6 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
         searchNewsFab.setOnClickListener {
             startSearchNewsAct(this)
         }
-
     }
 
     private fun findReferenceView() {
@@ -67,7 +65,7 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
     }
 
     private fun setUpRecyclerView() {
-        newsAdapter = NewsAdapter(mutableListOf())
+        newsAdapter = NewsAdapter(mutableListOf(), this@HomeActivity)
         newsAdapter.onArticleCLicked { articleData ->
             startReadFullNewsAct(this@HomeActivity, articleData)
         }
@@ -90,7 +88,6 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
         }*/
         return true
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
          when (item.itemId) {
             R.id.action_saved_news -> {
@@ -100,48 +97,33 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
              R.id.action_change_theme -> {
                  item.isChecked = !item.isChecked
                  setUIMode(item, item.isChecked)
-                 true
+                 //invalidateOptionsMenu()
              }
             else -> return super.onOptionsItemSelected(item)
         }
         return true
     }
-
     override fun onDestroy() {
         presenter.onViewDestroyed()
         super.onDestroy()
     }
-
     override fun showProgressBar(isVisible: Boolean) {
         if (isVisible) loadingPB.show() else loadingPB.hide()
     }
-
     override fun showToast(message: String) {
         Toast.makeText(this@HomeActivity,
             message, Toast.LENGTH_SHORT).show()
     }
-
     override fun onClear() {
         newsAdapter.clear()
     }
-
     override fun showNewsArticles(articleList: List<ArticleDetails>) {
         newsAdapter.updateArticleData(articleList)
     }
-
     override fun showCategories(categoryList: List<String>) {
         categoryAdapter.updateCategoryData(categoryList)
     }
 
-
-
-    @SuppressLint("SimpleDateFormat")
-    private fun showCurrentDate() {
-        val calendar = Calendar.getInstance()
-        val dateFormat = SimpleDateFormat("EEEE, MMMM d")
-        val date = dateFormat.format(calendar.time)
-        currentDate.showText(date)
-    }
     private fun setUIMode(item: MenuItem, isChecked: Boolean) {
         if (isChecked) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -153,5 +135,4 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
             item.setIcon(R.drawable.ic_day)
         }
     }
-
 }
