@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.ui.utils
+package com.androidapp.newsclientappcleanarchitecture.utils
 
 import android.annotation.SuppressLint
 import android.os.Build

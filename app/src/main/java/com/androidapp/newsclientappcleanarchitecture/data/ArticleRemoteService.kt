@@ -1,7 +1,6 @@
 package com.androidapp.newsclientappcleanarchitecture.data
 
-import com.androidapp.newsclientappcleanarchitecture.ui.utils.Constants.Companion.COUNTRY
-import retrofit2.Response
+import com.androidapp.newsclientappcleanarchitecture.utils.Constants.Companion.COUNTRY
 import retrofit2.http.GET
 import retrofit2.http.Query
 

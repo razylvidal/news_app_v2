@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.ui.adapters
+package com.androidapp.newsclientappcleanarchitecture.view.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,7 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.R
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
-import com.androidapp.newsclientappcleanarchitecture.ui.utils.getPublishedDate
+import com.androidapp.newsclientappcleanarchitecture.utils.getPublishedDate
 import com.squareup.picasso.Picasso
 
 

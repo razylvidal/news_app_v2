@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.ui.adapters
+package com.androidapp.newsclientappcleanarchitecture.view.adapters
 
 import android.annotation.SuppressLint
 import android.graphics.Color

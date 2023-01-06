@@ -1,26 +1,32 @@
-package com.androidapp.newsclientappcleanarchitecture.ui.main
+package com.androidapp.newsclientappcleanarchitecture.view.readFullNews
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.webkit.*
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.androidapp.newsclientappcleanarchitecture.R
-import com.androidapp.newsclientappcleanarchitecture.di.AppContainer
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
+import com.androidapp.newsclientappcleanarchitecture.utils.openInBrowser
+import com.androidapp.newsclientappcleanarchitecture.utils.startShareNewsAct
+import com.androidapp.newsclientappcleanarchitecture.view.main.show
+import com.androidapp.newsclientappcleanarchitecture.view.main.toast
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class ReadFullNewsActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
 
     private lateinit var webView: WebView
     private lateinit var articleData: ArticleDetails
-    private lateinit var presenter: MainPresenter
+    @Inject
+    lateinit var presenter: ReadFullNewsPresenter
 
     companion object{
         const val KEY_ARTICLE_DETAILS = "key_article_details"
@@ -38,9 +44,6 @@ class ReadFullNewsActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         webView = findViewById(R.id.news_webview)
 
-        val appContainer = AppContainer()
-        presenter = appContainer.mainPresenterFactory.create()
-
         articleData = getArticleDetails()
 
         startWebView(articleData.url.toString())
@@ -55,22 +58,16 @@ class ReadFullNewsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_save_news -> {
-                this.let { presenter.handleArticleToInsert(this, articleData) }
-                Toast.makeText(this@ReadFullNewsActivity,
-                    "News saved successfully!", Toast.LENGTH_SHORT).show()
+                presenter.handleArticleToInsert(this, articleData)
+                showToast("News saved successfully!")
                 return true
             }
             R.id.action_share_news -> {
-                val intent = Intent(Intent.ACTION_SEND)
-                intent.putExtra(Intent.EXTRA_TEXT,
-                    "Hey, checkout this news : ${articleData.url}")
-                intent.type = "text/plain"
-                startActivity(Intent.createChooser(intent, "Share with :"))
+                startShareNewsAct( articleData.url!!, this@ReadFullNewsActivity)
                 return true
             }
             R.id.action_browse_news -> {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(articleData.url))
-                startActivity(intent)
+                openInBrowser(articleData.url!!, this@ReadFullNewsActivity)
             }
             else -> return super.onOptionsItemSelected(item)
         }
@@ -79,7 +76,6 @@ class ReadFullNewsActivity : AppCompatActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun startWebView(url: String) {
-
         webView.apply {
             settings.apply {
                 javaScriptEnabled = true
@@ -89,11 +85,8 @@ class ReadFullNewsActivity : AppCompatActivity() {
                 domStorageEnabled = true
                 loadsImagesAutomatically = true
             }
-
             val alertDialog = AlertDialog.Builder(this@ReadFullNewsActivity).create()
-            alertDialog.setTitle("Please wait")
-            alertDialog.setMessage("Loading resources...")
-            alertDialog.show()
+            showAlertDialog(alertDialog, true)
 
             webView.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(
@@ -105,19 +98,39 @@ class ReadFullNewsActivity : AppCompatActivity() {
                 }
                 override fun onPageFinished(view: WebView, url: String) {
                     if (alertDialog.isShowing) {
-                        alertDialog.dismiss()
+                        showAlertDialog(alertDialog,false)
                     }
                 }
             }
 
         }
-        webView.loadUrl(url);
+        webView.loadUrl(url)
+    }
+
+    override fun showAlertDialog(alertDialog: AlertDialog, isVisible: Boolean) {
+        if(isVisible) alertDialog.show(
+            "Please Wait",
+            "Loading Resources...",
+            false
+        )
+        else alertDialog.dismiss()
+    }
+
+    override fun showToast(message: String) {
+        toast(this@ReadFullNewsActivity, message)
     }
 
     private fun getArticleDetails() : ArticleDetails {
-        return intent.getParcelableExtra(KEY_ARTICLE_DETAILS)
-            ?:throw java.lang
+        return try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                intent.getParcelableExtra(KEY_ARTICLE_DETAILS, ArticleDetails::class.java)!!
+            } else {
+                @Suppress("DEPRECATION")
+                intent.getParcelableExtra(KEY_ARTICLE_DETAILS)!!
+            }
+        }catch(exception: Exception){
+            throw java.lang
                 .IllegalStateException("Please use ReadFullNewsAct.getIntent() to start activity")
+        }
     }
-
 }

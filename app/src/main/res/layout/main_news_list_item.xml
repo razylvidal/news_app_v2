@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:background="@color/GREY"
         >
-
         <ImageView
             android:id="@+id/iv_articleImage"
             android:layout_width="match_parent"
@@ -40,8 +39,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_title"
-            android:maxLines="3"
+            android:maxLines="2"
             android:padding="3dp"
+            android:ellipsize="end"
             android:text="Sub Heading"
             android:textColor="@color/black" />
 

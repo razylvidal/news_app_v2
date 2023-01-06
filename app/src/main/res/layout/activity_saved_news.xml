@@ -5,30 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.main.SavedNewsActivity">
+    tools:context=".view.saveNews.SavedNewsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb_saved_news"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="75dp"
-        app:title="TodayScoop"
-        app:titleTextColor="@color/red"
         >
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Saved News"
-                android:gravity="center"
-                android:textColor="@color/red"
-                android:textSize="27sp"
-                android:textStyle="bold"
-                />
-        </RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Saved News"
+            android:gravity="center"
+            android:textColor="@color/red"
+            android:textSize="27sp"
+            android:textStyle="bold" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -52,9 +43,8 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/nothing_saved_here"
-        android:textStyle="bold"
         android:textColor="@color/colordaynighticon"
-        android:textSize="25sp"
+        android:textSize="18sp"
         android:layout_below="@id/tb_saved_news"
         android:layout_centerVertical="true"
         android:visibility="gone"

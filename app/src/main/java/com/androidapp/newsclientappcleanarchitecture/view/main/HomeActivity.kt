@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.ui.main
+package com.androidapp.newsclientappcleanarchitecture.view.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
@@ -14,18 +13,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.R
 import com.androidapp.newsclientappcleanarchitecture.databinding.ActivityHomeBinding
-import com.androidapp.newsclientappcleanarchitecture.di.AppContainer
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
-import com.androidapp.newsclientappcleanarchitecture.ui.adapters.CategoryAdapter
-import com.androidapp.newsclientappcleanarchitecture.ui.adapters.NewsAdapter
-import com.androidapp.newsclientappcleanarchitecture.ui.utils.getCurrentDate
-import com.androidapp.newsclientappcleanarchitecture.ui.utils.startReadFullNewsAct
-import com.androidapp.newsclientappcleanarchitecture.ui.utils.startSearchNewsAct
+import com.androidapp.newsclientappcleanarchitecture.view.adapters.CategoryAdapter
+import com.androidapp.newsclientappcleanarchitecture.view.adapters.NewsAdapter
+import com.androidapp.newsclientappcleanarchitecture.utils.getCurrentDate
+import com.androidapp.newsclientappcleanarchitecture.utils.startReadFullNewsAct
+import com.androidapp.newsclientappcleanarchitecture.utils.startSearchNewsAct
+import com.androidapp.newsclientappcleanarchitecture.view.saveNews.SavedNewsActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity(), MainContract.View {
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var presenter: MainContract.Presenter
+    @Inject
+    lateinit var presenter: MainPresenter
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var articleRV: RecyclerView
@@ -44,10 +47,7 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
         setSupportActionBar(toolbar)
         setUpRecyclerView()
         currentDate.showText(getCurrentDate())
-
-        val appContainer = AppContainer()
-        presenter = appContainer.mainPresenterFactory.create()
-        presenter.onViewReady(this)
+        presenter.onMainViewReady(this)
         searchNewsFab.setOnClickListener {
             startSearchNewsAct(this)
         }
@@ -80,12 +80,6 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.action_main_act, menu)
-        /*lifecycleScope.launchWhenStarted {
-            val isChecked = presenter.getUIMode.first()
-            val uiMode = menu.findItem(R.id.action_change_theme)
-            uiMode.isChecked = isChecked
-            setUIMode(uiMode, isChecked)
-        }*/
         return true
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -97,22 +91,20 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
              R.id.action_change_theme -> {
                  item.isChecked = !item.isChecked
                  setUIMode(item, item.isChecked)
-                 //invalidateOptionsMenu()
              }
             else -> return super.onOptionsItemSelected(item)
         }
         return true
     }
     override fun onDestroy() {
-        presenter.onViewDestroyed()
+        presenter.onMainViewDestroyed()
         super.onDestroy()
     }
     override fun showProgressBar(isVisible: Boolean) {
         if (isVisible) loadingPB.show() else loadingPB.hide()
     }
     override fun showToast(message: String) {
-        Toast.makeText(this@HomeActivity,
-            message, Toast.LENGTH_SHORT).show()
+        toast(this@HomeActivity,message)
     }
     override fun onClear() {
         newsAdapter.clear()

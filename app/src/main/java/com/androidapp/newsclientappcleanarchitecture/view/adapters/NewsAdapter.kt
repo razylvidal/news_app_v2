@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.ui.adapters
+package com.androidapp.newsclientappcleanarchitecture.view.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,11 +10,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.androidapp.newsclientappcleanarchitecture.LogHelper
+import com.androidapp.newsclientappcleanarchitecture.utils.LogHelper
 import com.androidapp.newsclientappcleanarchitecture.R
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
-import com.androidapp.newsclientappcleanarchitecture.ui.utils.getPublishedDate
-import com.androidapp.newsclientappcleanarchitecture.ui.utils.getTimeDifference
+import com.androidapp.newsclientappcleanarchitecture.utils.getPublishedDate
+import com.androidapp.newsclientappcleanarchitecture.utils.getTimeDifference
 import com.squareup.picasso.Picasso
 
 class NewsAdapter(private val articles: MutableList<ArticleDetails>, val context: Context):
@@ -70,14 +70,11 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>, val context
         LogHelper.log("adapter", articleList.size.toString())
         articles.addAll(articleList)
         notifyDataSetChanged()
-
     }
     fun clear() {
         articles.clear()
     }
-
     fun onArticleCLicked(onClick: (ArticleDetails) -> Unit){
         this.onClick = onClick
     }
-
 }

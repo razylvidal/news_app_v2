@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.ui.main
+package com.androidapp.newsclientappcleanarchitecture.view.main
 
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 
@@ -12,8 +12,8 @@ interface MainContract {
 
     }
     interface Presenter{
-        fun onViewReady(view: View)
-        fun onViewDestroyed()
+        fun onMainViewReady(view: View)
+        fun onMainViewDestroyed()
         fun onCategoryClicked(selectedCategory:String)
     }
 }

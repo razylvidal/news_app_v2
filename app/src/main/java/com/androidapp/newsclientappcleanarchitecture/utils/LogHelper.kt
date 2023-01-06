@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture
+package com.androidapp.newsclientappcleanarchitecture.utils
 
 import android.util.Log
 

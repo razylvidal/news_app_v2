@@ -4,15 +4,16 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.androidapp.newsclientappcleanarchitecture.database.SavedArticlesDatabase
-import com.androidapp.newsclientappcleanarchitecture.ui.utils.Constants.Companion.API_KEY
-import com.androidapp.newsclientappcleanarchitecture.ui.utils.Constants.Companion.COUNTRY
+import com.androidapp.newsclientappcleanarchitecture.utils.Constants.Companion.API_KEY
+import com.androidapp.newsclientappcleanarchitecture.utils.Constants.Companion.COUNTRY
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleRepository
 import com.androidapp.newsclientappcleanarchitecture.domain.Category
-import com.androidapp.newsclientappcleanarchitecture.ui.utils.Constants.Companion.LANGUAGE
+import com.androidapp.newsclientappcleanarchitecture.utils.Constants.Companion.LANGUAGE
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class ArticleRepositoryImpl (
+class ArticleRepositoryImpl @Inject constructor(
     private val remoteService: ArticleRemoteService
     ): ArticleRepository {
 

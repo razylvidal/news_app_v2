@@ -1,29 +1,34 @@
-package com.androidapp.newsclientappcleanarchitecture.ui.main
+package com.androidapp.newsclientappcleanarchitecture.view.saveNews
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.databinding.ActivitySavedNewsBinding
-import com.androidapp.newsclientappcleanarchitecture.di.AppContainer
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
-import com.androidapp.newsclientappcleanarchitecture.ui.adapters.SavedNewsAdapter
-import com.androidapp.newsclientappcleanarchitecture.ui.utils.startReadFullNewsAct
+import com.androidapp.newsclientappcleanarchitecture.view.adapters.SavedNewsAdapter
+import com.androidapp.newsclientappcleanarchitecture.utils.startReadFullNewsAct
+import com.androidapp.newsclientappcleanarchitecture.view.main.show
+import com.androidapp.newsclientappcleanarchitecture.view.main.toast
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class SavedNewsActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
 
     private lateinit var recyclerView: RecyclerView
 
     private lateinit var newsData: MutableList<ArticleDetails>
     private lateinit var adapter: SavedNewsAdapter
     private lateinit var binding: ActivitySavedNewsBinding
-    private lateinit var presenter: MainPresenter
 
-    @SuppressLint("NotifyDataSetChanged")
+    @Inject
+    lateinit var presenter: SavedNewsPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySavedNewsBinding.inflate(layoutInflater)
@@ -40,18 +45,9 @@ class SavedNewsActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
         newsData = mutableListOf()
 
-        val appContainer = AppContainer()
-        presenter = appContainer.mainPresenterFactory.create()
-
         adapter = SavedNewsAdapter(newsData)
 
         // fetch saved news from db
-        presenter.handleSavedArticlesFromDB(applicationContext).observe(this) {
-            newsData.clear()
-            newsData.addAll(it)
-            adapter.notifyDataSetChanged()
-        }
-
         adapter.onArticleCLicked { articleData ->
             startReadFullNewsAct(this@SavedNewsActivity, articleData)
         }
@@ -59,35 +55,52 @@ class SavedNewsActivity : AppCompatActivity() {
             removeArticleFromList(articleData)
         }
         recyclerView.adapter = adapter
+
+        showSavedNews()
     }
 
     private fun removeArticleFromList(position: Int) {
         // Delete saved news dialog
-        recyclerView.findViewHolderForAdapterPosition(position)
-            ?.itemView?.setBackgroundColor(Color.GRAY)
+        setDialogBackground(Color.GRAY, position)
 
-        val alertDialog = AlertDialog.Builder(
-            this@SavedNewsActivity).apply {
-            setMessage("Remove this News?")
-            setTitle("Alert!")
-            setCancelable(false)
-
+        val alertDialog = AlertDialog.Builder(this@SavedNewsActivity).apply {
             setPositiveButton("Yes") { _, _ ->
-                this@SavedNewsActivity.let {
-                    presenter.handleArticleToRemove(it, newsData[position])
-                }
+                presenter.handleArticleToRemove(this@SavedNewsActivity, newsData[position])
                 adapter.notifyItemRemoved(position)
-                Toast.makeText(
-                    this@SavedNewsActivity,
-                    "Article removed!",
-                    Toast.LENGTH_SHORT)
-                    .show()
+                showToast("Article Removed!")
             }
             setNegativeButton("No") { _, _ ->
-                recyclerView.findViewHolderForAdapterPosition(position)
-                    ?.itemView?.setBackgroundColor(Color.TRANSPARENT)
+                setDialogBackground(Color.TRANSPARENT, position)
             }
         }.create()
-        alertDialog.show()
+        showAlertDialog(alertDialog, true)
+    }
+
+    private fun setDialogBackground(color: Int, position: Int) {
+        recyclerView.findViewHolderForAdapterPosition(position)
+            ?.itemView?.setBackgroundColor(color)
+    }
+
+    override fun showAlertDialog(alertDialog: AlertDialog, isVisible: Boolean) {
+        if (isVisible) alertDialog.show(
+            "Alert!",
+            "Remove this news?",
+            false
+        )
+        else alertDialog.dismiss()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun showSavedNews() {
+        presenter.handleSavedArticlesFromDB(applicationContext).observe(this) {
+            newsData.clear()
+            newsData.addAll(it)
+            adapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun showToast(message: String) {
+        toast(this@SavedNewsActivity, message)
     }
 }
+

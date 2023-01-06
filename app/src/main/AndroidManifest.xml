@@ -13,17 +13,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsClientAppCleanArchitecture"
-        tools:targetApi="31">
-        
+        tools:targetApi="31"
+        android:name=".NewsApp">
+
         <activity
-            android:name=".ui.main.SearchNewsActivity"
+            android:name=".view.searchNews.SearchNewsActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.SplashScreen"
+            android:name=".view.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,28 +37,28 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.main.HomeActivity"
+            android:name=".view.main.HomeActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.adapters.NewsAdapter"
+            android:name=".view.adapters.NewsAdapter"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.main.ReadFullNewsActivity"
+            android:name=".view.readFullNews.ReadFullNewsActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.main.SavedNewsActivity"
+            android:name=".view.saveNews.SavedNewsActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.ui
+package com.androidapp.newsclientappcleanarchitecture.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -7,8 +7,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import com.androidapp.newsclientappcleanarchitecture.R
-import com.androidapp.newsclientappcleanarchitecture.ui.main.HomeActivity
+import com.androidapp.newsclientappcleanarchitecture.view.main.HomeActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @SuppressLint("CustomSplashScreen")
 class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +24,5 @@ class SplashScreen : AppCompatActivity() {
             startActivity(intent)
             finish()
         }, 2000)
-
     }
 }

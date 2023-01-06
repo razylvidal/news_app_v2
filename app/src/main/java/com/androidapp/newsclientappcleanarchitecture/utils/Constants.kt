@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.ui.utils
+package com.androidapp.newsclientappcleanarchitecture.utils
 
 import com.androidapp.newsclientappcleanarchitecture.database.ArticleEntity
 
@@ -7,10 +7,10 @@ class Constants {
         //f62020f198eb4a98804986b4517a22a2
         //aacbed560bc0495fb66a35c90f0d0852
         //8036416e6f6147f0a2103fe2fe9dfefa
-        const val API_KEY = "8036416e6f6147f0a2103fe2fe9dfefa"
+        const val API_KEY = "aacbed560bc0495fb66a35c90f0d0852"
         const val BASE_URL = "https://newsapi.org/"
         const val COUNTRY = "ph"
-        const val DEFAULT_PAGESIZE = 5
+        const val PAGE_SIZE = 20
         const val SEARCH_NEWS_TIME_DELAY = 500L
         const val DEFAULT_CATEGORY = "ALL"
         const val LANGUAGE = "en"
