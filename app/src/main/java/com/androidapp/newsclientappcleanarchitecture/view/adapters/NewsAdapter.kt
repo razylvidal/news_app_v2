@@ -17,7 +17,7 @@ import com.androidapp.newsclientappcleanarchitecture.utils.getPublishedDate
 import com.androidapp.newsclientappcleanarchitecture.utils.getTimeDifference
 import com.squareup.picasso.Picasso
 
-class NewsAdapter(private val articles: MutableList<ArticleDetails>, val context: Context):
+class NewsAdapter(private val articles: MutableList<ArticleDetails>):
     RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     private var onClick: ((ArticleDetails) -> Unit)? = null
@@ -37,26 +37,25 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>, val context
         val selectedArticle: ArticleDetails = articles[position]
         holder.descriptionTV.text = selectedArticle.description
         holder.titleTV.text = selectedArticle.title
-        if (context.toString().contains("SearchNews")){
-            holder.publishedAtTV.setCompoundDrawablesWithIntrinsicBounds(
-                null,
-                null,
-                null,
-                null)
-            holder.publishedAtTV.text = getPublishedDate(selectedArticle.publishedAt)
-        }
-        else{
-            holder.publishedAtTV.text = getTimeDifference(selectedArticle.publishedAt)
+
+        holder.publishedAtTV.apply {
+            if (holder.itemView.context.toString().contains("SearchNews")){
+                this.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    null,
+                    null)
+                this.text = getPublishedDate(selectedArticle.publishedAt)
+            }
+            else{
+                this.text = getTimeDifference(selectedArticle.publishedAt)
+            }
         }
 
-        if(selectedArticle.urlToImage == null){
-            Picasso.get().load(R.drawable.no_image_available).into(holder.newsIV)
-        }
-        else{
-            Picasso.get().load(selectedArticle.urlToImage)
-                .placeholder(R.drawable.placeholder_image)
-                .into(holder.newsIV)
-        }
+        Picasso.get().load(selectedArticle.urlToImage)
+                    .placeholder(R.drawable.placeholder_image)
+                    .error(R.drawable.no_image_available)
+                    .into(holder.newsIV)
 
         holder.itemView.setOnClickListener {
             onClick?.invoke(selectedArticle)

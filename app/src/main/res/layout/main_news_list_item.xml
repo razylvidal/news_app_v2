@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/GREY"
+        android:background="?attr/colorSecondaryVariant"
         >
         <ImageView
             android:id="@+id/iv_articleImage"
@@ -30,7 +30,7 @@
             android:maxLines="3"
             android:padding="3dp"
             android:text="News Heading"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnSecondary"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -43,7 +43,7 @@
             android:padding="3dp"
             android:ellipsize="end"
             android:text="Sub Heading"
-            android:textColor="@color/black" />
+            android:textColor="?attr/colorOnSecondary"/>
 
         <TextView
             android:id="@+id/tv_publishedAt"
@@ -55,7 +55,7 @@
             android:padding="3dp"
             app:drawableStartCompat="@drawable/ic_baseline_access_time_24"
             android:layout_marginEnd="7dp"
-            android:textColor="@color/cardview_dark_background"
+            android:textColor="?attr/colorOnSecondary"
             android:textSize="14sp"
             android:textStyle="bold"
             />

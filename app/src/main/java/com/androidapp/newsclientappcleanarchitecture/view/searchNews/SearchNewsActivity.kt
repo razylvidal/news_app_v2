@@ -64,7 +64,7 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
         })
     }
     private fun setUpRecyclerView() {
-        newsAdapter = NewsAdapter(mutableListOf(), this@SearchNewsActivity)
+        newsAdapter = NewsAdapter(mutableListOf())
         newsAdapter.onArticleCLicked { articleData ->
             startReadFullNewsAct(this@SearchNewsActivity, articleData)
         }

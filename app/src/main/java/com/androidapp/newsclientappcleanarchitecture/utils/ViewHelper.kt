@@ -3,8 +3,11 @@ package com.androidapp.newsclientappcleanarchitecture.view.main
 import android.app.AlertDialog
 import android.content.Context
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.androidapp.newsclientappcleanarchitecture.R
+import com.squareup.picasso.Picasso
 
 fun View.show(){
     visibility = View.VISIBLE
@@ -34,6 +37,8 @@ fun toast(context: Context, message: String){
     Toast.makeText(context,
         message, Toast.LENGTH_SHORT).show()
 }
+
+
 
 
 

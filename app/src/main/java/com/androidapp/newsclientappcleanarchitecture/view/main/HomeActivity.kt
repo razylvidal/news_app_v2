@@ -65,7 +65,7 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
     }
 
     private fun setUpRecyclerView() {
-        newsAdapter = NewsAdapter(mutableListOf(), this@HomeActivity)
+        newsAdapter = NewsAdapter(mutableListOf())
         newsAdapter.onArticleCLicked { articleData ->
             startReadFullNewsAct(this@HomeActivity, articleData)
         }

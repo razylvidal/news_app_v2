@@ -107,7 +107,7 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:src="@drawable/ic_baseline_search_24"
-        app:backgroundTint="@color/white"
+        app:backgroundTint="?attr/colorSecondaryVariant"
         app:rippleColor="@color/pale_red"
         tools:ignore="SpeakableTextPresentCheck" />
 

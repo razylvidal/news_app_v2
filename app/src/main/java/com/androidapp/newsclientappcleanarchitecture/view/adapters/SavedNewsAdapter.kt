@@ -41,20 +41,25 @@ class SavedNewsAdapter(private var savedArticles: List<ArticleDetails>) :
         holder.headLine.text = selectedArticle.title
         holder.newsPublicationTime.text = getPublishedDate(selectedArticle.publishedAt)
 
-        if(selectedArticle.urlToImage == null){
-            Picasso.get().load(R.drawable.no_image_available).into(holder.image)
+        Picasso.get().apply {
+            if (selectedArticle.urlToImage == null) {
+                this.load(R.drawable.no_image_available)
+                    .into(holder.image)
+            } else {
+                this.load(selectedArticle.urlToImage)
+                    .placeholder(R.drawable.placeholder_image)
+                    .error(R.drawable.no_image_available)
+                    .into(holder.image)
+            }
         }
-        else {
-            Picasso.get().load(selectedArticle.urlToImage)
-                .placeholder(R.drawable.placeholder_image)
-                .into(holder.image)
-        }
-        holder.itemView.setOnClickListener {
+        holder.itemView.apply {
+            this.setOnClickListener {
             onClick?.invoke(selectedArticle)
         }
-        holder.itemView.setOnLongClickListener {
-            onLongClick?.invoke(position)
-            return@setOnLongClickListener true
+            this.setOnLongClickListener {
+                onLongClick?.invoke(position)
+                return@setOnLongClickListener true
+            }
         }
     }
     override fun getItemCount(): Int {

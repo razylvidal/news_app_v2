@@ -38,7 +38,8 @@
         android:maxLines="4"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:textColor="@color/black"/>
+        android:text="Title"
+        android:textColor="?attr/colorOnSecondary"/>
 
     <TextView
         android:id="@+id/tv_publicationTime"

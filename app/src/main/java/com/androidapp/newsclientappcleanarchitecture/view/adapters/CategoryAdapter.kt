@@ -1,12 +1,14 @@
 package com.androidapp.newsclientappcleanarchitecture.view.adapters
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.R
 
@@ -45,13 +47,17 @@ RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
         return category.size
     }
     private fun setCategoryTabColor(vHolder: CategoryViewHolder, selectedCategoryTab: Int, position: Int){
+
         if (selectedCategoryTab == position){
             vHolder.categoryRV.setBackgroundColor(Color.RED)
             vHolder.categoryTV.setTextColor(Color.WHITE)
         }
         else{
-            vHolder.categoryRV.setBackgroundColor(Color.WHITE)
-            vHolder.categoryTV.setTextColor(Color.BLACK)
+            val context = vHolder.itemView.context
+            val backgroundColor = ContextCompat.getColor(context, R.color.colorOnPrimary)
+            val textColor = ContextCompat.getColor(context, R.color.colorOnSecondary)
+            vHolder.categoryRV.setBackgroundColor(backgroundColor)
+            vHolder.categoryTV.setTextColor(textColor)
         }
 
     }
