@@ -28,7 +28,6 @@ class SearchNewsPresenter @Inject constructor(
 
     private fun setUpArticleView(){
         searchNewsView?.showProgressBar(true)
-        searchNewsView?.onClear()
         searchNewsView?.disableScroll()
         scope.launch {
             try {
@@ -47,7 +46,6 @@ class SearchNewsPresenter @Inject constructor(
 
     fun handleQueryArticleResponse(query : String, pageSize : Int){
         searchNewsView?.showProgressBar(true)
-        searchNewsView?.onClear()
         scope.launch {
             try {
                 delay(Constants.SEARCH_NEWS_TIME_DELAY)

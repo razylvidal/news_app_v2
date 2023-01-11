@@ -1,7 +1,6 @@
 package com.androidapp.newsclientappcleanarchitecture.view.adapters
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -70,8 +69,10 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>):
         articles.addAll(articleList)
         notifyDataSetChanged()
     }
+    @SuppressLint("NotifyDataSetChanged")
     fun clear() {
         articles.clear()
+        notifyDataSetChanged()
     }
     fun onArticleCLicked(onClick: (ArticleDetails) -> Unit){
         this.onClick = onClick

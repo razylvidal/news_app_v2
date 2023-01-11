@@ -1,7 +1,6 @@
 package com.androidapp.newsclientappcleanarchitecture.view.adapters
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.R
 
-class CategoryAdapter(var category: MutableList<String>,
+class CategoryAdapter(private var category: MutableList<String>,
                       private val onClick: (String) -> Unit):
 RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 

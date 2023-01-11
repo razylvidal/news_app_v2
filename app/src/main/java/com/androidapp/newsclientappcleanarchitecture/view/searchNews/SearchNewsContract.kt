@@ -6,7 +6,7 @@ interface SearchNewsContract {
     interface View {
         fun enableScroll()
         fun disableScroll()
-        fun onClear()
+        //fun onClear()
         fun showProgressBar( isVisible: Boolean)
         fun showToast(message : String)
         fun showTopHeadlines(topHeadlines: List<ArticleDetails>)

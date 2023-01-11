@@ -1,7 +1,6 @@
 package com.androidapp.newsclientappcleanarchitecture.view.saveNews
 
 import android.app.AlertDialog
-import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 
 interface SavedNewsContract {
     interface View{

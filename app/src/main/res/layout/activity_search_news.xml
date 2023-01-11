@@ -57,6 +57,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >
+
+                <TextView
+                    android:id="@+id/tv_toolbar_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="15dp"
+                    android:text="TodayScoop"
+                    android:gravity="center"
+                    android:textColor="@color/red"
+                    android:textSize="27sp"
+                    android:textStyle="bold"
+                    />
+
             </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -72,7 +86,7 @@
             android:id="@+id/tv_searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
             android:text="@string/latest_news"
             android:textColor="?attr/colorOnSecondary"
@@ -83,7 +97,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_searchActivity"
             android:layout_width="wrap_content"
-            android:layout_height="682dp"
+            android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="10dp"
@@ -91,8 +105,7 @@
             app:layout_anchor="@id/tv_searchView"
             app:layout_anchorGravity="bottom|end"
             app:layout_constraintStart_toStartOf="parent"
-            tools:listitem="@layout/main_news_list_item"
-            />
+            tools:listitem="@layout/main_news_list_item" />
     </LinearLayout>
 
     <ProgressBar

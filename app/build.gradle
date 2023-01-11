@@ -43,18 +43,22 @@ dependencies {
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-    //picasso
+    // Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    //retrofit
+    // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
-    //coroutines
+    // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
 
-    //room
+    // Coroutine Lifecycle Scopes
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
+
+    // Room
     implementation "androidx.room:room-runtime:2.4.3"
     kapt "androidx.room:room-compiler:2.4.3"
 
@@ -68,12 +72,21 @@ dependencies {
     kapt 'com.google.dagger:dagger-android-processor:2.42'
     implementation 'com.google.dagger:dagger-android-support:2.42'*/
 
-    //daggerhilt
+    // Daggerhilt
     implementation "com.google.dagger:hilt-android:2.44.2"
     kapt "com.google.dagger:hilt-android-compiler:2.44.2"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
 
-    //coordinatorlayout
+    // Coordinatorlayout
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
+
+    //preferences
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+
+    // Datastore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    // SwipeRefreshLayout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
 }

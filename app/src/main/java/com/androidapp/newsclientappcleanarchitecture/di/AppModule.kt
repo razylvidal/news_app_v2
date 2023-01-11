@@ -1,8 +1,6 @@
 package com.androidapp.newsclientappcleanarchitecture.di
 
 import com.androidapp.newsclientappcleanarchitecture.data.ArticleRemoteService
-import com.androidapp.newsclientappcleanarchitecture.data.ArticleRepositoryImpl
-import com.androidapp.newsclientappcleanarchitecture.domain.ArticleRepository
 import com.androidapp.newsclientappcleanarchitecture.utils.Constants
 import dagger.Module
 import dagger.Provides

@@ -18,7 +18,7 @@ fun ArticleEntity.toDomain() = ArticleDetails(
     author = author,
     publishedAt = publishedAt,
     description = description,
-    urlToImage =  urlToImage,
+    urlToImage = urlToImage,
     url = url,
     content = content
 )
@@ -32,7 +32,5 @@ fun ArticleDetails.toDomain() = ArticleEntity(
     url = url,
     content = content
 )
-
-
 
 

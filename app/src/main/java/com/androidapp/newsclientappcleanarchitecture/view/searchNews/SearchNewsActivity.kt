@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ProgressBar
 import androidx.appcompat.widget.SearchView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -33,6 +36,12 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
     private lateinit var appBarLayout: AppBarLayout
     private lateinit var loadingBar : ProgressBar
 
+    companion object {
+        fun getIntent(context: Context): Intent {
+            return Intent(context, SearchNewsActivity::class.java)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchNewsBinding.inflate(layoutInflater)
@@ -50,13 +59,13 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
         binding.svSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 binding.svSearchView.clearFocus()
-                if (query.length > 2) {
+                if (query.length > 1) {
                     presenter.handleQueryArticleResponse(query, PAGE_SIZE)
                 }
                 return false
             }
             override fun onQueryTextChange(newText: String): Boolean {
-                if (newText.length > 2) {
+                if (newText.length > 1) {
                     presenter.handleQueryArticleResponse(newText, PAGE_SIZE)
                 }
                 return false
@@ -70,6 +79,7 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
         }
         articleRV.adapter = newsAdapter
         articleRV.layoutManager = LinearLayoutManager(this)
+        binding.tvSearchView.visibility = GONE
     }
 
     override fun showTopHeadlines(topHeadlines: List<ArticleDetails>) {
@@ -81,22 +91,20 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
         newsAdapter.updateArticleData(queryResult)
     }
     override fun showProgressBar(isVisible: Boolean) {
-        if (isVisible) loadingBar.show() else loadingBar.hide()
+        if (isVisible) {
+            loadingBar.show()
+            newsAdapter.clear()
+        } else {
+            loadingBar.hide()
+        }
     }
 
     override fun showToast(message: String) {
         toast(this@SearchNewsActivity, message)
     }
-    override fun onClear() {
-        newsAdapter.clear()
-    }
-    companion object {
-        fun getIntent(context: Context): Intent {
-            return Intent(context, SearchNewsActivity::class.java)
-        }
-    }
     @SuppressLint("ClickableViewAccessibility")
     override fun disableScroll() {
+        binding.tvSearchView.visibility = GONE
         val params = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
         if (params.behavior == null)
             params.behavior = AppBarLayout.Behavior()
@@ -112,6 +120,7 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun enableScroll() {
+        binding.tvSearchView.visibility = VISIBLE
         appBarLayout.setOnTouchListener(null)
     }
 }

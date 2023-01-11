@@ -7,9 +7,9 @@ data class ArticleDetailsRaw(
     @SerializedName("title")
     var title: String,
     @SerializedName("author")
-    var author: String? ,
+    var author: String?,
     @SerializedName("publishedAt")
-    var publishedAt: String? ,
+    var publishedAt: String?,
     @SerializedName("description")
     var description: String?,
     @SerializedName("urlToImage")
