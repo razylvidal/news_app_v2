@@ -53,7 +53,7 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        findReferenceView()
+        findViewReference()
         setSupportActionBar(toolbar)
         setUpRecyclerView()
 
@@ -62,11 +62,10 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
         searchNewsFab.setOnClickListener {
             startSearchNewsAct(this)
         }
-
         refreshArticleList()
     }
 
-    private fun findReferenceView() {
+    private fun findViewReference() {
         binding.apply {
             articleRV = rvArticleList
             categoryRV = rvCategories
@@ -80,8 +79,8 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
 
     private fun setUpRecyclerView() {
         newsAdapter = NewsAdapter(mutableListOf())
-        newsAdapter.onArticleCLicked { articleData ->
-            startReadFullNewsAct(this@HomeActivity, articleData)
+        newsAdapter.onArticleCLicked { selectedArticleData ->
+            startReadFullNewsAct(this@HomeActivity, selectedArticleData)
         }
         categoryAdapter = CategoryAdapter(mutableListOf()) { selectedCategory ->
             presenter.onCategoryClicked(selectedCategory)
@@ -111,6 +110,9 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
                 true
             }
             R.id.action_change_theme -> {
+                if(!item.isChecked)
+                    showToast("Dark theme enabled!")
+
                 item.isChecked = !item.isChecked
                 setUIMode(item, item.isChecked)
                 true
@@ -150,7 +152,6 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             item.setIcon(R.drawable.ic_night)
             presenter.saveUIModeToDataStore(true)
-            showToast("Dark theme enabled!")
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             item.setIcon(R.drawable.ic_day)

@@ -27,14 +27,24 @@
         android:layout_below="@+id/toolbar"
         android:id="@+id/divider"/>
 
-    <WebView
-        android:id="@+id/news_webview"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl_refresh_web"
         android:layout_width="match_parent"
-        android:layout_height="737dp"
+        android:layout_height="match_parent"
         android:layout_below="@+id/divider"
-        android:layout_marginTop="-1dp">
+        >
 
-    </WebView>
+        <WebView
+            android:id="@+id/news_webview"
+            android:layout_width="match_parent"
+            android:layout_height="737dp"
+            android:layout_below="@+id/divider"
+            android:layout_marginTop="-1dp">
+
+        </WebView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </RelativeLayout>
 

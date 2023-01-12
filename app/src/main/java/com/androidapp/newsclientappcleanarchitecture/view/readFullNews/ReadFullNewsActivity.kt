@@ -12,6 +12,7 @@ import android.webkit.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.androidapp.newsclientappcleanarchitecture.R
+import com.androidapp.newsclientappcleanarchitecture.databinding.ActivityNewsFullDetailsBinding
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.utils.openInBrowser
 import com.androidapp.newsclientappcleanarchitecture.utils.startShareNewsAct
@@ -23,10 +24,10 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
 
-    private lateinit var webView: WebView
     private lateinit var articleData: ArticleDetails
     @Inject
     lateinit var presenter: ReadFullNewsPresenter
+    private lateinit var binding: ActivityNewsFullDetailsBinding
 
     companion object{
         const val KEY_ARTICLE_DETAILS = "key_article_details"
@@ -39,14 +40,15 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_news_full_details)
+        binding = ActivityNewsFullDetailsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        webView = findViewById(R.id.news_webview)
 
         articleData = getArticleDetails()
 
         startWebView(articleData.url.toString())
+        refreshWebView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -76,7 +78,7 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun startWebView(url: String) {
-        webView.apply {
+        binding.newsWebview.apply {
             settings.apply {
                 javaScriptEnabled = true
                 builtInZoomControls = true
@@ -88,7 +90,7 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
             val alertDialog = AlertDialog.Builder(this@ReadFullNewsActivity).create()
             showAlertDialog(alertDialog, true)
 
-            webView.webViewClient = object : WebViewClient() {
+            binding.newsWebview.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(
                     view: WebView,
                     request: WebResourceRequest,
@@ -104,7 +106,7 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
             }
 
         }
-        webView.loadUrl(url)
+        binding.newsWebview.loadUrl(url)
     }
 
     override fun showAlertDialog(alertDialog: AlertDialog, isVisible: Boolean) {
@@ -118,6 +120,13 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
 
     override fun showToast(message: String) {
         toast(this@ReadFullNewsActivity, message)
+    }
+
+    private fun refreshWebView(){
+        binding.srlRefreshWeb.setOnRefreshListener {
+            startWebView(articleData.url.toString())
+            binding.srlRefreshWeb.isRefreshing = false
+        }
     }
 
     private fun getArticleDetails() : ArticleDetails {

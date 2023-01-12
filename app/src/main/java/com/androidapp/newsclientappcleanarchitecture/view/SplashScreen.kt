@@ -39,8 +39,8 @@ class SplashScreen : AppCompatActivity() {
         val homeIntent = Intent(this, HomeActivity::class.java)
         scope.launch {
             delay(2000L)
-            finish()
             startActivity(homeIntent)
+            finish()
         }
     }
 }

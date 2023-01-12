@@ -55,7 +55,6 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
             removeArticleFromList(articleData)
         }
         recyclerView.adapter = adapter
-
         showSavedNews()
     }
 

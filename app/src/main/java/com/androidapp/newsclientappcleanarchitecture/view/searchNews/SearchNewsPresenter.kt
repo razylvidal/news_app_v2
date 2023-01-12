@@ -61,4 +61,7 @@ class SearchNewsPresenter @Inject constructor(
             }
         }
     }
+    fun fetchArticles() {
+        setUpArticleView()
+    }
 }

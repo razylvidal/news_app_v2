@@ -5,14 +5,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.widget.ProgressBar
 import androidx.appcompat.widget.SearchView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.androidapp.newsclientappcleanarchitecture.databinding.ActivitySearchNewsBinding
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.view.adapters.NewsAdapter
@@ -35,6 +33,9 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
     private lateinit var articleRV: RecyclerView
     private lateinit var appBarLayout: AppBarLayout
     private lateinit var loadingBar : ProgressBar
+    private lateinit var searchView : SearchView
+    private lateinit var swipeRefresh : SwipeRefreshLayout
+    private var queryForRefresh = " "
 
     companion object {
         fun getIntent(context: Context): Intent {
@@ -47,30 +48,37 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
         binding = ActivitySearchNewsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.apply {
-            articleRV = rvSearchActivity
-            appBarLayout = apSearchActivity
-            loadingBar = pbLoadingBar
-        }
-
+        findViewReference()
         setUpRecyclerView()
         presenter.onSearchViewReady(this)
 
-        binding.svSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                binding.svSearchView.clearFocus()
                 if (query.length > 1) {
+                    queryForRefresh = query
                     presenter.handleQueryArticleResponse(query, PAGE_SIZE)
                 }
                 return false
             }
             override fun onQueryTextChange(newText: String): Boolean {
                 if (newText.length > 1) {
+                    queryForRefresh = newText
                     presenter.handleQueryArticleResponse(newText, PAGE_SIZE)
                 }
                 return false
             }
         })
+        refreshLatestNews()
+    }
+
+    private fun findViewReference(){
+        binding.apply {
+            articleRV = rvSearchActivity
+            appBarLayout = apSearchActivity
+            loadingBar = pbLoadingBar
+            searchView = svSearchView
+            swipeRefresh = srlSearchRefresh
+        }
     }
     private fun setUpRecyclerView() {
         newsAdapter = NewsAdapter(mutableListOf())
@@ -79,7 +87,6 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
         }
         articleRV.adapter = newsAdapter
         articleRV.layoutManager = LinearLayoutManager(this)
-        binding.tvSearchView.visibility = GONE
     }
 
     override fun showTopHeadlines(topHeadlines: List<ArticleDetails>) {
@@ -102,9 +109,9 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
     override fun showToast(message: String) {
         toast(this@SearchNewsActivity, message)
     }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun disableScroll() {
-        binding.tvSearchView.visibility = GONE
         val params = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
         if (params.behavior == null)
             params.behavior = AppBarLayout.Behavior()
@@ -120,7 +127,18 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun enableScroll() {
-        binding.tvSearchView.visibility = VISIBLE
         appBarLayout.setOnTouchListener(null)
+    }
+
+    private fun refreshLatestNews(){
+        swipeRefresh.setOnRefreshListener {
+            showProgressBar(true)
+            if(queryForRefresh.length > 1)
+                presenter.handleQueryArticleResponse(queryForRefresh, PAGE_SIZE)
+            else
+                presenter.fetchArticles()
+
+            swipeRefresh.isRefreshing = false
+        }
     }
 }

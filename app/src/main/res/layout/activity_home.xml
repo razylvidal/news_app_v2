@@ -104,6 +104,6 @@
         app:backgroundTint="?attr/colorSecondaryVariant"
         app:rippleColor="@color/pale_red"
         tools:ignore="SpeakableTextPresentCheck"
-        android:focusable="true" />
+        />
 
 </RelativeLayout>
