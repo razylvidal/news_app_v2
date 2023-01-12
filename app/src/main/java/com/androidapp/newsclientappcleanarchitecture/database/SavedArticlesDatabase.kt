@@ -1,14 +1,13 @@
 package com.androidapp.newsclientappcleanarchitecture.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 
 @Database(
     entities = [ArticleEntity::class],
-    version = 1
+    version = 2
 )
+@TypeConverters(SourceConverter::class)
 abstract class SavedArticlesDatabase : RoomDatabase() {
 
     abstract fun getArticleDao(): ArticleDao
@@ -30,6 +29,5 @@ abstract class SavedArticlesDatabase : RoomDatabase() {
                 return INSTANCE!!
             }
         }
-
     }
 }

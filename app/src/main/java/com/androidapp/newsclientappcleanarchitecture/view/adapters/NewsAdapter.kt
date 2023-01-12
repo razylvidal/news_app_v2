@@ -26,6 +26,7 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>):
         val descriptionTV: TextView = itemView.findViewById(R.id.tv_description)
         val publishedAtTV:TextView = itemView.findViewById(R.id.tv_publishedAt)
         val newsIV:ImageView = itemView.findViewById(R.id.iv_articleImage)
+        val sourceTV:TextView = itemView.findViewById(R.id.tv_source)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         return NewsViewHolder(LayoutInflater.from(parent.context).
@@ -36,7 +37,7 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>):
         val selectedArticle: ArticleDetails = articles[position]
         holder.descriptionTV.text = selectedArticle.description
         holder.titleTV.text = selectedArticle.title
-
+        holder.sourceTV.text = selectedArticle.source.name
         holder.publishedAtTV.apply {
             if (holder.itemView.context.toString().contains("SearchNews")){
                 this.setCompoundDrawablesWithIntrinsicBounds(

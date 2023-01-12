@@ -10,6 +10,8 @@ import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleRepository
 import com.androidapp.newsclientappcleanarchitecture.domain.Category
 import com.androidapp.newsclientappcleanarchitecture.utils.Constants.Companion.LANGUAGE
+import com.androidapp.newsclientappcleanarchitecture.utils.toDomain
+import com.androidapp.newsclientappcleanarchitecture.utils.toDatabase
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -47,7 +49,7 @@ class ArticleRepositoryImpl @Inject constructor(
     }
     override fun insertNews(context: Context, news: ArticleDetails) {
         articleDatabase = initializeDB(context)
-        val articleToInsert = news.toDomain()
+        val articleToInsert = news.toDatabase()
         CoroutineScope(Dispatchers.IO).launch {
             articleDatabase!!.getArticleDao().insertNews(articleToInsert)
         }
@@ -55,7 +57,7 @@ class ArticleRepositoryImpl @Inject constructor(
 
     override fun deleteNews(context: Context, news: ArticleDetails) {
         articleDatabase = initializeDB(context)
-        val articleToRemove = news.toDomain()
+        val articleToRemove = news.toDatabase()
         CoroutineScope(Dispatchers.IO).launch {
             articleDatabase!!.getArticleDao().deleteNews(articleToRemove)
         }

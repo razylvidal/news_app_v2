@@ -5,17 +5,19 @@ import com.google.gson.annotations.SerializedName
 
 data class ArticleDetailsRaw(
     @SerializedName("title")
-    var title: String,
+    val title: String,
+    @SerializedName("source")
+    val source: SourceRaw,
     @SerializedName("author")
-    var author: String?,
+    val author: String?,
     @SerializedName("publishedAt")
-    var publishedAt: String?,
+    val publishedAt: String?,
     @SerializedName("description")
-    var description: String?,
+    val description: String?,
     @SerializedName("urlToImage")
-    var urlToImage: String?,
+    val urlToImage: String?,
     @SerializedName("url")
-    var url: String?,
+    val url: String?,
     @SerializedName("content")
-    var content: String?
+    val content: String?
 )

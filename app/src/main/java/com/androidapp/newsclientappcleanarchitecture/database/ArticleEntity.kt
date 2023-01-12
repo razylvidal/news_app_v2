@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class ArticleEntity(
     @PrimaryKey(autoGenerate = false)
     val title: String,
+    val source: ArticleSource,
     val author: String?,
     val publishedAt: String?,
     val description: String?,

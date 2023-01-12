@@ -40,7 +40,7 @@ class SavedNewsAdapter(private var savedArticles: List<ArticleDetails>) :
         val selectedArticle: ArticleDetails = savedArticles[position]
         holder.headLine.text = selectedArticle.title
         holder.newsPublicationTime.text = getPublishedDate(selectedArticle.publishedAt)
-
+        holder.sourceTV.text = selectedArticle.source.name
         Picasso.get().apply {
             if (selectedArticle.urlToImage == null) {
                 this.load(R.drawable.no_image_available)
@@ -72,6 +72,7 @@ class SavedNewsAdapter(private var savedArticles: List<ArticleDetails>) :
         val image: ImageView = itemView.findViewById(R.id.iv_savedNews)
         val headLine: TextView = itemView.findViewById(R.id.tv_newsTitle)
         val newsPublicationTime: TextView = itemView.findViewById(R.id.tv_publicationTime)
+        val sourceTV: TextView = itemView.findViewById(R.id.tv_saved_source)
     }
     fun onArticleCLicked(onClick: (ArticleDetails) -> Unit){
         this.onClick = onClick
