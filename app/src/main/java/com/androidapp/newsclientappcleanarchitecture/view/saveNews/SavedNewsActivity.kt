@@ -36,6 +36,7 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
 
         recyclerView = binding.rvSavedNews
         val toolbar = binding.tbSavedNews
+
         setSupportActionBar(toolbar)
 
         val layoutManager = LinearLayoutManager(

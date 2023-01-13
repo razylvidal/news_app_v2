@@ -30,5 +30,4 @@ interface ArticleRemoteService {
         @Query("category") currentCategory: String,
         @Query("apiKey") key: String,
     ): ArticleContainer
-
 }

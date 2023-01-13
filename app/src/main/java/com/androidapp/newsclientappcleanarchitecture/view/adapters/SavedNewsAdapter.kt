@@ -40,7 +40,8 @@ class SavedNewsAdapter(private var savedArticles: List<ArticleDetails>) :
         val selectedArticle: ArticleDetails = savedArticles[position]
         holder.headLine.text = selectedArticle.title
         holder.newsPublicationTime.text = getPublishedDate(selectedArticle.publishedAt)
-        holder.sourceTV.text = selectedArticle.source.name
+        holder.sourceTV.text = StringBuilder().append("- ").append(selectedArticle.source.name)
+        
         Picasso.get().apply {
             if (selectedArticle.urlToImage == null) {
                 this.load(R.drawable.no_image_available)

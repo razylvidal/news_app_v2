@@ -56,7 +56,6 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
         findViewReference()
         setSupportActionBar(toolbar)
         setUpRecyclerView()
-
         currentDate.showText(getCurrentDate())
         presenter.onMainViewReady(this)
         searchNewsFab.setOnClickListener {

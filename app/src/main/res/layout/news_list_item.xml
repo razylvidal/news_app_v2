@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:layout_height="115dp"
     android:layout_marginTop="12dp"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
@@ -30,10 +30,20 @@
     </com.google.android.material.card.MaterialCardView>
 
     <TextView
+        android:id="@+id/tv_publicationTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="2dp"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="@color/colordaynighticon"/>
+
+    <TextView
         android:id="@+id/tv_newsTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/news_image"
         android:maxLines="4"
         android:textSize="16sp"
@@ -47,23 +57,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/news_image"
-        android:maxLines="4"
-        android:textSize="14sp"
+        android:layout_marginBottom="2dp"
+        android:textSize="12sp"
         android:text="Source"
-        android:layout_marginVertical="85dp"
+        android:layout_alignParentBottom="true"
         android:textColor="?attr/colorOnSecondary"/>
 
-    <TextView
-        android:id="@+id/tv_publicationTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
-        android:padding="5dp"
-        android:textAlignment="center"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:textColor="@color/colordaynighticon"/>
 
 </RelativeLayout>

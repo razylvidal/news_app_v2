@@ -17,5 +17,4 @@ abstract class RepositoryModule {
     abstract fun bindArticleRepository(
         articleRepositoryImpl: ArticleRepositoryImpl
     ): ArticleRepository
-
 }

@@ -37,7 +37,7 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>):
         val selectedArticle: ArticleDetails = articles[position]
         holder.descriptionTV.text = selectedArticle.description
         holder.titleTV.text = selectedArticle.title
-        holder.sourceTV.text = selectedArticle.source.name
+        holder.sourceTV.text = StringBuilder().append("- ").append(selectedArticle.source.name)
         holder.publishedAtTV.apply {
             if (holder.itemView.context.toString().contains("SearchNews")){
                 this.setCompoundDrawablesWithIntrinsicBounds(
@@ -52,10 +52,17 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>):
             }
         }
 
-        Picasso.get().load(selectedArticle.urlToImage)
+        Picasso.get().apply {
+            if (selectedArticle.urlToImage == null) {
+                this.load(R.drawable.no_image_available)
+                    .into(holder.newsIV)
+            } else {
+                this.load(selectedArticle.urlToImage)
                     .placeholder(R.drawable.placeholder_image)
                     .error(R.drawable.no_image_available)
                     .into(holder.newsIV)
+            }
+        }
 
         holder.itemView.setOnClickListener {
             onClick?.invoke(selectedArticle)
@@ -66,7 +73,6 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>):
     }
     @SuppressLint("NotifyDataSetChanged")
     fun updateArticleData(articleList: List<ArticleDetails>) {
-        LogHelper.log("adapter", articleList.size.toString())
         articles.addAll(articleList)
         notifyDataSetChanged()
     }

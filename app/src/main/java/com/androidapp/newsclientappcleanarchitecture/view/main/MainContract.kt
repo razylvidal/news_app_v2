@@ -6,7 +6,6 @@ interface MainContract {
     interface View{
         fun showProgressBar( isVisible: Boolean)
         fun showToast(message: String)
-        //fun onClear()
         fun showNewsArticles(articleList: List<ArticleDetails>)
         fun showCategories(categoryList: List<String>)
 
