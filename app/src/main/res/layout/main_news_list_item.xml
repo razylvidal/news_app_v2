@@ -73,6 +73,7 @@
             android:textColor="?attr/colorOnSecondary"
             android:textSize="14sp"
             android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_baseline_feed_24"
             android:layout_marginStart="5dp"
             android:text="Source"
             />

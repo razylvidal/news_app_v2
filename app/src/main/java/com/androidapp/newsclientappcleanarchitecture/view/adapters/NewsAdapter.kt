@@ -37,7 +37,7 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>):
         val selectedArticle: ArticleDetails = articles[position]
         holder.descriptionTV.text = selectedArticle.description
         holder.titleTV.text = selectedArticle.title
-        holder.sourceTV.text = StringBuilder().append("- ").append(selectedArticle.source.name)
+        holder.sourceTV.text = selectedArticle.source.name
         holder.publishedAtTV.apply {
             if (holder.itemView.context.toString().contains("SearchNews")){
                 this.setCompoundDrawablesWithIntrinsicBounds(

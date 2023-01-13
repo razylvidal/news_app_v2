@@ -70,7 +70,6 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
         })
         refreshLatestNews()
     }
-
     private fun findViewReference(){
         binding.apply {
             articleRV = rvSearchActivity
@@ -130,6 +129,7 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
         appBarLayout.setOnTouchListener(null)
     }
 
+    // move to presenter
     private fun refreshLatestNews(){
         swipeRefresh.setOnRefreshListener {
             showProgressBar(true)

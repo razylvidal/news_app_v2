@@ -59,6 +59,7 @@
         android:layout_toEndOf="@+id/news_image"
         android:layout_marginBottom="2dp"
         android:textSize="12sp"
+        app:drawableStartCompat="@drawable/ic_baseline_feed_24"
         android:text="Source"
         android:layout_alignParentBottom="true"
         android:textColor="?attr/colorOnSecondary"/>
