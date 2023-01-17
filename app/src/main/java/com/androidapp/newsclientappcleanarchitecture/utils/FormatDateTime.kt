@@ -15,9 +15,9 @@ fun getTimeDifference(format: String?): String {
     val newsTimeInHours = Instant.parse(format).atZone(ZoneId.of("Asia/Manila"))
     val hoursDifference = Duration.between(currentTimeInHours, newsTimeInHours)
     val timeDifference = when(hoursDifference.toHours().toString()){
-        "0" -> "  " + hoursDifference.toMinutes().toString().substring(1) + " minutes ago"
-        "1" -> "  " + hoursDifference.toHours().toString().substring(1) + " hour ago"
-        else -> "  " + hoursDifference.toHours().toString().substring(1) + " hours ago"
+        "0" -> " " + hoursDifference.toMinutes().toString().substring(1) + " minutes ago"
+        "1" -> " " + hoursDifference.toHours().toString().substring(1) + " hour ago"
+        else -> " " + hoursDifference.toHours().toString().substring(1) + " hours ago"
     }
     return timeDifference
 }

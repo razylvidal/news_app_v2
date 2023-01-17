@@ -111,7 +111,7 @@
                 app:layout_anchor="@id/tv_searchView"
                 app:layout_anchorGravity="bottom|end"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/main_news_list_item" />
+                tools:listitem="@layout/search_news_list_item" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

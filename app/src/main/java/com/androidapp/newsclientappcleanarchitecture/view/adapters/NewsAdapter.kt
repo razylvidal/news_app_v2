@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.androidapp.newsclientappcleanarchitecture.utils.LogHelper
 import com.androidapp.newsclientappcleanarchitecture.R
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.utils.getPublishedDate
@@ -30,7 +29,7 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>):
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         return NewsViewHolder(LayoutInflater.from(parent.context).
-        inflate(R.layout.main_news_list_item,parent,false))
+        inflate(R.layout.search_news_list_item,parent,false))
     }
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {

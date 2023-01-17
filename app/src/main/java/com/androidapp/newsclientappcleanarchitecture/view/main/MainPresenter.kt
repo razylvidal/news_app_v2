@@ -50,12 +50,14 @@ class MainPresenter @Inject constructor(
         val categories = categoryUseCase.getListOfCategories()
         view?.showCategories(categories)
     }
-    private fun setUpArticleView(category: String){
+     fun setUpArticleView(category: String){
         view?.showProgressBar(true)
         scope.launch{
             try {
                 val listOfArticles = articlesUseCase.getListOfArticles(category)
-                view?.showNewsArticles(listOfArticles)
+                val list: ArrayList<ArticleDetails> = ArrayList()
+                list.addAll(listOfArticles)
+                view?.showNewsArticles(list)
                 view?.showProgressBar(false)
             }
             catch (exception: Exception){

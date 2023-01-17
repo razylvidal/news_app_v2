@@ -4,13 +4,12 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.databinding.ActivitySavedNewsBinding
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
-import com.androidapp.newsclientappcleanarchitecture.view.adapters.SavedNewsAdapter
+import com.androidapp.newsclientappcleanarchitecture.view.adapters.CustomAdapter
 import com.androidapp.newsclientappcleanarchitecture.utils.startReadFullNewsAct
 import com.androidapp.newsclientappcleanarchitecture.view.main.show
 import com.androidapp.newsclientappcleanarchitecture.view.main.toast
@@ -23,7 +22,7 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
     private lateinit var recyclerView: RecyclerView
 
     private lateinit var newsData: MutableList<ArticleDetails>
-    private lateinit var adapter: SavedNewsAdapter
+    private lateinit var adapter: CustomAdapter
     private lateinit var binding: ActivitySavedNewsBinding
 
     @Inject
@@ -46,7 +45,7 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
         recyclerView.layoutManager = layoutManager
         newsData = mutableListOf()
 
-        adapter = SavedNewsAdapter(newsData)
+        adapter = CustomAdapter(newsData)
 
         // fetch saved news from db
         adapter.onArticleCLicked { articleData ->

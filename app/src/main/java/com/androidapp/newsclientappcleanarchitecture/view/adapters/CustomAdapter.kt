@@ -13,12 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.R
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.utils.getPublishedDate
+import com.androidapp.newsclientappcleanarchitecture.utils.getTimeDifference
 import com.squareup.picasso.Picasso
 
 
 @SuppressLint("NotifyDataSetChanged")
-class SavedNewsAdapter(private var savedArticles: List<ArticleDetails>) :
-    RecyclerView.Adapter<SavedNewsAdapter.ViewHolder>() {
+class CustomAdapter(private var savedArticles: List<ArticleDetails>) :
+    RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     private var onClick: ((ArticleDetails) -> Unit)? = null
     private var onLongClick: ((Int) -> Unit)? = null
@@ -39,7 +40,6 @@ class SavedNewsAdapter(private var savedArticles: List<ArticleDetails>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val selectedArticle: ArticleDetails = savedArticles[position]
         holder.headLine.text = selectedArticle.title
-        holder.newsPublicationTime.text = getPublishedDate(selectedArticle.publishedAt)
         holder.sourceTV.text = selectedArticle.source.name
 
         Picasso.get().apply {
@@ -53,12 +53,29 @@ class SavedNewsAdapter(private var savedArticles: List<ArticleDetails>) :
                     .into(holder.image)
             }
         }
+
+        holder.newsPublicationTime.apply {
+            if (holder.itemView.context.toString().contains("SavedNews")){
+                this.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    null,
+                    null)
+                this.text = getPublishedDate(selectedArticle.publishedAt)
+            }
+            else{
+                this.text = getTimeDifference(selectedArticle.publishedAt)
+            }
+        }
+
         holder.itemView.apply {
             this.setOnClickListener {
             onClick?.invoke(selectedArticle)
         }
             this.setOnLongClickListener {
-                onLongClick?.invoke(position)
+                if(this.context.toString().contains("SavedNews")){
+                    onLongClick?.invoke(position)
+                }
                 return@setOnLongClickListener true
             }
         }
