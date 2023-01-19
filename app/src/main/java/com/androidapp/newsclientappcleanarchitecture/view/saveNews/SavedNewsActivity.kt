@@ -19,8 +19,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
 
-    private lateinit var recyclerView: RecyclerView
-
     private lateinit var newsData: MutableList<ArticleDetails>
     private lateinit var adapter: CustomAdapter
     private lateinit var binding: ActivitySavedNewsBinding
@@ -33,16 +31,14 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
         binding = ActivitySavedNewsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        recyclerView = binding.rvSavedNews
-        val toolbar = binding.tbSavedNews
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.tbSavedNews)
 
         val layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,
             false)
-        recyclerView.layoutManager = layoutManager
+        binding.rvSavedNews.layoutManager = layoutManager
         newsData = mutableListOf()
 
         adapter = CustomAdapter(newsData)
@@ -54,14 +50,12 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
         adapter.onArticleLongCLicked { articleData ->
             removeArticleFromList(articleData)
         }
-        recyclerView.adapter = adapter
+        binding.rvSavedNews.adapter = adapter
         showSavedNews()
     }
 
     private fun removeArticleFromList(position: Int) {
-        // Delete saved news dialog
         setDialogBackground(Color.GRAY, position)
-
         val alertDialog = AlertDialog.Builder(this@SavedNewsActivity).apply {
             setPositiveButton("Yes") { _, _ ->
                 presenter.handleArticleToRemove(this@SavedNewsActivity, newsData[position])
@@ -76,7 +70,7 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
     }
 
     private fun setDialogBackground(color: Int, position: Int) {
-        recyclerView.findViewHolderForAdapterPosition(position)
+        binding.rvSavedNews.findViewHolderForAdapterPosition(position)
             ?.itemView?.setBackgroundColor(color)
     }
 

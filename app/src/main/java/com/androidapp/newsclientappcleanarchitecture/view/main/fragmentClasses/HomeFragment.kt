@@ -1,62 +1,60 @@
 package com.androidapp.newsclientappcleanarchitecture.view.main.fragmentClasses
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.text.TextUtils.lastIndexOf
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.R
 import com.androidapp.newsclientappcleanarchitecture.databinding.FragmentHomeBinding
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
+import com.androidapp.newsclientappcleanarchitecture.utils.Constants.Companion.DEFAULT_CATEGORY
 import com.androidapp.newsclientappcleanarchitecture.utils.Constants.Companion.TOP_HEADLINES_COUNT
-import com.androidapp.newsclientappcleanarchitecture.utils.getPublishedDate
 import com.androidapp.newsclientappcleanarchitecture.utils.getTimeDifference
 import com.androidapp.newsclientappcleanarchitecture.utils.startReadFullNewsAct
 import com.androidapp.newsclientappcleanarchitecture.view.adapters.CustomAdapter
-import com.androidapp.newsclientappcleanarchitecture.view.adapters.NewsAdapter
-import com.jama.carouselview.CarouselView
 import com.jama.carouselview.enums.IndicatorAnimationType
 import com.jama.carouselview.enums.OffsetType
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class HomeFragment : Fragment() {
+@AndroidEntryPoint
+class HomeFragment : Fragment(), FragmentContract.View {
 
     private lateinit var binding: FragmentHomeBinding
+    @Inject
+    lateinit var presenter : CustomPresenter
 
     companion object{
-        const val KEY_ARTICLES = "key_articles"
-        fun newsInstance(headlines: ArrayList<ArticleDetails>): Fragment {
-            return HomeFragment().apply {
-                arguments = bundleOf(
-                    KEY_ARTICLES to headlines
-                )
-            }
-        }
+        fun getInstance() = HomeFragment()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
+        savedInstanceState: Bundle?,
+    ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         val view = binding.root
-        binding.recyclerView.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.layoutManager = LinearLayoutManager(
+            context,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+        presenter.onViewReady(this, DEFAULT_CATEGORY)
 
-        val articles = getArticles()
-        val topHeadlines = articles.slice(0 until TOP_HEADLINES_COUNT)
-        val headlines = articles.slice(TOP_HEADLINES_COUNT until articles.size)
+        return view
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun showArticles(response: List<ArticleDetails>) {
+        val topHeadlines = response.slice(0 until TOP_HEADLINES_COUNT)
+        val headlines = response.slice(TOP_HEADLINES_COUNT until response.size)
         val articleAdapter = CustomAdapter(headlines)
         binding.recyclerView.adapter = articleAdapter
 
@@ -87,22 +85,6 @@ class HomeFragment : Fragment() {
                 }
             }
             show()
-        }
-
-        return view
-    }
-
-    private fun getArticles() : ArrayList<ArticleDetails> {
-        return try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                requireArguments().getParcelableArrayList(KEY_ARTICLES, ArticleDetails::class.java)!!
-            } else {
-                @Suppress("DEPRECATION")
-                requireArguments().getParcelableArrayList(KEY_ARTICLES)!!
-            }
-        }catch(exception: Exception){
-            throw java.lang
-                .IllegalStateException("Please use newsInstance() to start fragment")
         }
     }
 }

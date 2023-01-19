@@ -3,31 +3,20 @@ package com.androidapp.newsclientappcleanarchitecture.view.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.androidapp.newsclientappcleanarchitecture.R
 import com.androidapp.newsclientappcleanarchitecture.databinding.ActivityHomeBinding
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.utils.*
-import com.androidapp.newsclientappcleanarchitecture.view.adapters.CategoryAdapter
-import com.androidapp.newsclientappcleanarchitecture.view.adapters.NewsAdapter
 import com.androidapp.newsclientappcleanarchitecture.view.adapters.ViewPagerAdapter
-import com.androidapp.newsclientappcleanarchitecture.view.main.fragmentClasses.HomeFragment
 import com.androidapp.newsclientappcleanarchitecture.view.saveNews.SavedNewsActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -47,52 +36,28 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
 //    private lateinit var articleRV: RecyclerView
 //    private lateinit var categoryRV: RecyclerView
     private lateinit var adapter: ViewPagerAdapter
-    private lateinit var viewPager : ViewPager2
-    private lateinit var tabLayout: TabLayout
-    private lateinit var loadingPB: ProgressBar
-    private lateinit var currentDate: TextView
-    private lateinit var toolbar: Toolbar
-    private lateinit var searchNewsFab: FloatingActionButton
-   // private lateinit var swipeRefresh : SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        findViewReference()
-        setSupportActionBar(toolbar)
-        currentDate.showText(getCurrentDate())
+        setSupportActionBar(binding.tbMainAct)
+        binding.tvCurrentDate.showText(getCurrentDate())
         adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
-        viewPager.adapter = adapter
+        binding.vpArticleView.adapter = adapter
         presenter.onMainViewReady(this)
         //viewPager.visibility = View.VISIBLE
         //setUpRecyclerView()
-        searchNewsFab.setOnClickListener {
+        binding.fabSearchNews.setOnClickListener {
             startSearchNewsAct(this)
         }
         //refreshArticleList()
     }
-
-    private fun findViewReference() {
-        binding.apply {
-//            articleRV = rvArticleList
-//            categoryRV = rvCategories
-            loadingPB = pbLoad
-            toolbar = tbMainAct
-            currentDate = tvCurrentDate
-            searchNewsFab = fabSearchNews
-           // swipeRefresh = srlRefresh
-            tabLayout = categoryTabs
-            viewPager = vpArticleView
-        }
-    }
-
-    private fun setUpRecyclerView() {
-        adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
-        viewPager.adapter = adapter
-        viewPager.visibility = View.VISIBLE
-
+//    private fun setUpRecyclerView() {
+//        adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
+//        binding.vpArticleView.adapter = adapter
+//        binding.vpArticleView.visibility = View.VISIBLE
 //        newsAdapter = NewsAdapter(mutableListOf())
 //        newsAdapter.onArticleCLicked { selectedArticleData ->
 //            startReadFullNewsAct(this@HomeActivity, selectedArticleData)
@@ -103,7 +68,7 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
 //        categoryRV.adapter = categoryAdapter
 //        articleRV.adapter = newsAdapter
 //        articleRV.layoutManager = LinearLayoutManager(this)
-    }
+  //  }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -143,10 +108,13 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
 
     override fun showProgressBar(isVisible: Boolean) {
         if (isVisible) {
+            LogHelper.log("progressBar", "is showing")
+//            viewPager.visibility = View.GONE
 //            newsAdapter.clear()
-            loadingPB.show()
+            binding.pbLoad.show()
         } else {
-            loadingPB.hide()
+//            viewPager.visibility = View.VISIBLE
+            binding.pbLoad.hide()
         }
     }
 
@@ -154,16 +122,12 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
         toast(this@HomeActivity, message)
     }
 
-    override fun showNewsArticles(articleList: ArrayList<ArticleDetails>) {
-        adapter.listOfArticles = articleList
-//        newsAdapter.updateArticleData(articleList)
-    }
-
-    override fun showCategories(categoryList: List<String>) {
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+    override fun setUpViewPager(categoryList: List<String>) {
+        TabLayoutMediator(binding.categoryTabs, binding.vpArticleView) { tab, position ->
             tab.text = categoryList[position]
+//            presenter.requestArticles(categoryList[position])
         }.attach()
-//        categoryAdapter.updateCategoryData(categoryList)
+        adapter.listOfCategories = categoryList
     }
 
     private fun setUIMode(item: MenuItem, isChecked: Boolean) {
@@ -177,7 +141,6 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
             presenter.saveUIModeToDataStore(false)
         }
     }
-
 //    private fun refreshArticleList() {
 //        swipeRefresh.setOnRefreshListener {
 //            showProgressBar(true)
@@ -185,5 +148,4 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
 //            swipeRefresh.isRefreshing = false
 //        }
 //    }
-
 }

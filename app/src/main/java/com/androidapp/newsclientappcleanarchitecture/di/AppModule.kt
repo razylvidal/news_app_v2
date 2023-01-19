@@ -1,7 +1,9 @@
 package com.androidapp.newsclientappcleanarchitecture.di
 
 import com.androidapp.newsclientappcleanarchitecture.data.ArticleRemoteService
+import com.androidapp.newsclientappcleanarchitecture.domain.usecases.GetArticlesUseCase
 import com.androidapp.newsclientappcleanarchitecture.utils.Constants
+import com.androidapp.newsclientappcleanarchitecture.view.main.fragmentClasses.CustomPresenter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

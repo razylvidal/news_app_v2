@@ -16,7 +16,7 @@ class Constants {
         const val SEARCH_NEWS_TIME_DELAY = 2000L
         const val DEFAULT_CATEGORY = "ALL"
         const val LANGUAGE = "en"
-        const val TOP_HEADLINES_COUNT = 7
+        const val TOP_HEADLINES_COUNT = 5
 //        val LIST = mutableListOf(ArticleDetails(
 //            "Elon Musk says he will resign as Twitter CEO if he finds replacement - The Washington Post",
 //            "Rachel Lerman",

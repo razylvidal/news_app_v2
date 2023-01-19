@@ -52,7 +52,6 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.action_read_full_news_act, menu)
         return super.onCreateOptionsMenu(menu)
     }
