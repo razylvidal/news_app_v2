@@ -1,6 +1,7 @@
 package com.androidapp.newsclientappcleanarchitecture.view.readFullNews
 
 import android.content.Context
+import com.androidapp.newsclientappcleanarchitecture.database.SavedArticlesDatabase
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.domain.usecases.InsertNewsUseCase
 import javax.inject.Inject
@@ -15,12 +16,16 @@ class ReadFullNewsPresenter @Inject constructor(
         this.readFullNewsView = view
     }
 
+    fun initializeDB(context: Context): SavedArticlesDatabase {
+        return SavedArticlesDatabase.getDatabaseClient(context)
+    }
+
     override fun onReadFullNewsViewDestroyed() {
         readFullNewsView = null
     }
 
-    fun handleArticleToInsert(context: Context, selectedArticle: ArticleDetails){
-        addNewsUseCase.addNewsToDB(context, selectedArticle)
+    fun handleArticleToInsert(instanceOfDB: SavedArticlesDatabase, selectedArticle: ArticleDetails){
+        addNewsUseCase.addNewsToDB(instanceOfDB, selectedArticle)
     }
 
 

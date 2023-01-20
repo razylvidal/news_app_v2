@@ -1,6 +1,5 @@
 package com.androidapp.newsclientappcleanarchitecture.data
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.androidapp.newsclientappcleanarchitecture.database.SavedArticlesDatabase
@@ -18,8 +17,6 @@ import javax.inject.Inject
 class ArticleRepositoryImpl @Inject constructor(
     private val remoteService: ArticleRemoteService
     ): ArticleRepository {
-
-    private var articleDatabase: SavedArticlesDatabase? = null
 
     override suspend fun fetchNewsArticles(category: String) = withContext(Dispatchers.IO) {
             if (category == "ALL") {
@@ -44,28 +41,26 @@ class ArticleRepositoryImpl @Inject constructor(
 
     override fun fetchCategories(): List<String> = Category.values().map { it.name }
 
-    private fun initializeDB(context: Context): SavedArticlesDatabase {
-        return SavedArticlesDatabase.getDatabaseClient(context)
-    }
-    override fun insertNews(context: Context, news: ArticleDetails) {
-        articleDatabase = initializeDB(context)
+//    private fun initializeDB(instanceOfDB: SavedArticlesDatabase): SavedArticlesDatabase {
+//        return SavedArticlesDatabase.getDatabaseClient(instanceOfDB)
+//    }
+    override fun insertNews(instanceOfDB: SavedArticlesDatabase, news: ArticleDetails) {
         val articleToInsert = news.toDatabase()
         CoroutineScope(Dispatchers.IO).launch {
-            articleDatabase!!.getArticleDao().insertNews(articleToInsert)
+            instanceOfDB.getArticleDao().insertNews(articleToInsert)
         }
     }
 
-    override fun deleteNews(context: Context, news: ArticleDetails) {
-        articleDatabase = initializeDB(context)
+    override fun deleteNews(instanceOfDB: SavedArticlesDatabase, news: ArticleDetails) {
+
         val articleToRemove = news.toDatabase()
         CoroutineScope(Dispatchers.IO).launch {
-            articleDatabase!!.getArticleDao().deleteNews(articleToRemove)
+            instanceOfDB.getArticleDao().deleteNews(articleToRemove)
         }
     }
 
-    override fun getAllNews(context: Context): LiveData<List<ArticleDetails>> {
-        articleDatabase = initializeDB(context)
-        val dataFromDB = articleDatabase!!.getArticleDao().getNewsFromDatabase()
+    override fun getAllNews(instanceOfDB: SavedArticlesDatabase): LiveData<List<ArticleDetails>> {
+        val dataFromDB = instanceOfDB.getArticleDao().getNewsFromDatabase()
         val data = Transformations.map(dataFromDB){ entityList ->
             entityList.map {
                 it.toDomain()

@@ -6,7 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.androidapp.newsclientappcleanarchitecture.database.SavedArticlesDatabase
 import com.androidapp.newsclientappcleanarchitecture.databinding.ActivitySavedNewsBinding
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.view.adapters.CustomAdapter
@@ -22,6 +22,7 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
     private lateinit var newsData: MutableList<ArticleDetails>
     private lateinit var adapter: CustomAdapter
     private lateinit var binding: ActivitySavedNewsBinding
+    private lateinit var dbInstance : SavedArticlesDatabase
 
     @Inject
     lateinit var presenter: SavedNewsPresenter
@@ -31,16 +32,16 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
         binding = ActivitySavedNewsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         setSupportActionBar(binding.tbSavedNews)
-
         val layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,
             false)
         binding.rvSavedNews.layoutManager = layoutManager
-        newsData = mutableListOf()
 
+        dbInstance = presenter.initializeDB(this)
+
+        newsData = mutableListOf()
         adapter = CustomAdapter(newsData)
 
         // fetch saved news from db
@@ -58,7 +59,7 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
         setDialogBackground(Color.GRAY, position)
         val alertDialog = AlertDialog.Builder(this@SavedNewsActivity).apply {
             setPositiveButton("Yes") { _, _ ->
-                presenter.handleArticleToRemove(this@SavedNewsActivity, newsData[position])
+                presenter.handleArticleToRemove(dbInstance, newsData[position])
                 adapter.notifyItemRemoved(position)
                 showToast("Article Removed!")
             }
@@ -85,7 +86,7 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun showSavedNews() {
-        presenter.handleSavedArticlesFromDB(applicationContext).observe(this) {
+        presenter.handleSavedArticlesFromDB(dbInstance).observe(this) {
             newsData.clear()
             newsData.addAll(it)
             adapter.notifyDataSetChanged()

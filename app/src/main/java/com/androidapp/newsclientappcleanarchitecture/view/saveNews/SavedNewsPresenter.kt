@@ -2,6 +2,7 @@ package com.androidapp.newsclientappcleanarchitecture.view.saveNews
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import com.androidapp.newsclientappcleanarchitecture.database.SavedArticlesDatabase
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.domain.usecases.GetSavedArticlesUseCase
 import com.androidapp.newsclientappcleanarchitecture.domain.usecases.RemoveArticleUseCase
@@ -18,15 +19,19 @@ class SavedNewsPresenter @Inject constructor(
         this.savedNewsView = view
     }
 
+    fun initializeDB(context: Context): SavedArticlesDatabase {
+        return SavedArticlesDatabase.getDatabaseClient(context)
+    }
+
     override fun onSavedNewsViewDestroyed() {
         savedNewsView = null
     }
 
-    fun handleArticleToRemove(context: Context, selectedArticle: ArticleDetails){
-        removeArticleUseCase.removeNewsToDB(context, selectedArticle)
+    fun handleArticleToRemove(instanceOfDB: SavedArticlesDatabase, selectedArticle: ArticleDetails){
+        removeArticleUseCase.removeNewsToDB(instanceOfDB, selectedArticle)
     }
 
-    fun handleSavedArticlesFromDB(context: Context): LiveData<List<ArticleDetails>> {
-        return getSavedArticlesUseCase.fetchNewsFromDB(context)
+    fun handleSavedArticlesFromDB(instanceOfDB: SavedArticlesDatabase): LiveData<List<ArticleDetails>> {
+        return getSavedArticlesUseCase.fetchNewsFromDB(instanceOfDB)
     }
 }

@@ -55,7 +55,11 @@ class HomeFragment : Fragment(), FragmentContract.View {
     override fun showArticles(response: List<ArticleDetails>) {
         val topHeadlines = response.slice(0 until TOP_HEADLINES_COUNT)
         val headlines = response.slice(TOP_HEADLINES_COUNT until response.size)
+
         val articleAdapter = CustomAdapter(headlines)
+        articleAdapter.onArticleCLicked { selectedArticle ->
+            startReadFullNewsAct(requireContext(), selectedArticle)
+        }
         binding.recyclerView.adapter = articleAdapter
 
         binding.homeCarousel.apply {

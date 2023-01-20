@@ -12,6 +12,7 @@ import android.webkit.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.androidapp.newsclientappcleanarchitecture.R
+import com.androidapp.newsclientappcleanarchitecture.database.SavedArticlesDatabase
 import com.androidapp.newsclientappcleanarchitecture.databinding.ActivityNewsFullDetailsBinding
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.utils.openInBrowser
@@ -28,6 +29,7 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
     @Inject
     lateinit var presenter: ReadFullNewsPresenter
     private lateinit var binding: ActivityNewsFullDetailsBinding
+    private lateinit var dbInstance: SavedArticlesDatabase
 
     companion object{
         const val KEY_ARTICLE_DETAILS = "key_article_details"
@@ -45,6 +47,8 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        dbInstance = presenter.initializeDB(this)
+
         articleData = getArticleDetails()
 
         startWebView(articleData.url.toString())
@@ -59,7 +63,7 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_save_news -> {
-                presenter.handleArticleToInsert(this, articleData)
+                presenter.handleArticleToInsert(dbInstance, articleData)
                 showToast("News saved successfully!")
                 return true
             }

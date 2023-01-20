@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso
 
 
 @SuppressLint("NotifyDataSetChanged")
-class CustomAdapter(private var savedArticles: List<ArticleDetails>) :
+class CustomAdapter(private var articleList: List<ArticleDetails>) :
     RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     private var onClick: ((ArticleDetails) -> Unit)? = null
@@ -38,7 +38,7 @@ class CustomAdapter(private var savedArticles: List<ArticleDetails>) :
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val selectedArticle: ArticleDetails = savedArticles[position]
+        val selectedArticle: ArticleDetails = articleList[position]
         holder.headLine.text = selectedArticle.title
         holder.sourceTV.text = selectedArticle.source.name
 
@@ -81,7 +81,7 @@ class CustomAdapter(private var savedArticles: List<ArticleDetails>) :
         }
     }
     override fun getItemCount(): Int {
-        return savedArticles.size
+        return articleList.size
     }
 
     class ViewHolder(

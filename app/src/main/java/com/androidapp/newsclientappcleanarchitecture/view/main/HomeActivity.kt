@@ -123,6 +123,7 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
     }
 
     override fun setUpViewPager(categoryList: List<String>) {
+        binding.vpArticleView.visibility = View.VISIBLE
         TabLayoutMediator(binding.categoryTabs, binding.vpArticleView) { tab, position ->
             tab.text = categoryList[position]
 //            presenter.requestArticles(categoryList[position])
