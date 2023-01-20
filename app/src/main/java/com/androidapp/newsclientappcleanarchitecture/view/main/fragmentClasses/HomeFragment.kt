@@ -64,10 +64,6 @@ class HomeFragment : Fragment(), FragmentContract.View {
 
         binding.homeCarousel.apply {
             size = topHeadlines.size
-            autoPlay = true
-            indicatorAnimationType = IndicatorAnimationType.SCALE
-            carouselOffset = OffsetType.CENTER
-
             setCarouselViewListener { view, position ->
                 val imageView = view.findViewById<ImageView>(R.id.iv_articleImage)
                 Picasso.get()
