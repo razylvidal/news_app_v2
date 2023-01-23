@@ -5,8 +5,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.androidapp.newsclientappcleanarchitecture.utils.LogHelper
-import com.androidapp.newsclientappcleanarchitecture.view.main.fragmentClasses.CustomFragment
-import com.androidapp.newsclientappcleanarchitecture.view.main.fragmentClasses.HomeFragment
+import com.androidapp.newsclientappcleanarchitecture.view.main.fragments.CustomFragment
+import com.androidapp.newsclientappcleanarchitecture.view.main.fragments.HomeFragment
 
 class ViewPagerAdapter(
     fragmentManager: FragmentManager,

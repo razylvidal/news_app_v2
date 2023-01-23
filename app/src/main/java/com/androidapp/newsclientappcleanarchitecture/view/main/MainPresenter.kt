@@ -4,17 +4,13 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.androidapp.newsclientappcleanarchitecture.datastore.DataStoreManager
-import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
-import com.androidapp.newsclientappcleanarchitecture.domain.usecases.GetArticlesUseCase
 import com.androidapp.newsclientappcleanarchitecture.domain.usecases.GetCategoriesUseCase
 import com.androidapp.newsclientappcleanarchitecture.utils.Constants.Companion.DEFAULT_CATEGORY
-import com.androidapp.newsclientappcleanarchitecture.utils.LogHelper
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class MainPresenter @Inject constructor(
     private val categoryUseCase: GetCategoriesUseCase,
-    private val articlesUseCase: GetArticlesUseCase,
     application: Application,
 ) : MainContract.Presenter, AndroidViewModel(application) {
 
@@ -50,7 +46,7 @@ class MainPresenter @Inject constructor(
 
     private fun setUpCategories() {
         categories.addAll(categoryUseCase.getListOfCategories())
-        view?.setUpViewPager(categories)
+        view?.showViewPager(categories)
     }
 
 //    private fun makeArticleRequest(category: String) : List<ArticleDetails> {

@@ -112,6 +112,8 @@
 <!--        </androidx.recyclerview.widget.RecyclerView>-->
 <!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
+
+
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -134,7 +136,7 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:src="@drawable/ic_baseline_search_24"
-        app:backgroundTint="@color/colordaynighticon"
+        app:backgroundTint="@color/grey"
         app:rippleColor="@color/pale_red"
         tools:ignore="SpeakableTextPresentCheck"
         android:focusable="true" />

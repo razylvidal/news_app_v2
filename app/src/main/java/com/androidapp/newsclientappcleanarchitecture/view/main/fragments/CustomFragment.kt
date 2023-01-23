@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.view.main.fragmentClasses
+package com.androidapp.newsclientappcleanarchitecture.view.main.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -55,7 +55,7 @@ class CustomFragment : Fragment(), FragmentContract.View{
         }
     }
 
-    override fun showArticles(response: List<ArticleDetails>) {
+    override fun showArticles(response: MutableList<ArticleDetails>) {
         val articleAdapter = CustomAdapter(response)
         articleAdapter.onArticleCLicked { selectedArticle ->
             startReadFullNewsAct(requireContext(), selectedArticle)

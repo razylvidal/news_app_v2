@@ -10,6 +10,8 @@
     <color name="grey">#FFCCCCCC</color>
     <color name="pale_red">#FFE8B7B7</color>
     <color name="red">#FFE52029</color>
+    <color name="mildRed">#F2635C</color>
+
 
     <color name="colordaynighticon">#97A6B4</color>
     <color name="card_view_color">#2D3035</color>

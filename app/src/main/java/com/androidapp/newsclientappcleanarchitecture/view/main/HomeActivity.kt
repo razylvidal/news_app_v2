@@ -14,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.androidapp.newsclientappcleanarchitecture.R
 import com.androidapp.newsclientappcleanarchitecture.databinding.ActivityHomeBinding
-import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.utils.*
 import com.androidapp.newsclientappcleanarchitecture.view.adapters.ViewPagerAdapter
 import com.androidapp.newsclientappcleanarchitecture.view.saveNews.SavedNewsActivity
@@ -31,10 +30,6 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
 
     @Inject
     lateinit var presenter: MainPresenter
-//    private lateinit var newsAdapter: NewsAdapter
-//    private lateinit var categoryAdapter: CategoryAdapter
-//    private lateinit var articleRV: RecyclerView
-//    private lateinit var categoryRV: RecyclerView
     private lateinit var adapter: ViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,34 +39,18 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
 
         setSupportActionBar(binding.tbMainAct)
         binding.tvCurrentDate.showText(getCurrentDate())
+        binding.vpArticleView.visibility = View.GONE
+
         adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
         binding.vpArticleView.adapter = adapter
         presenter.onMainViewReady(this)
-        //viewPager.visibility = View.VISIBLE
-        //setUpRecyclerView()
         binding.fabSearchNews.setOnClickListener {
             startSearchNewsAct(this)
         }
         //refreshArticleList()
     }
-//    private fun setUpRecyclerView() {
-//        adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
-//        binding.vpArticleView.adapter = adapter
-//        binding.vpArticleView.visibility = View.VISIBLE
-//        newsAdapter = NewsAdapter(mutableListOf())
-//        newsAdapter.onArticleCLicked { selectedArticleData ->
-//            startReadFullNewsAct(this@HomeActivity, selectedArticleData)
-//        }
-//        categoryAdapter = CategoryAdapter(mutableListOf()) { selectedCategory ->
-//            presenter.onCategoryClicked(selectedCategory)
-//        }
-//        categoryRV.adapter = categoryAdapter
-//        articleRV.adapter = newsAdapter
-//        articleRV.layoutManager = LinearLayoutManager(this)
-  //  }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.action_main_act, menu)
         lifecycleScope.launchWhenStarted {
             val isChecked = presenter.uiMode.first()
@@ -109,11 +88,10 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
     override fun showProgressBar(isVisible: Boolean) {
         if (isVisible) {
             LogHelper.log("progressBar", "is showing")
-//            viewPager.visibility = View.GONE
-//            newsAdapter.clear()
+            binding.vpArticleView.visibility = View.GONE
             binding.pbLoad.show()
         } else {
-//            viewPager.visibility = View.VISIBLE
+            binding.vpArticleView.visibility = View.VISIBLE
             binding.pbLoad.hide()
         }
     }
@@ -122,11 +100,10 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
         toast(this@HomeActivity, message)
     }
 
-    override fun setUpViewPager(categoryList: List<String>) {
+    override fun showViewPager(categoryList: List<String>) {
         binding.vpArticleView.visibility = View.VISIBLE
         TabLayoutMediator(binding.categoryTabs, binding.vpArticleView) { tab, position ->
             tab.text = categoryList[position]
-//            presenter.requestArticles(categoryList[position])
         }.attach()
         adapter.listOfCategories = categoryList
     }

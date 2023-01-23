@@ -4,15 +4,19 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.database.SavedArticlesDatabase
 import com.androidapp.newsclientappcleanarchitecture.databinding.ActivitySavedNewsBinding
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
+import com.androidapp.newsclientappcleanarchitecture.utils.LogHelper
 import com.androidapp.newsclientappcleanarchitecture.view.adapters.CustomAdapter
 import com.androidapp.newsclientappcleanarchitecture.utils.startReadFullNewsAct
 import com.androidapp.newsclientappcleanarchitecture.view.main.show
-import com.androidapp.newsclientappcleanarchitecture.view.main.toast
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -44,24 +48,37 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
         newsData = mutableListOf()
         adapter = CustomAdapter(newsData)
 
-        // fetch saved news from db
         adapter.onArticleCLicked { articleData ->
             startReadFullNewsAct(this@SavedNewsActivity, articleData)
         }
-        adapter.onArticleLongCLicked { articleData ->
-            removeArticleFromList(articleData)
+
+        val swipeGesture = object : SwipeGesture(this){
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                LogHelper.log("////", viewHolder.adapterPosition.toString())
+                val selectedArticle = newsData[viewHolder.adapterPosition]
+                val position = viewHolder.adapterPosition
+                presenter.handleArticleToRemove(dbInstance, selectedArticle)
+                adapter.removeArticle(viewHolder.adapterPosition)
+                showSnackBar(position, selectedArticle)
+            }
         }
+        val touchHelper = ItemTouchHelper(swipeGesture)
+        touchHelper.attachToRecyclerView(binding.rvSavedNews)
+
+        //use this for multiple delete
+//        adapter.onArticleLongCLicked { articleData ->
+//            removeMultipleArticles(articleData)
+//        }
         binding.rvSavedNews.adapter = adapter
         showSavedNews()
     }
 
-    private fun removeArticleFromList(position: Int) {
+    private fun removeMultipleArticles(position: Int) {
         setDialogBackground(Color.GRAY, position)
         val alertDialog = AlertDialog.Builder(this@SavedNewsActivity).apply {
             setPositiveButton("Yes") { _, _ ->
                 presenter.handleArticleToRemove(dbInstance, newsData[position])
                 adapter.notifyItemRemoved(position)
-                showToast("Article Removed!")
             }
             setNegativeButton("No") { _, _ ->
                 setDialogBackground(Color.TRANSPARENT, position)
@@ -93,8 +110,14 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
         }
     }
 
-    override fun showToast(message: String) {
-        toast(this@SavedNewsActivity, message)
+    override fun showSnackBar(position: Int, selectedArticle: ArticleDetails) {
+        Snackbar.make(
+            binding.rvSavedNews,
+            "Article Removed!", Snackbar.LENGTH_SHORT)
+                .setAction("Undo") {
+                adapter.undoArticleRemoved(position, selectedArticle)
+                presenter.handleArticleToInsert(dbInstance, selectedArticle)
+                }.show()
     }
 }
 

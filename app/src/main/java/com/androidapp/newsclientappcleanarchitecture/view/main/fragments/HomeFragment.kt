@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.view.main.fragmentClasses
+package com.androidapp.newsclientappcleanarchitecture.view.main.fragments
 
 import android.os.Build
 import android.os.Bundle
@@ -18,8 +18,6 @@ import com.androidapp.newsclientappcleanarchitecture.utils.Constants.Companion.T
 import com.androidapp.newsclientappcleanarchitecture.utils.getTimeDifference
 import com.androidapp.newsclientappcleanarchitecture.utils.startReadFullNewsAct
 import com.androidapp.newsclientappcleanarchitecture.view.adapters.CustomAdapter
-import com.jama.carouselview.enums.IndicatorAnimationType
-import com.jama.carouselview.enums.OffsetType
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -52,9 +50,9 @@ class HomeFragment : Fragment(), FragmentContract.View {
         return view
     }
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun showArticles(response: List<ArticleDetails>) {
+    override fun showArticles(response: MutableList<ArticleDetails>) {
         val topHeadlines = response.slice(0 until TOP_HEADLINES_COUNT)
-        val headlines = response.slice(TOP_HEADLINES_COUNT until response.size)
+        val headlines = response.slice(TOP_HEADLINES_COUNT until response.size).toMutableList()
 
         val articleAdapter = CustomAdapter(headlines)
         articleAdapter.onArticleCLicked { selectedArticle ->

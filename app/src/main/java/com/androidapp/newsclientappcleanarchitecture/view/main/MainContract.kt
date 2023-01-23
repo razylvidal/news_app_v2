@@ -4,7 +4,7 @@ interface MainContract {
     interface View{
         fun showProgressBar( isVisible: Boolean)
         fun showToast(message: String)
-        fun setUpViewPager(categoryList: List<String>)
+        fun showViewPager(categoryList: List<String>)
 
     }
     interface Presenter{

@@ -1,13 +1,14 @@
-package com.androidapp.newsclientappcleanarchitecture.view.main.fragmentClasses
+package com.androidapp.newsclientappcleanarchitecture.view.main.fragments
 
 import com.androidapp.newsclientappcleanarchitecture.domain.usecases.GetArticlesUseCase
 import com.androidapp.newsclientappcleanarchitecture.utils.LogHelper
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CustomPresenter @Inject constructor(private val articlesUseCase: GetArticlesUseCase): FragmentContract.Presenter {
+class CustomPresenter @Inject constructor(private val articlesUseCase: GetArticlesUseCase)
+    : FragmentContract.Presenter {
+
     private val scope = MainScope()
     private var view: FragmentContract.View? = null
 

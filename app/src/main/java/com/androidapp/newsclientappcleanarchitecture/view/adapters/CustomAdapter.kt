@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso
 
 
 @SuppressLint("NotifyDataSetChanged")
-class CustomAdapter(private var articleList: List<ArticleDetails>) :
+class CustomAdapter(private var articleList: MutableList<ArticleDetails>) :
     RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     private var onClick: ((ArticleDetails) -> Unit)? = null
@@ -97,5 +97,19 @@ class CustomAdapter(private var articleList: List<ArticleDetails>) :
     }
     fun onArticleLongCLicked(onLongCLick: (Int) -> Unit){
         this.onLongClick = onLongCLick
+    }
+
+    fun clear() {
+        articleList.clear()
+    }
+
+    fun removeArticle(position: Int){
+        articleList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun undoArticleRemoved(position: Int, articleDetails: ArticleDetails){
+        articleList.add(position,articleDetails)
+        notifyItemInserted(position)
     }
 }

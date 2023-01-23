@@ -41,9 +41,6 @@ class ArticleRepositoryImpl @Inject constructor(
 
     override fun fetchCategories(): List<String> = Category.values().map { it.name }
 
-//    private fun initializeDB(instanceOfDB: SavedArticlesDatabase): SavedArticlesDatabase {
-//        return SavedArticlesDatabase.getDatabaseClient(instanceOfDB)
-//    }
     override fun insertNews(instanceOfDB: SavedArticlesDatabase, news: ArticleDetails) {
         val articleToInsert = news.toDatabase()
         CoroutineScope(Dispatchers.IO).launch {
