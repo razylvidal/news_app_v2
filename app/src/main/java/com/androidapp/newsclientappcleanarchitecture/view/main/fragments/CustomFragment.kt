@@ -46,6 +46,7 @@ class CustomFragment : Fragment(), FragmentContract.View{
 
         return view
     }
+
     private fun getCurrentCategory() : String {
         return try {
             requireArguments().getString(KEY_CATEGORY)!!
@@ -56,6 +57,7 @@ class CustomFragment : Fragment(), FragmentContract.View{
     }
 
     override fun showArticles(response: MutableList<ArticleDetails>) {
+        binding.customShimmerLayout.visibility = View.GONE
         val articleAdapter = CustomAdapter(response)
         articleAdapter.onArticleCLicked { selectedArticle ->
             startReadFullNewsAct(requireContext(), selectedArticle)

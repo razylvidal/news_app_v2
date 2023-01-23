@@ -26,7 +26,7 @@ class CustomPresenter @Inject constructor(private val articlesUseCase: GetArticl
             try {
                 val listOfArticles = articlesUseCase.getListOfArticles(category)
                 view?.showArticles(listOfArticles)
-//                view?.showProgressBar(false)
+//              view?.showProgressBar(false)
             } catch (exception: Exception) {
                 LogHelper.log("error", exception.toString())
 //                view?.showProgressBar(false)

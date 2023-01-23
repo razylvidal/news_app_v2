@@ -1,50 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.main.fragments.HomeFragment">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/hardcore_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="15dp"
-            android:text="Top Headlines"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="?attr/colorOnSecondary"/>
-
-        <com.jama.carouselview.CarouselView
-            android:id="@+id/home_carousel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:indicatorAnimationType="scale"
-            app:enableSnapping="true"
-            app:scaleOnScroll="false"
-            app:setAutoPlay="true"
-            app:setAutoPlayDelay="3000"
-            app:carouselOffset="center"
-            app:indicatorRadius="5"
-            app:indicatorPadding="5"
-            app:indicatorSelectedColor="@color/red"
-            app:spacing="10"
-            app:resource="@layout/carousel_news_list_item"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            />
+            android:orientation="vertical">
 
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+            <TextView
+                android:id="@+id/tv_top_headlines"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="15dp"
+                android:visibility="invisible"
+                android:text="Top Headlines"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnSecondary"/>
+
+            <com.jama.carouselview.CarouselView
+                android:id="@+id/home_carousel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:indicatorAnimationType="scale"
+                app:enableSnapping="true"
+                app:scaleOnScroll="false"
+                app:setAutoPlay="true"
+                app:setAutoPlayDelay="3000"
+                app:carouselOffset="center"
+                app:indicatorRadius="5"
+                app:indicatorPadding="5"
+                app:indicatorSelectedColor="@color/red"
+                app:spacing="10"
+                app:resource="@layout/carousel_news_list_item"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.4"
+        android:animateLayoutChanges="true"
+        android:animationCache="true"
+        android:clipChildren="true"
+        app:shimmer_dropoff="@integer/material_motion_duration_medium_1"
+        app:shimmer_repeat_mode="restart"
+        app:shimmer_shape="linear">
+
+        <include layout="@layout/home_shimmer_layout" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+</RelativeLayout>

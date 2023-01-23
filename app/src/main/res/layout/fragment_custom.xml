@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/rv_custom_fragment"
-    tools:context=".view.main.fragments.CustomFragment"
-    >
+    tools:context=".view.main.fragments.CustomFragment">
 
-</androidx.recyclerview.widget.RecyclerView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_custom_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/custom_shimmer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.4"
+        android:animateLayoutChanges="true"
+        android:animationCache="true"
+        android:clipChildren="true"
+        app:shimmer_dropoff="@integer/material_motion_duration_medium_1"
+        app:shimmer_repeat_mode="restart"
+        app:shimmer_shape="linear">
+
+        <include layout="@layout/custom_shimmer_layout" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+</RelativeLayout>

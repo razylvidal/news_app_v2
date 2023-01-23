@@ -51,6 +51,8 @@ class HomeFragment : Fragment(), FragmentContract.View {
     }
     @RequiresApi(Build.VERSION_CODES.O)
     override fun showArticles(response: MutableList<ArticleDetails>) {
+        binding.shimmerLayout.visibility = View.GONE
+        binding.tvTopHeadlines.visibility = View.VISIBLE
         val topHeadlines = response.slice(0 until TOP_HEADLINES_COUNT)
         val headlines = response.slice(TOP_HEADLINES_COUNT until response.size).toMutableList()
 
@@ -59,7 +61,6 @@ class HomeFragment : Fragment(), FragmentContract.View {
             startReadFullNewsAct(requireContext(), selectedArticle)
         }
         binding.recyclerView.adapter = articleAdapter
-
         binding.homeCarousel.apply {
             size = topHeadlines.size
             setCarouselViewListener { view, position ->

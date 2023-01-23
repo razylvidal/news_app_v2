@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
@@ -39,14 +37,15 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
 
         setSupportActionBar(binding.tbMainAct)
         binding.tvCurrentDate.showText(getCurrentDate())
-        binding.vpArticleView.visibility = View.GONE
-
+        //binding.vpArticleView.visibility = View.GONE
         adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
         binding.vpArticleView.adapter = adapter
         presenter.onMainViewReady(this)
+
         binding.fabSearchNews.setOnClickListener {
             startSearchNewsAct(this)
         }
+
         //refreshArticleList()
     }
 
@@ -101,7 +100,8 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
     }
 
     override fun showViewPager(categoryList: List<String>) {
-        binding.vpArticleView.visibility = View.VISIBLE
+        //binding.shimmerLayout.visibility = View.GONE
+        //binding.vpArticleView.visibility = View.VISIBLE
         TabLayoutMediator(binding.categoryTabs, binding.vpArticleView) { tab, position ->
             tab.text = categoryList[position]
         }.attach()
@@ -126,4 +126,7 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
 //            swipeRefresh.isRefreshing = false
 //        }
 //    }
+    companion object{
+        const val isViewReady = false
+    }
 }
