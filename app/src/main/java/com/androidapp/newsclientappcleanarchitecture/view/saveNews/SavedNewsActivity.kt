@@ -26,7 +26,7 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
     private lateinit var newsData: MutableList<ArticleDetails>
     private lateinit var adapter: CustomAdapter
     private lateinit var binding: ActivitySavedNewsBinding
-    private lateinit var dbInstance : SavedArticlesDatabase
+    private lateinit var dbInstance: SavedArticlesDatabase
 
     @Inject
     lateinit var presenter: SavedNewsPresenter
@@ -36,11 +36,11 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
         binding = ActivitySavedNewsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.tbSavedNews)
         val layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,
-            false)
+            false
+        )
         binding.rvSavedNews.layoutManager = layoutManager
 
         dbInstance = presenter.initializeDB(this)
@@ -52,7 +52,7 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
             startReadFullNewsAct(this@SavedNewsActivity, articleData)
         }
 
-        val swipeGesture = object : SwipeGesture(this){
+        val swipeGesture = object : SwipeGesture(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 LogHelper.log("////", viewHolder.adapterPosition.toString())
                 val selectedArticle = newsData[viewHolder.adapterPosition]
@@ -113,11 +113,12 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
     override fun showSnackBar(position: Int, selectedArticle: ArticleDetails) {
         Snackbar.make(
             binding.rvSavedNews,
-            "Article Removed!", Snackbar.LENGTH_SHORT)
-                .setAction("Undo") {
+            "Article Removed!", Snackbar.LENGTH_SHORT
+        )
+            .setAction("Undo") {
                 adapter.undoArticleRemoved(position, selectedArticle)
                 presenter.handleArticleToInsert(dbInstance, selectedArticle)
-                }.show()
+            }.show()
     }
 }
 

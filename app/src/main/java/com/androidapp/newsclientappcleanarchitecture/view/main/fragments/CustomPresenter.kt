@@ -3,6 +3,7 @@ package com.androidapp.newsclientappcleanarchitecture.view.main.fragments
 import com.androidapp.newsclientappcleanarchitecture.domain.usecases.GetArticlesUseCase
 import com.androidapp.newsclientappcleanarchitecture.utils.LogHelper
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,16 +22,15 @@ class CustomPresenter @Inject constructor(private val articlesUseCase: GetArticl
        view = null
     }
 
-    private fun makeArticleRequest(category: String) {
+    fun makeArticleRequest(category: String) {
         scope.launch {
+            delay(2000L)
             try {
                 val listOfArticles = articlesUseCase.getListOfArticles(category)
                 view?.showArticles(listOfArticles)
-//              view?.showProgressBar(false)
+                view?.showShimmerLayout(false)
             } catch (exception: Exception) {
                 LogHelper.log("error", exception.toString())
-//                view?.showProgressBar(false)
-//                view?.showToast(exception.message ?: "Something went wrong")
             }
         }
     }

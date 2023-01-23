@@ -37,7 +37,6 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
 
         setSupportActionBar(binding.tbMainAct)
         binding.tvCurrentDate.showText(getCurrentDate())
-        //binding.vpArticleView.visibility = View.GONE
         adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
         binding.vpArticleView.adapter = adapter
         presenter.onMainViewReady(this)
@@ -46,7 +45,6 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
             startSearchNewsAct(this)
         }
 
-        //refreshArticleList()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -84,24 +82,11 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
         super.onDestroy()
     }
 
-    override fun showProgressBar(isVisible: Boolean) {
-        if (isVisible) {
-            LogHelper.log("progressBar", "is showing")
-            binding.vpArticleView.visibility = View.GONE
-            binding.pbLoad.show()
-        } else {
-            binding.vpArticleView.visibility = View.VISIBLE
-            binding.pbLoad.hide()
-        }
-    }
-
     override fun showToast(message: String) {
         toast(this@HomeActivity, message)
     }
 
     override fun showViewPager(categoryList: List<String>) {
-        //binding.shimmerLayout.visibility = View.GONE
-        //binding.vpArticleView.visibility = View.VISIBLE
         TabLayoutMediator(binding.categoryTabs, binding.vpArticleView) { tab, position ->
             tab.text = categoryList[position]
         }.attach()
@@ -118,15 +103,5 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
             item.setIcon(R.drawable.ic_day)
             presenter.saveUIModeToDataStore(false)
         }
-    }
-//    private fun refreshArticleList() {
-//        swipeRefresh.setOnRefreshListener {
-//            showProgressBar(true)
-//            presenter.fetchArticles()
-//            swipeRefresh.isRefreshing = false
-//        }
-//    }
-    companion object{
-        const val isViewReady = false
     }
 }

@@ -7,7 +7,6 @@ import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.domain.usecases.GetSavedArticlesUseCase
 import com.androidapp.newsclientappcleanarchitecture.domain.usecases.InsertNewsUseCase
 import com.androidapp.newsclientappcleanarchitecture.domain.usecases.RemoveArticleUseCase
-import java.text.FieldPosition
 import javax.inject.Inject
 
 class SavedNewsPresenter @Inject constructor(

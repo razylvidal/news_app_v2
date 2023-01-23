@@ -26,12 +26,13 @@ import javax.inject.Inject
 class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
 
     private lateinit var articleData: ArticleDetails
+
     @Inject
     lateinit var presenter: ReadFullNewsPresenter
     private lateinit var binding: ActivityNewsFullDetailsBinding
     private lateinit var dbInstance: SavedArticlesDatabase
 
-    companion object{
+    companion object {
         const val KEY_ARTICLE_DETAILS = "key_article_details"
         fun getIntent(context: Context, articleDetails: ArticleDetails): Intent {
             return Intent(context, ReadFullNewsActivity::class.java).apply {
@@ -44,8 +45,10 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
         super.onCreate(savedInstanceState)
         binding = ActivityNewsFullDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
+
+        setSupportActionBar(binding.readFullNewsToolbar)
+//        supportActionBar?.setHomeButtonEnabled(true)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         dbInstance = presenter.initializeDB(this)
 
@@ -68,7 +71,7 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
                 return true
             }
             R.id.action_share_news -> {
-                startShareNewsAct( articleData.url!!, this@ReadFullNewsActivity)
+                startShareNewsAct(articleData.url!!, this@ReadFullNewsActivity)
                 return true
             }
             R.id.action_browse_news -> {
@@ -101,9 +104,10 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
                     view.loadUrl(request.url.toString())
                     return true
                 }
+
                 override fun onPageFinished(view: WebView, url: String) {
                     if (alertDialog.isShowing) {
-                        showAlertDialog(alertDialog,false)
+                        showAlertDialog(alertDialog, false)
                     }
                 }
             }
@@ -113,7 +117,7 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
     }
 
     override fun showAlertDialog(alertDialog: AlertDialog, isVisible: Boolean) {
-        if(isVisible) alertDialog.show(
+        if (isVisible) alertDialog.show(
             "Please Wait",
             "Loading Resources...",
             false
@@ -125,14 +129,14 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
         toast(this@ReadFullNewsActivity, message)
     }
 
-    private fun refreshWebView(){
+    private fun refreshWebView() {
         binding.srlRefreshWeb.setOnRefreshListener {
             startWebView(articleData.url.toString())
             binding.srlRefreshWeb.isRefreshing = false
         }
     }
 
-    private fun getArticleDetails() : ArticleDetails {
+    private fun getArticleDetails(): ArticleDetails {
         return try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 intent.getParcelableExtra(KEY_ARTICLE_DETAILS, ArticleDetails::class.java)!!
@@ -140,7 +144,7 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
                 @Suppress("DEPRECATION")
                 intent.getParcelableExtra(KEY_ARTICLE_DETAILS)!!
             }
-        }catch(exception: Exception){
+        } catch (exception: Exception) {
             throw java.lang
                 .IllegalStateException("Please use ReadFullNewsAct.getIntent() to start activity")
         }

@@ -43,8 +43,13 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
         binding = ActivitySearchNewsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+//        setSupportActionBar(binding.tbSearchView)
+//        supportActionBar?.setHomeButtonEnabled(true)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         setUpRecyclerView()
         presenter.onSearchViewReady(this)
+
 
         binding.svSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {

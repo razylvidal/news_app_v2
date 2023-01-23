@@ -42,17 +42,11 @@ class CustomAdapter(private var articleList: MutableList<ArticleDetails>) :
         holder.headLine.text = selectedArticle.title
         holder.sourceTV.text = selectedArticle.source.name
 
-        Picasso.get().apply {
-            if (selectedArticle.urlToImage == null) {
-                this.load(R.drawable.no_image_available)
-                    .into(holder.image)
-            } else {
-                this.load(selectedArticle.urlToImage)
-                    .placeholder(R.drawable.placeholder_image)
-                    .error(R.drawable.no_image_available)
-                    .into(holder.image)
-            }
-        }
+        Picasso.get()
+            .load(selectedArticle.urlToImage.toString())
+            .placeholder(R.drawable.placeholder_image)
+            .error(R.drawable.breaking_news)
+            .into(holder.image)
 
         holder.newsPublicationTime.apply {
             if (holder.itemView.context.toString().contains("SavedNews")){
@@ -101,11 +95,18 @@ class CustomAdapter(private var articleList: MutableList<ArticleDetails>) :
 
     fun clear() {
         articleList.clear()
+        notifyDataSetChanged()
     }
 
     fun removeArticle(position: Int){
         articleList.removeAt(position)
         notifyItemRemoved(position)
+    }
+
+    fun updateArticleList(articles : List<ArticleDetails>)
+    {
+        articleList.addAll(articles)
+        notifyDataSetChanged()
     }
 
     fun undoArticleRemoved(position: Int, articleDetails: ArticleDetails){

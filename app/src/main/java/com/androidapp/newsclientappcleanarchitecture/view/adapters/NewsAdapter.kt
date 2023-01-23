@@ -51,17 +51,11 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>):
             }
         }
 
-        Picasso.get().apply {
-            if (selectedArticle.urlToImage == null) {
-                this.load(R.drawable.no_image_available)
-                    .into(holder.newsIV)
-            } else {
-                this.load(selectedArticle.urlToImage)
-                    .placeholder(R.drawable.placeholder_image)
-                    .error(R.drawable.no_image_available)
-                    .into(holder.newsIV)
-            }
-        }
+        Picasso.get()
+            .load(selectedArticle.urlToImage.toString())
+            .placeholder(R.drawable.placeholder_image)
+            .error(R.drawable.breaking_news)
+            .into(holder.newsIV)
 
         holder.itemView.setOnClickListener {
             onClick?.invoke(selectedArticle)

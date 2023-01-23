@@ -6,10 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".view.main.fragments.CustomFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_custom_fragment"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/custom_swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_custom_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/custom_shimmer_layout"

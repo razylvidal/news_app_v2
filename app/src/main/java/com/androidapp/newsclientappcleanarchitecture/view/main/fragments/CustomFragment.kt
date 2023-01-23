@@ -20,6 +20,7 @@ class CustomFragment : Fragment(), FragmentContract.View{
     @Inject
     lateinit var presenter: CustomPresenter
     private lateinit var binding: FragmentCustomBinding
+    private lateinit var articleAdapter : CustomAdapter
 
     companion object{
         const val KEY_CATEGORY = "key_category"
@@ -42,8 +43,13 @@ class CustomFragment : Fragment(), FragmentContract.View{
         binding.rvCustomFragment.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
+        articleAdapter = CustomAdapter(mutableListOf())
+
         presenter.onViewReady(this, getCurrentCategory())
 
+        binding.customSwipeRefresh.setOnRefreshListener {
+            refreshList()
+        }
         return view
     }
 
@@ -57,11 +63,26 @@ class CustomFragment : Fragment(), FragmentContract.View{
     }
 
     override fun showArticles(response: MutableList<ArticleDetails>) {
-        binding.customShimmerLayout.visibility = View.GONE
-        val articleAdapter = CustomAdapter(response)
+        articleAdapter.clear()
+        articleAdapter.updateArticleList(response)
         articleAdapter.onArticleCLicked { selectedArticle ->
             startReadFullNewsAct(requireContext(), selectedArticle)
         }
         binding.rvCustomFragment.adapter = articleAdapter
+    }
+
+    override fun showShimmerLayout(isVisible: Boolean) {
+        if(isVisible){
+            articleAdapter.clear()
+            binding.customShimmerLayout.visibility = View.VISIBLE
+        }
+        else
+            binding.customShimmerLayout.visibility = View.GONE
+    }
+
+    private fun refreshList() {
+        showShimmerLayout(true)
+        presenter.makeArticleRequest(getCurrentCategory())
+        binding.customSwipeRefresh.isRefreshing = false
     }
 }

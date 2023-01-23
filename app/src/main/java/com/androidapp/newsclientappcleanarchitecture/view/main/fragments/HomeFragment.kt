@@ -18,6 +18,8 @@ import com.androidapp.newsclientappcleanarchitecture.utils.Constants.Companion.T
 import com.androidapp.newsclientappcleanarchitecture.utils.getTimeDifference
 import com.androidapp.newsclientappcleanarchitecture.utils.startReadFullNewsAct
 import com.androidapp.newsclientappcleanarchitecture.view.adapters.CustomAdapter
+import com.androidapp.newsclientappcleanarchitecture.view.main.hide
+import com.androidapp.newsclientappcleanarchitecture.view.main.show
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -26,10 +28,12 @@ import javax.inject.Inject
 class HomeFragment : Fragment(), FragmentContract.View {
 
     private lateinit var binding: FragmentHomeBinding
-    @Inject
-    lateinit var presenter : CustomPresenter
+    private lateinit var articleAdapter: CustomAdapter
 
-    companion object{
+    @Inject
+    lateinit var presenter: CustomPresenter
+
+    companion object {
         fun getInstance() = HomeFragment()
     }
 
@@ -45,31 +49,55 @@ class HomeFragment : Fragment(), FragmentContract.View {
             LinearLayoutManager.VERTICAL,
             false
         )
+        articleAdapter = CustomAdapter(mutableListOf())
         presenter.onViewReady(this, DEFAULT_CATEGORY)
-
+        binding.homeSwipeRefresh.setOnRefreshListener {
+            refreshList()
+        }
         return view
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun showArticles(response: MutableList<ArticleDetails>) {
-        binding.shimmerLayout.visibility = View.GONE
-        binding.tvTopHeadlines.visibility = View.VISIBLE
+        binding.tvTopHeadlines.show()
         val topHeadlines = response.slice(0 until TOP_HEADLINES_COUNT)
-        val headlines = response.slice(TOP_HEADLINES_COUNT until response.size).toMutableList()
+        val headlines = response.slice(TOP_HEADLINES_COUNT until response.size)
+            .toMutableList()
+        displayToCarousel(topHeadlines)
+        displayRemainingArticles(headlines)
+    }
 
-        val articleAdapter = CustomAdapter(headlines)
-        articleAdapter.onArticleCLicked { selectedArticle ->
-            startReadFullNewsAct(requireContext(), selectedArticle)
+    override fun showShimmerLayout(isVisible: Boolean) {
+        if (isVisible) {
+            binding.tvTopHeadlines.hide()
+            articleAdapter.clear()
+            binding.shimmerLayout.visibility = View.VISIBLE
+        } else {
+            binding.shimmerLayout.visibility = View.GONE
+
         }
-        binding.recyclerView.adapter = articleAdapter
+    }
+    private fun refreshList() {
+        showShimmerLayout(true)
+        binding.homeCarousel.hide()
+        binding.homeCarousel.autoPlay = false
+        presenter.makeArticleRequest(DEFAULT_CATEGORY)
+        binding.homeSwipeRefresh.isRefreshing = false
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun displayToCarousel(topHeadlines : List<ArticleDetails>){
         binding.homeCarousel.apply {
             size = topHeadlines.size
+            autoPlay = true
             setCarouselViewListener { view, position ->
                 val imageView = view.findViewById<ImageView>(R.id.iv_articleImage)
                 Picasso.get()
-                    .load(topHeadlines[position].urlToImage)
+                    .load(topHeadlines[position].urlToImage.toString())
                     .placeholder(R.drawable.placeholder_image)
-                    .error(R.drawable.no_image_available)
+                    .error(R.drawable.breaking_news)
                     .into(imageView)
+
                 val title = view.findViewById<TextView>(R.id.tv_title)
                 title.text = topHeadlines[position].title
 
@@ -79,11 +107,20 @@ class HomeFragment : Fragment(), FragmentContract.View {
                 val timePosted = view.findViewById<TextView>(R.id.tv_publishedAt)
                 timePosted.text = getTimeDifference(topHeadlines[position].publishedAt)
 
-                view.setOnClickListener{
+                view.setOnClickListener {
                     startReadFullNewsAct(requireContext(), topHeadlines[position])
                 }
             }
-            show()
         }
+        binding.homeCarousel.show()
+        binding.homeCarousel.visibility = View.VISIBLE
+    }
+
+    private fun displayRemainingArticles(headlines : List<ArticleDetails>){
+        articleAdapter.updateArticleList(headlines)
+        articleAdapter.onArticleCLicked { selectedArticle ->
+            startReadFullNewsAct(requireContext(), selectedArticle)
+        }
+        binding.recyclerView.adapter = articleAdapter
     }
 }
