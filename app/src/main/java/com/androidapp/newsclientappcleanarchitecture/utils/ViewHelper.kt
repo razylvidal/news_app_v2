@@ -19,10 +19,6 @@ fun TextView.showText(format : String){
     visibility = TextView.VISIBLE
 }
 
-fun TextView.hideText(){
-    visibility = TextView.GONE
-}
-
 fun AlertDialog.show(title : String, message: String, isCancellable : Boolean){
     setTitle(title)
     setMessage(message)

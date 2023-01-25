@@ -3,9 +3,8 @@ package com.androidapp.newsclientappcleanarchitecture.view.main
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.androidapp.newsclientappcleanarchitecture.datastore.DataStoreManager
+import com.androidapp.newsclientappcleanarchitecture.data.datastore.DataStoreManager
 import com.androidapp.newsclientappcleanarchitecture.domain.usecases.GetCategoriesUseCase
-import com.androidapp.newsclientappcleanarchitecture.utils.Constants.Companion.DEFAULT_CATEGORY
 import kotlinx.coroutines.*
 import javax.inject.Inject
 

@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 
 data class ArticleDetailsRaw(
+    val id: Int? = null,
     @SerializedName("title")
     val title: String,
     @SerializedName("source")
@@ -17,7 +18,7 @@ data class ArticleDetailsRaw(
     @SerializedName("urlToImage")
     val urlToImage: String?,
     @SerializedName("url")
-    val url: String?,
+    val url: String,
     @SerializedName("content")
     val content: String?
 )

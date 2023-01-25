@@ -1,11 +1,11 @@
-package com.androidapp.newsclientappcleanarchitecture.database
+package com.androidapp.newsclientappcleanarchitecture.data.database
 
 import android.content.Context
 import androidx.room.*
 
 @Database(
     entities = [ArticleEntity::class],
-    version = 2
+    version = 1,
 )
 @TypeConverters(SourceConverter::class)
 abstract class SavedArticlesDatabase : RoomDatabase() {
@@ -15,18 +15,22 @@ abstract class SavedArticlesDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: SavedArticlesDatabase? = null
-        fun getDatabaseClient(context: Context): SavedArticlesDatabase {
-            val tempInstance = INSTANCE
-            if (tempInstance != null) return tempInstance
 
-            synchronized(this) {
-                INSTANCE = Room
-                    .databaseBuilder(context.applicationContext,
-                        SavedArticlesDatabase::class.java, "article_database")
+        fun getDatabaseClient(context: Context): SavedArticlesDatabase {
+
+            return INSTANCE ?: synchronized(this) {
+
+                val instance = Room
+                    .databaseBuilder(
+                        context.applicationContext,
+                        SavedArticlesDatabase::class.java, "article_database"
+                    )
                     .fallbackToDestructiveMigration()
                     .build()
 
-                return INSTANCE!!
+                INSTANCE = instance
+
+                instance
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.datastore
+package com.androidapp.newsclientappcleanarchitecture.data.datastore
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.R
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
-abstract class SwipeGesture(val context: Context)
+abstract class SwipeToDeleteCallback(val context: Context)
     : ItemTouchHelper.SimpleCallback(
     0,
     ItemTouchHelper.LEFT

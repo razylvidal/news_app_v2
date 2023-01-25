@@ -25,9 +25,9 @@ class CustomAdapter(private var articleList: MutableList<ArticleDetails>) :
     private var onLongClick: ((Int) -> Unit)? = null
     private lateinit var context: Context
 
-    init {
-        this.notifyDataSetChanged()
-    }
+//    init {
+//        this.notifyDataSetChanged()
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -42,38 +42,42 @@ class CustomAdapter(private var articleList: MutableList<ArticleDetails>) :
         holder.headLine.text = selectedArticle.title
         holder.sourceTV.text = selectedArticle.source.name
 
-        Picasso.get()
-            .load(selectedArticle.urlToImage.toString())
-            .placeholder(R.drawable.placeholder_image)
-            .error(R.drawable.breaking_news)
-            .into(holder.image)
+        Picasso.get().apply {
+            if(selectedArticle.urlToImage.toString() == "null")
+                this.load(R.drawable.breaking_news)
+            else{
+                this.load(selectedArticle.urlToImage)
+                    .placeholder(R.drawable.placeholder_image)
+            }.into(holder.image)
+        }
 
         holder.newsPublicationTime.apply {
-            if (holder.itemView.context.toString().contains("SavedNews")){
+            if (holder.itemView.context.toString().contains("SavedNews")) {
                 this.setCompoundDrawablesWithIntrinsicBounds(
                     null,
                     null,
                     null,
-                    null)
+                    null
+                )
                 this.text = getPublishedDate(selectedArticle.publishedAt)
-            }
-            else{
+            } else {
                 this.text = getTimeDifference(selectedArticle.publishedAt)
             }
         }
 
         holder.itemView.apply {
             this.setOnClickListener {
-            onClick?.invoke(selectedArticle)
-        }
+                onClick?.invoke(selectedArticle)
+            }
             this.setOnLongClickListener {
-                if(this.context.toString().contains("SavedNews")){
+                if (this.context.toString().contains("SavedNews")) {
                     onLongClick?.invoke(position)
                 }
                 return@setOnLongClickListener true
             }
         }
     }
+
     override fun getItemCount(): Int {
         return articleList.size
     }
@@ -86,10 +90,12 @@ class CustomAdapter(private var articleList: MutableList<ArticleDetails>) :
         val newsPublicationTime: TextView = itemView.findViewById(R.id.tv_publicationTime)
         val sourceTV: TextView = itemView.findViewById(R.id.tv_saved_source)
     }
-    fun onArticleCLicked(onClick: (ArticleDetails) -> Unit){
+
+    fun onArticleCLicked(onClick: (ArticleDetails) -> Unit) {
         this.onClick = onClick
     }
-    fun onArticleLongCLicked(onLongCLick: (Int) -> Unit){
+
+    fun onArticleLongCLicked(onLongCLick: (Int) -> Unit) {
         this.onLongClick = onLongCLick
     }
 
@@ -98,18 +104,17 @@ class CustomAdapter(private var articleList: MutableList<ArticleDetails>) :
         notifyDataSetChanged()
     }
 
-    fun removeArticle(position: Int){
+    fun removeArticle(position: Int) {
         articleList.removeAt(position)
         notifyItemRemoved(position)
     }
 
-    fun updateArticleList(articles : List<ArticleDetails>)
-    {
+    fun updateArticleList(articles: List<ArticleDetails>) {
         articleList.addAll(articles)
         notifyDataSetChanged()
     }
 
-    fun undoArticleRemoved(position: Int, articleDetails: ArticleDetails){
+    fun undoArticleRemoved(position: Int, articleDetails: ArticleDetails) {
         articleList.add(position,articleDetails)
         notifyItemInserted(position)
     }

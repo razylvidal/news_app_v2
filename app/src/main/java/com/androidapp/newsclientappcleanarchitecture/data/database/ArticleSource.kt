@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.database
+package com.androidapp.newsclientappcleanarchitecture.data.database
 
 
 data class ArticleSource (

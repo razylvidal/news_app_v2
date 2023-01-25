@@ -1,6 +1,6 @@
 package com.androidapp.newsclientappcleanarchitecture.utils
 
-import com.androidapp.newsclientappcleanarchitecture.database.ArticleEntity
+import com.androidapp.newsclientappcleanarchitecture.data.database.ArticleEntity
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 
 

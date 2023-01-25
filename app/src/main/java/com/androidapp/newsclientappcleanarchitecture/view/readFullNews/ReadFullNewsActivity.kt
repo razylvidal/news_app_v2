@@ -10,9 +10,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.webkit.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import com.androidapp.newsclientappcleanarchitecture.R
-import com.androidapp.newsclientappcleanarchitecture.database.SavedArticlesDatabase
+import com.androidapp.newsclientappcleanarchitecture.data.database.SavedArticlesDatabase
 import com.androidapp.newsclientappcleanarchitecture.databinding.ActivityNewsFullDetailsBinding
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.utils.openInBrowser
@@ -45,15 +44,9 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
         super.onCreate(savedInstanceState)
         binding = ActivityNewsFullDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.readFullNewsToolbar)
-//        supportActionBar?.setHomeButtonEnabled(true)
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         dbInstance = presenter.initializeDB(this)
-
         articleData = getArticleDetails()
-
         startWebView(articleData.url.toString())
         refreshWebView()
     }
@@ -93,7 +86,11 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
                 domStorageEnabled = true
                 loadsImagesAutomatically = true
             }
-            val alertDialog = AlertDialog.Builder(this@ReadFullNewsActivity).create()
+            val alertDialog = AlertDialog.Builder(this@ReadFullNewsActivity).apply {
+                setNegativeButton("Cancel") { _, _ ->
+                    this@ReadFullNewsActivity.finish()
+                }
+            }.create()
             showAlertDialog(alertDialog, true)
 
             binding.newsWebview.webViewClient = object : WebViewClient() {
@@ -117,11 +114,14 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
     }
 
     override fun showAlertDialog(alertDialog: AlertDialog, isVisible: Boolean) {
-        if (isVisible) alertDialog.show(
-            "Please Wait",
-            "Loading Resources...",
-            false
-        )
+        if (isVisible) {
+            alertDialog.show(
+                "Please Wait",
+                "Loading Resources...",
+                false
+            )
+
+        }
         else alertDialog.dismiss()
     }
 
@@ -148,5 +148,10 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
             throw java.lang
                 .IllegalStateException("Please use ReadFullNewsAct.getIntent() to start activity")
         }
+    }
+
+    override fun onDestroy() {
+        presenter.onReadFullNewsViewDestroyed()
+        super.onDestroy()
     }
 }

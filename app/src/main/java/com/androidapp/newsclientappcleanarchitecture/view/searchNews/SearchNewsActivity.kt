@@ -5,12 +5,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ProgressBar
 import androidx.appcompat.widget.SearchView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.androidapp.newsclientappcleanarchitecture.databinding.ActivitySearchNewsBinding
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.view.adapters.NewsAdapter
@@ -27,6 +24,7 @@ import javax.inject.Inject
 class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
 
     private lateinit var binding: ActivitySearchNewsBinding
+
     @Inject
     lateinit var presenter: SearchNewsPresenter
     private lateinit var newsAdapter: NewsAdapter
@@ -43,13 +41,8 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
         binding = ActivitySearchNewsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        setSupportActionBar(binding.tbSearchView)
-//        supportActionBar?.setHomeButtonEnabled(true)
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         setUpRecyclerView()
         presenter.onSearchViewReady(this)
-
 
         binding.svSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -59,6 +52,7 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
                 }
                 return false
             }
+
             override fun onQueryTextChange(newText: String): Boolean {
                 if (newText.length > 1) {
                     queryForRefresh = newText
@@ -67,8 +61,13 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
                 return false
             }
         })
-        refreshLatestNews()
+
+        binding.srlSearchRefresh.setOnRefreshListener {
+            presenter.onRefresh(queryForRefresh)
+            binding.srlSearchRefresh.isRefreshing = false
+        }
     }
+
     private fun setUpRecyclerView() {
         newsAdapter = NewsAdapter(mutableListOf())
         newsAdapter.onArticleCLicked { articleData ->
@@ -86,6 +85,7 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
     override fun showQueryResult(queryResult: List<ArticleDetails>) {
         newsAdapter.updateArticleData(queryResult)
     }
+
     override fun showProgressBar(isVisible: Boolean) {
         if (isVisible) {
             binding.pbLoadingBar.show()
@@ -119,15 +119,8 @@ class SearchNewsActivity : AppCompatActivity(), SearchNewsContract.View {
         binding.apSearchActivity.setOnTouchListener(null)
     }
 
-    // move to presenter
-    private fun refreshLatestNews(){
-        binding.srlSearchRefresh.setOnRefreshListener {
-            showProgressBar(true)
-            if(queryForRefresh.length > 1)
-                presenter.handleQueryArticleResponse(queryForRefresh, PAGE_SIZE)
-            else
-                presenter.fetchArticles()
-            binding.srlSearchRefresh.isRefreshing = false
-        }
+    override fun onDestroy() {
+        presenter.onSearchViewDestroyed()
+        super.onDestroy()
     }
 }

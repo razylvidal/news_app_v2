@@ -50,12 +50,14 @@ class NewsAdapter(private val articles: MutableList<ArticleDetails>):
                 this.text = getTimeDifference(selectedArticle.publishedAt)
             }
         }
-
-        Picasso.get()
-            .load(selectedArticle.urlToImage.toString())
-            .placeholder(R.drawable.placeholder_image)
-            .error(R.drawable.breaking_news)
-            .into(holder.newsIV)
+        Picasso.get().apply {
+            if(selectedArticle.urlToImage.toString() == "null")
+                this.load(R.drawable.breaking_news)
+            else{
+                this.load(selectedArticle.urlToImage)
+                    .placeholder(R.drawable.placeholder_image)
+            }.into(holder.newsIV)
+        }
 
         holder.itemView.setOnClickListener {
             onClick?.invoke(selectedArticle)

@@ -1,4 +1,4 @@
-package com.androidapp.newsclientappcleanarchitecture.database
+package com.androidapp.newsclientappcleanarchitecture.data.database
 
 import androidx.room.TypeConverter
 
@@ -10,7 +10,7 @@ class SourceConverter {
     }
 
     @TypeConverter
-    fun toArticleSource(name: String) : ArticleSource{
+    fun toArticleSource(name: String) : ArticleSource {
         return ArticleSource(name, name)
     }
 }

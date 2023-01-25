@@ -2,7 +2,7 @@ package com.androidapp.newsclientappcleanarchitecture.view.saveNews
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import com.androidapp.newsclientappcleanarchitecture.database.SavedArticlesDatabase
+import com.androidapp.newsclientappcleanarchitecture.data.database.SavedArticlesDatabase
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.domain.usecases.GetSavedArticlesUseCase
 import com.androidapp.newsclientappcleanarchitecture.domain.usecases.InsertNewsUseCase

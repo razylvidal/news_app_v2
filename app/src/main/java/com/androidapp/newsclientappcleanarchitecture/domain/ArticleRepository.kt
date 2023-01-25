@@ -1,7 +1,7 @@
 package com.androidapp.newsclientappcleanarchitecture.domain
 
 import androidx.lifecycle.LiveData
-import com.androidapp.newsclientappcleanarchitecture.database.SavedArticlesDatabase
+import com.androidapp.newsclientappcleanarchitecture.data.database.SavedArticlesDatabase
 
 
 interface ArticleRepository {

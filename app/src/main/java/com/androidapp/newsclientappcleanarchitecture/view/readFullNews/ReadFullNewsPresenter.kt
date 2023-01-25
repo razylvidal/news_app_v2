@@ -1,7 +1,7 @@
 package com.androidapp.newsclientappcleanarchitecture.view.readFullNews
 
 import android.content.Context
-import com.androidapp.newsclientappcleanarchitecture.database.SavedArticlesDatabase
+import com.androidapp.newsclientappcleanarchitecture.data.database.SavedArticlesDatabase
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.domain.usecases.InsertNewsUseCase
 import javax.inject.Inject

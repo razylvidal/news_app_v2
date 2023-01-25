@@ -1,6 +1,6 @@
 package com.androidapp.newsclientappcleanarchitecture.domain.usecases
 
-import com.androidapp.newsclientappcleanarchitecture.database.SavedArticlesDatabase
+import com.androidapp.newsclientappcleanarchitecture.data.database.SavedArticlesDatabase
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleRepository
 import javax.inject.Inject

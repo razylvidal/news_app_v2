@@ -61,7 +61,11 @@ class SearchNewsPresenter @Inject constructor(
             }
         }
     }
-    fun fetchArticles() {
-        setUpArticleView()
+    fun onRefresh(query : String) {
+        searchNewsView?.showProgressBar(true)
+        if (query.length > 1)
+            handleQueryArticleResponse(query, Constants.PAGE_SIZE)
+        else
+            setUpArticleView()
     }
 }

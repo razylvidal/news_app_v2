@@ -2,7 +2,7 @@ package com.androidapp.newsclientappcleanarchitecture
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.androidapp.newsclientappcleanarchitecture.datastore.DataStoreManager
+import com.androidapp.newsclientappcleanarchitecture.data.datastore.DataStoreManager
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.first

@@ -2,12 +2,13 @@ package com.androidapp.newsclientappcleanarchitecture.utils
 
 import com.androidapp.newsclientappcleanarchitecture.data.ArticleDetailsRaw
 import com.androidapp.newsclientappcleanarchitecture.data.SourceRaw
-import com.androidapp.newsclientappcleanarchitecture.database.ArticleEntity
-import com.androidapp.newsclientappcleanarchitecture.database.ArticleSource
+import com.androidapp.newsclientappcleanarchitecture.data.database.ArticleEntity
+import com.androidapp.newsclientappcleanarchitecture.data.database.ArticleSource
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.domain.Source
 
 fun ArticleDetailsRaw.toDomain() = ArticleDetails(
+    id = id,
     title = title,
     source = source.toDomain(),
     author = author,
@@ -19,6 +20,7 @@ fun ArticleDetailsRaw.toDomain() = ArticleDetails(
 )
 
 fun ArticleEntity.toDomain() = ArticleDetails(
+    id = id,
     title = title,
     source = source.toDomain(),
     author = author,
@@ -30,6 +32,7 @@ fun ArticleEntity.toDomain() = ArticleDetails(
 )
 
 fun ArticleDetails.toDatabase() = ArticleEntity(
+    id = id,
     title = title,
     source = source.toDatabase(),
     author = author,

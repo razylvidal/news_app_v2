@@ -4,17 +4,17 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.androidapp.newsclientappcleanarchitecture.database.SavedArticlesDatabase
+import com.androidapp.newsclientappcleanarchitecture.data.database.SavedArticlesDatabase
 import com.androidapp.newsclientappcleanarchitecture.databinding.ActivitySavedNewsBinding
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.utils.LogHelper
 import com.androidapp.newsclientappcleanarchitecture.view.adapters.CustomAdapter
 import com.androidapp.newsclientappcleanarchitecture.utils.startReadFullNewsAct
+import com.androidapp.newsclientappcleanarchitecture.view.main.hide
 import com.androidapp.newsclientappcleanarchitecture.view.main.show
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,26 +51,26 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
         adapter.onArticleCLicked { articleData ->
             startReadFullNewsAct(this@SavedNewsActivity, articleData)
         }
+        binding.rvSavedNews.adapter = adapter
+        showSavedNews()
 
-        val swipeGesture = object : SwipeGesture(this) {
+        val swipeToDelete = object : SwipeToDeleteCallback(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                LogHelper.log("////", viewHolder.adapterPosition.toString())
                 val selectedArticle = newsData[viewHolder.adapterPosition]
                 val position = viewHolder.adapterPosition
+                LogHelper.log("positionDeleted", viewHolder.adapterPosition.toString())
+                adapter.removeArticle(position)
                 presenter.handleArticleToRemove(dbInstance, selectedArticle)
-                adapter.removeArticle(viewHolder.adapterPosition)
                 showSnackBar(position, selectedArticle)
             }
         }
-        val touchHelper = ItemTouchHelper(swipeGesture)
+        val touchHelper = ItemTouchHelper(swipeToDelete)
         touchHelper.attachToRecyclerView(binding.rvSavedNews)
 
         //use this for multiple delete
 //        adapter.onArticleLongCLicked { articleData ->
 //            removeMultipleArticles(articleData)
 //        }
-        binding.rvSavedNews.adapter = adapter
-        showSavedNews()
     }
 
     private fun removeMultipleArticles(position: Int) {
@@ -103,22 +103,32 @@ class SavedNewsActivity : AppCompatActivity(), SavedNewsContract.View {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun showSavedNews() {
+        LogHelper.log("->", "showSavedNews")
         presenter.handleSavedArticlesFromDB(dbInstance).observe(this) {
             newsData.clear()
             newsData.addAll(it)
+            if(newsData.isEmpty())
+                binding.tvMessage.show()
+            else
+                binding.tvMessage.hide()
             adapter.notifyDataSetChanged()
         }
     }
 
     override fun showSnackBar(position: Int, selectedArticle: ArticleDetails) {
+        LogHelper.log("////", position.toString())
         Snackbar.make(
             binding.rvSavedNews,
             "Article Removed!", Snackbar.LENGTH_SHORT
-        )
-            .setAction("Undo") {
-                adapter.undoArticleRemoved(position, selectedArticle)
-                presenter.handleArticleToInsert(dbInstance, selectedArticle)
-            }.show()
+        ).setAction("Undo"){
+            presenter.handleArticleToInsert(dbInstance, selectedArticle)
+            adapter.undoArticleRemoved(position,selectedArticle)
+        }.show()
+    }
+
+    override fun onDestroy() {
+        presenter.onSavedNewsViewDestroyed()
+        super.onDestroy()
     }
 }
 

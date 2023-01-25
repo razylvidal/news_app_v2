@@ -2,7 +2,7 @@ package com.androidapp.newsclientappcleanarchitecture.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.androidapp.newsclientappcleanarchitecture.database.SavedArticlesDatabase
+import com.androidapp.newsclientappcleanarchitecture.data.database.SavedArticlesDatabase
 import com.androidapp.newsclientappcleanarchitecture.utils.Constants.Companion.API_KEY
 import com.androidapp.newsclientappcleanarchitecture.utils.Constants.Companion.COUNTRY
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
@@ -49,7 +49,6 @@ class ArticleRepositoryImpl @Inject constructor(
     }
 
     override fun deleteNews(instanceOfDB: SavedArticlesDatabase, news: ArticleDetails) {
-
         val articleToRemove = news.toDatabase()
         CoroutineScope(Dispatchers.IO).launch {
             instanceOfDB.getArticleDao().deleteNews(articleToRemove)
