@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
+import com.androidapp.newsclientappcleanarchitecture.BuildConfig
 import com.androidapp.newsclientappcleanarchitecture.R
 import com.androidapp.newsclientappcleanarchitecture.databinding.ActivityHomeBinding
 import com.androidapp.newsclientappcleanarchitecture.utils.*
@@ -32,8 +33,10 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
 
         setSupportActionBar(binding.tbMainAct)
         binding.tvCurrentDate.showText(getCurrentDate())
+
         adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
         binding.vpArticleView.adapter = adapter
+
         presenter.onMainViewReady(this)
 
         binding.fabSearchNews.setOnClickListener {
@@ -41,7 +44,6 @@ class HomeActivity : AppCompatActivity(), MainContract.View {
         }
 
     }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.action_main_act, menu)
         lifecycleScope.launchWhenStarted {

@@ -14,8 +14,10 @@ import com.androidapp.newsclientappcleanarchitecture.utils.toDatabase
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
+
 class ArticleRepositoryImpl @Inject constructor(
-    private val remoteService: ArticleRemoteService
+    private val remoteService: ArticleRemoteService,
+    private val dbInstance: SavedArticlesDatabase
     ): ArticleRepository {
 
     override suspend fun fetchNewsArticles(category: String) = withContext(Dispatchers.IO) {
@@ -41,22 +43,22 @@ class ArticleRepositoryImpl @Inject constructor(
 
     override fun fetchCategories(): List<String> = Category.values().map { it.name }
 
-    override fun insertNews(instanceOfDB: SavedArticlesDatabase, news: ArticleDetails) {
+    override fun insertNews( news: ArticleDetails) {
         val articleToInsert = news.toDatabase()
         CoroutineScope(Dispatchers.IO).launch {
-            instanceOfDB.getArticleDao().insertNews(articleToInsert)
+            dbInstance.getArticleDao().insertNews(articleToInsert)
         }
     }
 
-    override fun deleteNews(instanceOfDB: SavedArticlesDatabase, news: ArticleDetails) {
+    override fun deleteNews(news: ArticleDetails) {
         val articleToRemove = news.toDatabase()
         CoroutineScope(Dispatchers.IO).launch {
-            instanceOfDB.getArticleDao().deleteNews(articleToRemove)
+            dbInstance.getArticleDao().deleteNews(articleToRemove)
         }
     }
 
-    override fun getAllNews(instanceOfDB: SavedArticlesDatabase): LiveData<List<ArticleDetails>> {
-        val dataFromDB = instanceOfDB.getArticleDao().getNewsFromDatabase()
+    override fun getAllNews(): LiveData<List<ArticleDetails>> {
+        val dataFromDB = dbInstance.getArticleDao().getNewsFromDatabase()
         val data = Transformations.map(dataFromDB){ entityList ->
             entityList.map {
                 it.toDomain()

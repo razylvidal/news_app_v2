@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="115dp"
@@ -7,7 +7,19 @@
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
     android:layout_marginVertical="5dp"
+    android:orientation="horizontal"
     android:elevation="5dp">
+
+    <ImageView
+        android:id="@+id/check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_baseline_check_circle_24"
+        />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/news_image"
@@ -27,43 +39,49 @@
             />
     </com.google.android.material.card.MaterialCardView>
 
-    <TextView
-        android:id="@+id/tv_newsTitle"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/news_image"
-        android:maxLines="4"
-        android:ellipsize="end"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:text="Title"
-        android:textColor="?attr/colorOnSecondary"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_saved_source"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_toEndOf="@+id/news_image"
-        android:textSize="12sp"
-        app:drawableStartCompat="@drawable/ic_baseline_feed_24"
-        android:text="Source"
-        android:layout_above="@id/tv_publicationTime"
-        android:textColor="?attr/colorOnSecondary"/>
+        <TextView
+            android:id="@+id/tv_newsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="77dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/news_image"
+            android:ellipsize="end"
+            android:maxLines="4"
+            android:text="Title"
+            android:textColor="?attr/colorOnSecondary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tv_publicationTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/news_image"
-        android:layout_marginStart="5dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="2dp"
-        android:layout_marginTop="2dp"
-        android:textSize="11sp"
-        android:textStyle="bold"
-        android:textColor="@color/colordaynighticon"/>
+        <TextView
+            android:id="@+id/tv_saved_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:textSize="12sp"
+            android:layout_gravity="bottom"
+            app:drawableStartCompat="@drawable/ic_baseline_feed_24"
+            android:text="Source"
+            android:textColor="?attr/colorOnSecondary"/>
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tv_publicationTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:textSize="11sp"
+            android:layout_gravity="bottom"
+            android:text="time"
+            android:textStyle="bold"
+            android:textColor="@color/colordaynighticon"/>
+
+    </LinearLayout>
+
+</LinearLayout>

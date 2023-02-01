@@ -17,5 +17,6 @@
     <color name="card_view_color">#2D3035</color>
     <color name="colorOnPrimary">#FFFFFF</color>
     <color name="colorOnSecondary">@color/black</color>
+    <color name="dirtyWhite">#FCFCFC</color>
 
 </resources>

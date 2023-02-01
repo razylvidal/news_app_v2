@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.androidapp.newsclientappcleanarchitecture.R
+import com.androidapp.newsclientappcleanarchitecture.databinding.SearchNewsListItemBinding
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.utils.getPublishedDate
 import com.androidapp.newsclientappcleanarchitecture.utils.getTimeDifference

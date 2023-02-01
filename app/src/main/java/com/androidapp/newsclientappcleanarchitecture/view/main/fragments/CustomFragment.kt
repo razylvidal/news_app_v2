@@ -24,7 +24,7 @@ class CustomFragment : Fragment(), FragmentContract.View{
 
     companion object{
         const val KEY_CATEGORY = "key_category"
-        fun newsInstance(category: String): Fragment {
+        fun customNewInstance(category: String): Fragment {
             return CustomFragment().apply {
                 arguments = bundleOf(
                     KEY_CATEGORY to category

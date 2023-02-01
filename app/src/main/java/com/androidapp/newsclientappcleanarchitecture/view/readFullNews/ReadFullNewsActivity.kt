@@ -11,7 +11,6 @@ import android.view.MenuItem
 import android.webkit.*
 import androidx.appcompat.app.AppCompatActivity
 import com.androidapp.newsclientappcleanarchitecture.R
-import com.androidapp.newsclientappcleanarchitecture.data.database.SavedArticlesDatabase
 import com.androidapp.newsclientappcleanarchitecture.databinding.ActivityNewsFullDetailsBinding
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.utils.openInBrowser
@@ -29,7 +28,7 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
     @Inject
     lateinit var presenter: ReadFullNewsPresenter
     private lateinit var binding: ActivityNewsFullDetailsBinding
-    private lateinit var dbInstance: SavedArticlesDatabase
+    //private lateinit var dbInstance: SavedArticlesDatabase
 
     companion object {
         const val KEY_ARTICLE_DETAILS = "key_article_details"
@@ -45,9 +44,10 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
         binding = ActivityNewsFullDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.readFullNewsToolbar)
-        dbInstance = presenter.initializeDB(this)
+        //dbInstance = (application as NewsApp).database
+
         articleData = getArticleDetails()
-        startWebView(articleData.url.toString())
+        startWebView(articleData.url)
         refreshWebView()
     }
 
@@ -59,16 +59,16 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_save_news -> {
-                presenter.handleArticleToInsert(dbInstance, articleData)
+                presenter.handleArticleToInsert(articleData)
                 showToast("News saved successfully!")
                 return true
             }
             R.id.action_share_news -> {
-                startShareNewsAct(articleData.url!!, this@ReadFullNewsActivity)
+                startShareNewsAct(articleData.url, this@ReadFullNewsActivity)
                 return true
             }
             R.id.action_browse_news -> {
-                openInBrowser(articleData.url!!, this@ReadFullNewsActivity)
+                openInBrowser(articleData.url, this@ReadFullNewsActivity)
             }
             else -> return super.onOptionsItemSelected(item)
         }
@@ -120,7 +120,6 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
                 "Loading Resources...",
                 false
             )
-
         }
         else alertDialog.dismiss()
     }
@@ -131,7 +130,7 @@ class ReadFullNewsActivity : AppCompatActivity(), ReadFullNewsContract.View {
 
     private fun refreshWebView() {
         binding.srlRefreshWeb.setOnRefreshListener {
-            startWebView(articleData.url.toString())
+            startWebView(articleData.url)
             binding.srlRefreshWeb.isRefreshing = false
         }
     }

@@ -1,15 +1,14 @@
 package com.androidapp.newsclientappcleanarchitecture.domain
 
 import androidx.lifecycle.LiveData
-import com.androidapp.newsclientappcleanarchitecture.data.database.SavedArticlesDatabase
 
 
 interface ArticleRepository {
     suspend fun fetchNewsArticles(category: String): MutableList<ArticleDetails>
     suspend fun searchNews(searchQuery : String, pageSize : Int): List<ArticleDetails>
     fun fetchCategories(): List<String>
-    fun insertNews(instanceOfDB: SavedArticlesDatabase, news: ArticleDetails)
-    fun deleteNews(instanceOfDB: SavedArticlesDatabase, news: ArticleDetails)
-    fun getAllNews(instanceOfDB: SavedArticlesDatabase): LiveData<List<ArticleDetails>>
+    fun insertNews(news: ArticleDetails)
+    fun deleteNews(news: ArticleDetails)
+    fun getAllNews(): LiveData<List<ArticleDetails>>
 
 }

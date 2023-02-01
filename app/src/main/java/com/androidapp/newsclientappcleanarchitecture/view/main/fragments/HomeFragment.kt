@@ -34,7 +34,7 @@ class HomeFragment : Fragment(), FragmentContract.View {
     lateinit var presenter: CustomPresenter
 
     companion object {
-        fun getInstance() = HomeFragment()
+        fun homeNewInstance() = HomeFragment()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -50,6 +50,7 @@ class HomeFragment : Fragment(), FragmentContract.View {
             false
         )
         articleAdapter = CustomAdapter(mutableListOf())
+        binding.recyclerView.adapter = articleAdapter
         presenter.onViewReady(this, DEFAULT_CATEGORY)
         binding.homeSwipeRefresh.setOnRefreshListener {
             refreshList()
@@ -87,6 +88,7 @@ class HomeFragment : Fragment(), FragmentContract.View {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun displayToCarousel(topHeadlines : List<ArticleDetails>){
+        binding.homeCarousel.visibility = View.VISIBLE
         binding.homeCarousel.apply {
             size = topHeadlines.size
             autoPlay = true
@@ -111,9 +113,7 @@ class HomeFragment : Fragment(), FragmentContract.View {
                     startReadFullNewsAct(requireContext(), topHeadlines[position])
                 }
             }
-        }
-        binding.homeCarousel.show()
-        binding.homeCarousel.visibility = View.VISIBLE
+        }.show()
     }
 
     private fun displayRemainingArticles(headlines : List<ArticleDetails>){
@@ -121,6 +121,5 @@ class HomeFragment : Fragment(), FragmentContract.View {
         articleAdapter.onArticleCLicked { selectedArticle ->
             startReadFullNewsAct(requireContext(), selectedArticle)
         }
-        binding.recyclerView.adapter = articleAdapter
     }
 }

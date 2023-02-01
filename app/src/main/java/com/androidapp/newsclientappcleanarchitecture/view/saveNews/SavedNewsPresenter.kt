@@ -1,8 +1,6 @@
 package com.androidapp.newsclientappcleanarchitecture.view.saveNews
 
-import android.content.Context
 import androidx.lifecycle.LiveData
-import com.androidapp.newsclientappcleanarchitecture.data.database.SavedArticlesDatabase
 import com.androidapp.newsclientappcleanarchitecture.domain.ArticleDetails
 import com.androidapp.newsclientappcleanarchitecture.domain.usecases.GetSavedArticlesUseCase
 import com.androidapp.newsclientappcleanarchitecture.domain.usecases.InsertNewsUseCase
@@ -20,24 +18,20 @@ class SavedNewsPresenter @Inject constructor(
     override fun onSavedNewsViewReady(view: SavedNewsContract.View) {
         this.savedNewsView = view
     }
-
-    fun initializeDB(context: Context): SavedArticlesDatabase {
-        return SavedArticlesDatabase.getDatabaseClient(context)
-    }
-
-    fun handleArticleToInsert(instanceOfDB: SavedArticlesDatabase, selectedArticle: ArticleDetails){
-        addNewsUseCase.addNewsToDB(instanceOfDB, selectedArticle)
+    fun handleArticleToInsert(selectedArticle: ArticleDetails){
+        addNewsUseCase.addNewsToDB(selectedArticle)
     }
 
     override fun onSavedNewsViewDestroyed() {
         savedNewsView = null
     }
 
-    fun handleArticleToRemove(instanceOfDB: SavedArticlesDatabase, selectedArticle: ArticleDetails){
-        removeArticleUseCase.removeNewsToDB(instanceOfDB, selectedArticle)
+    fun handleArticleToRemove(selectedArticle: ArticleDetails){
+        removeArticleUseCase.removeNewsToDB(selectedArticle)
     }
 
-    fun handleSavedArticlesFromDB(instanceOfDB: SavedArticlesDatabase): LiveData<List<ArticleDetails>> {
-        return getSavedArticlesUseCase.fetchNewsFromDB(instanceOfDB)
+    fun handleSavedArticlesFromDB(): LiveData<List<ArticleDetails>> {
+        return getSavedArticlesUseCase.fetchNewsFromDB()
     }
+
 }

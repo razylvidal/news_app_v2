@@ -4,7 +4,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.androidapp.newsclientappcleanarchitecture.utils.LogHelper
 import com.androidapp.newsclientappcleanarchitecture.view.main.fragments.CustomFragment
 import com.androidapp.newsclientappcleanarchitecture.view.main.fragments.HomeFragment
 
@@ -20,15 +19,14 @@ class ViewPagerAdapter(
     override fun getItemCount(): Int = 7
 
     override fun createFragment(position: Int): Fragment {
-        LogHelper.log("viewPagerPosition", position.toString())
         return when (position) {
             0 -> {
-                HomeFragment.getInstance()
+                HomeFragment.homeNewInstance()
             }
             1 -> {
-                CustomFragment.newsInstance(listOfCategories[position])
+                CustomFragment.customNewInstance(listOfCategories[position])
             }
-            else -> CustomFragment.newsInstance(listOfCategories[position])
+            else -> CustomFragment.customNewInstance(listOfCategories[position])
 
         }
     }
